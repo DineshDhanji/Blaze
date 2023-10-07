@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     
     # My Apps
     'BlazeApp',
+    'BlazeAdministration',
 ]
 
 MIDDLEWARE = [
@@ -124,3 +125,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Things Added While Development
+LOGIN_URL = "BlazeAdministration:blaze_administration_login"

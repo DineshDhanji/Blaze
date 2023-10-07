@@ -19,6 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('administration/', include("BlazeAdministration.urls")),
     path('', include("BlazeApp.urls")),
     
 ]
