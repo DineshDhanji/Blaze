@@ -121,6 +121,13 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Add the paths to the static folders of your apps
+STATICFILES_DIRS = [
+    BASE_DIR / 'BlazeAdministration/static',
+    BASE_DIR / 'BlazeApp/static',
+    # Add more app paths as needed
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 

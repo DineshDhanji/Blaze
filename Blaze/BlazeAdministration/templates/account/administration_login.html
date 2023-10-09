@@ -1,8 +1,40 @@
-<html>
-    <head>
-    </head>
-    <body>
-        <h1>Admin Login</h1>
-        {{ form }}
-    </body>
-</html>
+{% extends 'BlazeAdministration/base_01.html' %}
+{% load static %}
+
+{% block title %}
+  BlazeAdministration Login Portal
+{% endblock %}
+
+{% block body %}
+  <div class="container login-container border border-2 rounded">
+    <div class="login-heading text-center p-2 fs-4 mt-4 mb-5 fw-semibold">Admin Login Portal</div>
+    {% comment %} <div></div> {% endcomment %}
+    
+    <div class="input-field">
+      <label for="username">Username</label>
+      {% comment %} {{ login_form.password.label_tag }} {% endcomment %}
+      <div class="input-div rounded">
+        <div class="input-icon-div"><i class="bi bi-at"></i></div>
+        <input class="col-10" type="text" name="username" id="username">
+          {% comment %} {{ login_form.password }} {% endcomment %}
+      </div>
+    </div>
+      {% comment %} <form method="post" action="{% url 'BlazeAdministration:administration_login' %}">
+        {% csrf_token %} {% endcomment %}
+        {% comment %} {{ login_form }} {% endcomment %}
+        
+        {% comment %} {% if messages %}
+            {% for message in  messages%}
+            <div class="dd3" style="border: none; font-size: 0.8rem;">
+                <div class="alert alert-warning" role="alert">
+                    {{ message }}
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %} {% endcomment %}
+  
+        {% comment %} <input class="btn btn-primary" type="submit" value="Login" />
+      </form> {% endcomment %}
+    
+  </div>
+{% endblock %}

@@ -12,13 +12,13 @@ urlpatterns = [
     path("", admin_required(views.index), name="index"),
     path(
         "administration_login/",
-        anonymous_required(
-            LoginView.as_view(
-                template_name="account/administration_login.html",
-                success_url=reverse_lazy("BlazeAdministration:index"),
-            )
-        ),
-        name="blaze_administration_login",
+        anonymous_required(views.administration_login),
+        name="administration_login",
     ),
+    # path(
+    #     "administration_login/",
+    #     anonymous_required(views.BlazeAdministrationLoginView.as_view()),
+    #     name="blaze_administration_login",
+    # ),
     path("page_not_accessible/", views.pageNotAccessible, name="pageNotAccessible"),
 ]

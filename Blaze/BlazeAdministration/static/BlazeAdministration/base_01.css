@@ -1,0 +1,55 @@
+/* Google Fonts  */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body {
+    font-family: 'Raleway', sans-serif;
+}
+
+.navbar {
+    height: 5rem;
+    border: 1px solid black;
+}
+
+.login-container {
+    width: 25rem;
+    height: 30rem;
+}
+
+.login-container label {
+    margin: 8px 6px;
+    font-weight: 500;
+}
+
+.login-container input {
+    outline: none;
+    margin: 0px 1px;
+    border: none;
+}
+
+.login-heading {
+    border: 1px solid black;
+}
+
+.input-field {
+    margin: 10px 0.1rem;
+}
+
+.input-div {
+    border: 1px solid lightgray;
+    display: flex;
+    margin: 0px 5px;
+    font-size: 0.9rem;
+    transition: border 0.2s ease-in-out;
+    padding: 0 5px;
+}
+
+.input-div:focus-within {
+    border: 1px solid #393939;
+}
+
+.input-icon-div {
+    font-size: 1.7rem;
+    height: 2.5rem;
+    width: 2.5rem;
+    text-align: center;
+}
