@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 
 
 # Create your views here.
-def index(request):
+def dashboard(request):
     return HttpResponse(f"{request.user.username} and {request.user.is_staff}")
 
 
@@ -23,7 +23,7 @@ def administration_login(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect("BlazeAdministration:index")
+                return redirect("BlazeAdministration:dashboard")
             else:
                 messages.error(request, "Invalid username and/or password.")
                 return render(
@@ -40,7 +40,7 @@ def administration_login(request):
             )
     else:
         if request.user.is_authenticated:
-            return redirect("BlazeAdministration:index")
+            return redirect("BlazeAdministration:dashboard")
         else:
             return render(
                 request,

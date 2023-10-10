@@ -7,31 +7,66 @@ body {
 
 .navbar {
     height: 5rem;
-    border: 1px solid black;
+    /* border: 1px solid black; */
+}
+
+.side-spline-container {
+    /* border: 1px solid black; */
+    height: 35rem;
+    position: relative;
+}
+
+.login-left-div,
+.login-right-div {
+    /* border: 1px solid black; */
+    min-height: 80vh;
+    /* height: 80vh; */
+}
+
+.login-left-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .login-container {
-    width: 25rem;
-    height: 30rem;
-}
-
-.login-container label {
-    margin: 8px 6px;
-    font-weight: 500;
-}
-
-.login-container input {
-    outline: none;
-    margin: 0px 1px;
-    border: none;
+    height: max-content;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #393939;
 }
 
 .login-heading {
-    border: 1px solid black;
+    margin-top: 15px;
+    text-align: center;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 7px 13px;
+}
+
+.login-subtitle {
+    font-size: 0.74rem;
+    color: #393939;
+}
+
+.login-form-container {
+    height: max-content;
 }
 
 .input-field {
     margin: 10px 0.1rem;
+}
+
+.input-field label {
+    margin: 8px 6px;
+    font-weight: 500;
+}
+
+.input-field input {
+    outline: none;
+    margin: 0px 1px;
+    border: none;
 }
 
 .input-div {
@@ -52,4 +87,36 @@ body {
     height: 2.5rem;
     width: 2.5rem;
     text-align: center;
+}
+
+.login-container .alert {
+    font-size: 0.8rem;
+    margin: 0.5rem;
+}
+
+.dark-btn {
+    background-color: #393939;
+    color: white;
+    --bs-btn-hover-bg: #4f4f4f;
+    --bs-btn-hover-color: white;
+    --bs-btn-active-bg: #4f4f4f;
+    --bs-btn-active-color: white;
+}
+
+.white-btn {
+    --bs-btn-color: #000;
+    --bs-btn-bg: #f8f9fa;
+    --bs-btn-border-color: lightgray;
+    --bs-btn-hover-color: #000;
+    --bs-btn-hover-bg: #d3d4d5;
+    --bs-btn-hover-border-color: #c6c7c8;
+    --bs-btn-focus-shadow-rgb: 211, 212, 213;
+    --bs-btn-active-color: #000;
+    --bs-btn-active-bg: #c6c7c8;
+    --bs-btn-active-border-color: #babbbc;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #000;
+    --bs-btn-disabled-bg: #f8f9fa;
+    --bs-btn-disabled-border-color: #f8f9fa;
+
 }

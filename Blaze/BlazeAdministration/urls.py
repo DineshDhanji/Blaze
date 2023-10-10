@@ -9,7 +9,7 @@ from .customDecorator import admin_required, anonymous_required
 app_name = "BlazeAdministration"
 
 urlpatterns = [
-    path("", admin_required(views.index), name="index"),
+    path("", admin_required(views.dashboard), name="dashboard"),
     path(
         "administration_login/",
         anonymous_required(views.administration_login),

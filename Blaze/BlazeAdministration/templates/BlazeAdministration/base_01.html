@@ -28,14 +28,16 @@
   <body>
    
     {% block navbar %}
-    <nav class="navbar bg-body-tertiary navbar-light bg-light">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'BlazeAdministration:index' %}">
-          {% comment %} <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"> {% endcomment %}
-          Blaze 
-        </a>
-      </div>
-    </nav>
+    <div class="container-xxl">
+      <nav class="navbar bg-body-tertiary navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'BlazeAdministration:dashboard' %}">
+            {% comment %} <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"> {% endcomment %}
+            Blaze 
+          </a>
+        </div>
+      </nav>
+    </div>
     {% endblock navbar %}
 
     <div class="container-xxl" style="min-height: 70vh;">
@@ -45,14 +47,14 @@
     </div>
 
     {% comment %} {% block footer %}
-      <footer class="bd-footer py-4 py-md-5 mt-5 bg-body-tertiary">
+      <footer class="bd-footer py-4 py-md-5 mt-5 bg-body-tertiary" style=" background-color: #393939!important; color: white!important;">
         <div class="container py-2 py-md-3 px-4 px-md-3 text-body-secondary">
         
           <hr class="border border-light border-1 opacity-50" />
 
           
 
-          <div class="row text-center" style="font-size: 0.8em;">
+          <div class="row text-center" style="color: white!important; font-size: 0.8em;">
             <div>BLAZE, A project by team AAD.</div>
           </div>
         </div>
