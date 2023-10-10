@@ -7,12 +7,12 @@ body {
 
 .navbar {
     height: 5rem;
-    background-color: white!important;
+    background-color: white !important;
     /* border: 1px solid black; */
 }
-.navbar-collapse
-{
-    background-color: white!important;
+
+.navbar-collapse {
+    background-color: white !important;
 }
 
 .side-spline-container {
@@ -123,4 +123,90 @@ body {
     --bs-btn-disabled-color: #000;
     --bs-btn-disabled-bg: #f8f9fa;
     --bs-btn-disabled-border-color: #f8f9fa;
+}
+
+
+.dashboard-container {
+    height: max-content;
+}
+
+.dashboard-box {
+    height: 10rem;
+    transition: 0.4s ease-in-out;
+    display: flex;
+    align-items: center;
+
+}
+
+.dashboard-link {
+    color: #393939;
+}
+
+.yellow-box {
+    border: 3px solid #FBAF00;
+    color: #393939;
+}
+
+.yellow-box:hover {
+    background-color: #FBAF00;
+    color: white;
+}
+
+.lemon-box {
+    border: 3px solid #FFD639;
+    color: #393939;
+}
+
+.lemon-box:hover {
+    background-color: #FFD639;
+    color: white;
+}
+
+.rosePink-box {
+    border: 3px solid #FFA3AF;
+    color: #393939;
+}
+
+.rosePink-box:hover {
+    background-color: #FFA3AF;
+    color: white;
+}
+
+.blue-box {
+    border: 3px solid #007CBE;
+    color: #393939;
+}
+
+.blue-box:hover {
+    background-color: #007CBE;
+    color: white;
+}
+
+.azure-box {
+    border: 3px solid #009689;
+    color: #393939;
+}
+
+.azure-box:hover {
+    background-color: #009689;
+    color: white;
+}
+
+.brightGreen-box {
+    border: 3px solid #00AF54;
+    color: #393939;
+}
+
+.brightGreen-box:hover {
+    background-color: #00AF54;
+    color: white;
+}
+
+.dashboard-container a {
+    text-decoration: none;
+    color: white;
+}
+
+.dashboard-container a:hover {
+    text-decoration: none;
 }
