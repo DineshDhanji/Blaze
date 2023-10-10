@@ -15,10 +15,10 @@ urlpatterns = [
         anonymous_required(views.administration_login),
         name="administration_login",
     ),
-    # path(
-    #     "administration_login/",
-    #     anonymous_required(views.BlazeAdministrationLoginView.as_view()),
-    #     name="blaze_administration_login",
-    # ),
+    path(
+        "administration_logout/",
+        admin_required(views.administration_logout),
+        name="administration_logout",
+    ),
     path("page_not_accessible/", views.pageNotAccessible, name="pageNotAccessible"),
 ]

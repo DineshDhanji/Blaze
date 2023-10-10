@@ -7,7 +7,12 @@ body {
 
 .navbar {
     height: 5rem;
+    background-color: white!important;
     /* border: 1px solid black; */
+}
+.navbar-collapse
+{
+    background-color: white!important;
 }
 
 .side-spline-container {
@@ -118,5 +123,4 @@ body {
     --bs-btn-disabled-color: #000;
     --bs-btn-disabled-bg: #f8f9fa;
     --bs-btn-disabled-border-color: #f8f9fa;
-
 }

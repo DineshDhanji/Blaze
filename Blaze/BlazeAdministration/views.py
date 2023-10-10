@@ -10,7 +10,10 @@ from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 def dashboard(request):
-    return HttpResponse(f"{request.user.username} and {request.user.is_staff}")
+    return render(
+                request,
+                "BlazeAdministration/dashboard.html"
+            )
 
 
 def administration_login(request):
@@ -48,6 +51,10 @@ def administration_login(request):
                 {"login_form": AdministrationLoginForm()},
             )
 
+
+def administration_logout(request):
+    logout(request)
+    return redirect("BlazeAdministration:administration_login")
 
 def pageNotAccessible(request):
     return HttpResponse("<h1>Why here son?</h1>")
