@@ -205,6 +205,7 @@ body {
 .dashboard-container a {
     text-decoration: none;
     color: white;
+    padding: 0;
 }
 
 .dashboard-container a:hover {
