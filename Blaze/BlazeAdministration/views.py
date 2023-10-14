@@ -1,19 +1,17 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.urls import reverse_lazy
+from django.urls import reverse
 from .customDecorator import admin_required
 from django.contrib.auth.views import LoginView
-from .forms import AdministrationLoginForm
+from .forms import AdministrationLoginForm, StudentForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from BlazeApp.models import Student
 
 
 # Create your views here.
 def dashboard(request):
-    return render(
-                request,
-                "BlazeAdministration/dashboard.html"
-            )
+    return render(request, "BlazeAdministration/dashboard.html")
 
 
 def administration_login(request):
@@ -36,6 +34,7 @@ def administration_login(request):
                         "login_form": login_form,
                     },
                 )
+                
         else:
             messages.error(request, "Invalid email and/or password or submission.")
             return render(
@@ -56,5 +55,48 @@ def administration_logout(request):
     logout(request)
     return redirect("BlazeAdministration:administration_login")
 
-def pageNotAccessible(request):
-    return HttpResponse("<h1>Why here son?</h1>")
+
+def add_instance(request, instanceModel):
+    entitiesList = ["student", "faculty", "society_page"]
+
+    if instanceModel not in entitiesList:
+        return redirect("BlazeAdministration:page_not_found_404")
+
+    if instanceModel == entitiesList[0]:
+        if request.method == "POST":
+            instanceForm = StudentForm(request.POST)
+            if instanceForm.is_valid():
+                instanceForm.save()
+
+                messages.success(
+                    request, "Student profile successfully created ヾ(≧▽≦*)o"
+                )
+
+                return render(
+                    request,
+                    "BlazeAdministration/add_instance.html",
+                    {"instanceForm": StudentForm(), "model": instanceModel},
+                )
+            else:
+                print(instanceForm.errors)
+                messages.error(request, "Something is not quiite right (。_。)")
+
+                return render(
+                    request,
+                    "BlazeAdministration/add_instance.html",
+                    {"instanceForm": instanceForm, "model": instanceModel},
+                )
+        else:
+            return render(
+                request,
+                "BlazeAdministration/add_instance.html",
+                {"instanceForm": StudentForm(), "model": instanceModel},
+            )
+    elif instanceModel == entitiesList[1]:
+        pass
+    else:
+        pass
+
+
+def page_not_found_404(request):
+    return render(request, "BlazeAdministration/page_not_found_404.html")

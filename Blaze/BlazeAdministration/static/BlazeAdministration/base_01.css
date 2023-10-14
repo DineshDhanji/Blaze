@@ -72,8 +72,15 @@ body {
     outline: none;
     margin: 0px 1px;
     border: none;
+    height: 2.5rem;
 }
 
+.input-div select{
+    outline: none;
+    border: none;
+    height: 2.5rem;
+    width: 100%;
+}
 .input-div {
     border: 1px solid lightgray;
     display: flex;
@@ -210,4 +217,20 @@ body {
 
 .dashboard-container a:hover {
     text-decoration: none;
+}
+
+.model_form_container
+{
+    /* border: 1px solid black; */
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    height: max-content;
+
+}
+.model_form
+{
+    /* border: 1px solid black; */
+    height: max-content;
 }

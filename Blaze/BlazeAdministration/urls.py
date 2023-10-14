@@ -1,4 +1,4 @@
-from django.urls import path, reverse_lazy
+from django.urls import path, reverse_lazy, re_path
 from django.contrib.auth.views import LoginView
 from . import views
 
@@ -9,16 +9,30 @@ from .customDecorator import admin_required, anonymous_required
 app_name = "BlazeAdministration"
 
 urlpatterns = [
-    path("", admin_required(views.dashboard), name="dashboard"),
+    # Dashboard Pages
+    # path("", admin_required(views.dashboard), name="dashboard"),
+    path("", views.dashboard, name="dashboard"),
+    path(
+        "add_instance/<str:instanceModel>/",
+        admin_required(views.add_instance),
+        name="add_instance",
+    ),
+    # Login & Logout
     path(
         "administration_login/",
         anonymous_required(views.administration_login),
         name="administration_login",
     ),
+    # path(
+    #     "administration_logout/",
+    #     admin_required(views.administration_logout),
+    #     name="administration_logout",
+    # ),
     path(
         "administration_logout/",
-        admin_required(views.administration_logout),
+        views.administration_logout,
         name="administration_logout",
     ),
-    path("page_not_accessible/", views.pageNotAccessible, name="pageNotAccessible"),
+    # Inaccessible
+    re_path(r"^.*/", views.page_not_found_404, name="page_not_found_404"),
 ]
