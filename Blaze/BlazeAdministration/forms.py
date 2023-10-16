@@ -15,10 +15,9 @@ class AdministrationLoginForm(AuthenticationForm):
 class StudentForm(forms.ModelForm):
     """
         All of the required fields are mentioned here.
-        Eventhough, fields such as firstname, last_name, email, username, and password
-        are available in the User model we have to make variable in the form. These 
-        fields are then used in User model (Had to do it otherwise we would have needed to 
-        create user first then only student could have made.).    
+        Eventhough, fields such as firstname, last_name, email, username, and password 
+        are available in the User's model. We have also included them in this form. These
+        fields will be then use in User model.     
     """
     first_name = forms.CharField(
         label="First Name",
@@ -93,12 +92,12 @@ class StudentForm(forms.ModelForm):
         ]
 
     """
-        I have modified the default save function of form.
-        First, we are getting the student instance from super save (default save function, 
-        but student is not yet save in the database because of commit=false).
-        Then we have created User instance from the very same data of the studnet form.
-        Finally, we added the user instance in the student instance (because user is a variable 
-        in student model) and save it. 
+        I have modified the default save function of the form:
+            1. First, we are getting the student instance from super save (default 
+            save function, but the student is not yet saved in the database because of commit=false).
+            2. Then we created a User instance from the very same data of the student form.
+            3. Finally, we added the user instance in the student instance (because the user is a 
+                variable in the student model) and saved it. 
     """
     def save(self, commit=True):
         student = super().save(commit=False)
