@@ -72,10 +72,6 @@ TEMPLATES = [
     },
 ]
 
-AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",  # For default Django users
-    "BlazeAdministration.customBackend.StudentAuthBackend",  # For your custom user model (e.g., Student)
-]
 
 WSGI_APPLICATION = "Blaze.wsgi.application"
 
@@ -143,4 +139,5 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Things Added While Development
+AUTH_USER_MODEL = 'BlazeApp.User'   # Telling Django, who is the user in our system
 # LOGIN_URL = "BlazeAdministration:blaze_administration_login"

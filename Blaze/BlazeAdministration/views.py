@@ -22,7 +22,7 @@ def administration_login(request):
             password = login_form.cleaned_data["password"]
             # Attempt to sign user in
             user = authenticate(request, username=username, password=password)
-            if user is not None:
+            if user is not None and user.is_superuser:
                 login(request, user)
                 return redirect("BlazeAdministration:dashboard")
             else:

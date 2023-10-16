@@ -73,6 +73,7 @@ body {
     margin: 0px 1px;
     border: none;
     height: 2.5rem;
+    width: 100%!important;
 }
 
 .input-div select{

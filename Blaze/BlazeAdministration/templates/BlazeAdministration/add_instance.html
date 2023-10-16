@@ -15,21 +15,24 @@
           <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
             <label for="{{ instanceForm.first_name.id_for_label }}">{{ instanceForm.first_name.label|title }}</label>
             <div class="input-div rounded px-2">
-              <input class="col-12" type="text" name="{{ instanceForm.first_name.name }}" id="{{ instanceForm.first_name.id_for_label }}" autofocus="true" placeholder="Enter first name" autocapitalize="none" autocomplete="{{ instanceForm.first_name.name }}" maxlength="{{ instanceForm.first_name.field.max_length }}" required="true" />
+              {{ instanceForm.first_name }}
+              {% comment %} <input class="col-12" type="text" name="{{ instanceForm.first_name.name }}" id="{{ instanceForm.first_name.id_for_label }}" autofocus="true" placeholder="{{ instanceForm.first_name.field.widget.attrs.placeholder }}" autocapitalize="none" autocomplete="{{ instanceForm.first_name.name }}" max_length="{{ instanceForm.first_name.field.widget.attrs.max_length }}" required="true" /> {% endcomment %}
             </div>
           </div>
 
           <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
             <label for="{{ instanceForm.last_name.id_for_label }}">{{ instanceForm.last_name.label|title }}</label>
             <div class="input-div rounded px-2">
-              <input class="col-12" type="text" name="{{ instanceForm.last_name.name }}" id="{{ instanceForm.last_name.id_for_label }}" placeholder="Enter last name" autocapitalize="none" autocomplete="on" maxlength="{{ instanceForm.last_name.field.max_length }}" required="true" />
+              {{ instanceForm.last_name }}
+              {% comment %} <input class="col-12" type="text" name="{{ instanceForm.last_name.name }}" id="{{ instanceForm.last_name.id_for_label }}" placeholder="Enter last name" autocapitalize="none" autocomplete="on" max_length="{{ instanceForm.last_name.field.max_length }}" required="true" /> {% endcomment %}
             </div>
           </div>
 
           <div class="input-field mb-2 col-lg-3 col-md-5 col-sm-8 col-12">
             <label for="{{ instanceForm.username.id_for_label }}">{{ instanceForm.username.label|title }}</label>
             <div class="input-div rounded px-2">
-              <input class="col-12" type="text" name="{{ instanceForm.username.name }}" id="{{ instanceForm.username.id_for_label }}" placeholder="kBBXXXX" autocapitalize="none" autocomplete="{{ instanceForm.username.name }}" maxlength="{{ instanceForm.username.field.max_length }}" required="false" />
+              {{ instanceForm.username }}
+              {% comment %} <input class="col-12" type="text" name="{{ instanceForm.username.name }}" id="{{ instanceForm.username.id_for_label }}" placeholder="kBBXXXX" autocapitalize="none" autocomplete="{{ instanceForm.username.name }}" max_length="{{ instanceForm.username.field.max_length }}" required="false" /> {% endcomment %}
             </div>
           </div>
 
@@ -53,29 +56,23 @@
             </div>
           {% endif %}
         </div>
-
         <div class="row m-2">
           <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
             <label for="{{ instanceForm.email.id_for_label }}">{{ instanceForm.email.label|title }}</label>
             <div class="input-div rounded px-2">
-              <input class="col-12" type="email" name="{{ instanceForm.email.name }}" id="{{ instanceForm.email.id_for_label }}" placeholder="kBBXXXX@nu.edu.pk" autocapitalize="none" autocomplete="{{ instanceForm.email.name }}" maxlength="{{ instanceForm.email.field.max_length }}" required="true" />
+              {{ instanceForm.email }}
+              {% comment %} <input class="col-12" type="email" name="{{ instanceForm.email.name }}" id="{{ instanceForm.email.id_for_label }}" placeholder="kBBXXXX@nu.edu.pk" autocapitalize="none" autocomplete="{{ instanceForm.email.name }}" max_length="{{ instanceForm.email.field.max_length }}" required="true" /> {% endcomment %}
             </div>
           </div>
 
           <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
-            <label for="{{ instanceForm.password1.id_for_label }}">{{ instanceForm.password1.label|title }}</label>
+            <label for="{{ instanceForm.password.id_for_label }}">{{ instanceForm.password.label|title }}</label>
             <div class="input-div rounded px-2">
-              <input class="col-12" type="text" name="{{ instanceForm.password1.name }}" id="{{ instanceForm.password1.id_for_label }}" placeholder="Enter password1" autocapitalize="none" autocomplete="on" maxlength="{{ instanceForm.password1.field.max_length }}" required="true" />
+              {{ instanceForm.password }}
+              {% comment %} <input class="col-12" type="text" name="{{ instanceForm.password.name }}" id="{{ instanceForm.password.id_for_label }}" placeholder="Enter password" autocapitalize="none" autocomplete="on" max_length="{{ instanceForm.password.field.max_length }}" required="true" /> {% endcomment %}
             </div>
           </div>
-          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
-            <label for="{{ instanceForm.password2.id_for_label }}">{{ instanceForm.password2.label|title }}</label>
-            <div class="input-div rounded px-2">
-              <input class="col-12" type="text" name="{{ instanceForm.password2.name }}" id="{{ instanceForm.password2.id_for_label }}" placeholder="Enter password2" autocapitalize="none" autocomplete="on" maxlength="{{ instanceForm.password2.field.max_length }}" required="true" />
-            </div>
-          </div>
-
-          {% if instanceForm.email.errors or instanceForm.password1.errors or instanceForm.password2.errors %}
+          {% if instanceForm.email.errors or instanceForm.password.errors %}
             <div class="alert alert-warning mx-3" style="font-size: 0.8rem;" role="alert">
               {% if instanceForm.email.errors %}
                 {% for error in instanceForm.email.errors %}
@@ -87,11 +84,6 @@
                   {{ error }}
                 {% endfor %}
               {% endif %}
-              {% if instanceForm.password2.errors %}
-                {% for error in instanceForm.password2.errors %}
-                  {{ error }}
-                {% endfor %}
-              {% endif %}
             </div>
           {% endif %}
         </div>
@@ -100,14 +92,16 @@
           <div class="input-field mb-2 col-lg-2 col-md-3 col-sm-4 col-12">
             <label for="{{ instanceForm.batch.id_for_label }}">{{ instanceForm.batch.label|title }}</label>
             <div class="input-div rounded px-2">
-              <input class="col-12" type="text" name="{{ instanceForm.batch.name }}" id="{{ instanceForm.batch.id_for_label }}" placeholder="BB" autocapitalize="none" autocomplete="{{ instanceForm.batch.name }}" maxlength="{{ instanceForm.batch.field.max_length }}" required="true" />
+              {% comment %} {{ instanceForm.batch }} {% endcomment %}
+              <input type="text" name="{{ instanceForm.batch.name }}" placeholder="BB" maxlength="{{instanceForm.batch.field.max_length}}" required="true" id="{{ instanceForm.batch.id_for_label }}">
             </div>
           </div>
 
           <div class="input-field mb-2 col-lg-3 col-md-4 col-sm-6 col-12">
             <label for="{{ instanceForm.nuid.id_for_label }}">{{ instanceForm.nuid.label|upper }}</label>
             <div class="input-div rounded px-2">
-              <input class="col-12" type="text" name="{{ instanceForm.nuid.name }}" id="{{ instanceForm.nuid.id_for_label }}" placeholder="XXXX" autocapitalize="none" autocomplete="{{ instanceForm.nuid.name }}" maxlength="{{ instanceForm.nuid.field.max_length }}" required="true" />
+              {% comment %} {{ instanceForm.nuid }} {% endcomment %}
+              <input type="text" name="{{ instanceForm.nuid.name }}"placeholder="XXXX" maxlength="{{instanceForm.nuid.field.max_length}}" required="true" id="{{ instanceForm.nuid.id_for_label }}">
             </div>
           </div>
 
