@@ -1,0 +1,158 @@
+{% extends 'BlazeAdministration/base_01.html' %}
+{% load static %}
+
+{% block title %}
+  BlazeAdministration DashBoard
+{% endblock %}
+
+{% block body %}
+  <div class="model_form_container p-3 rounded border col-10 mx-auto my-5">
+    <div class="text-start col-11 fs-3 mt-1 mb-2">Add New {{ model|title }}</div>
+    <form class="model_form col-12 m-2 p-2" method="post" accept="{% url 'BlazeAdministration:add_instance' model %}">
+      {% csrf_token %}
+      {% if model == 'student' %}
+        <div class="row m-2">
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
+            <label for="{{ instanceForm.first_name.id_for_label }}">{{ instanceForm.first_name.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.first_name }}
+              {% comment %} <input class="col-12" type="text" name="{{ instanceForm.first_name.name }}" id="{{ instanceForm.first_name.id_for_label }}" autofocus="true" placeholder="{{ instanceForm.first_name.field.widget.attrs.placeholder }}" autocapitalize="none" autocomplete="{{ instanceForm.first_name.name }}" max_length="{{ instanceForm.first_name.field.widget.attrs.max_length }}" required="true" /> {% endcomment %}
+            </div>
+          </div>
+
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
+            <label for="{{ instanceForm.last_name.id_for_label }}">{{ instanceForm.last_name.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.last_name }}
+              {% comment %} <input class="col-12" type="text" name="{{ instanceForm.last_name.name }}" id="{{ instanceForm.last_name.id_for_label }}" placeholder="Enter last name" autocapitalize="none" autocomplete="on" max_length="{{ instanceForm.last_name.field.max_length }}" required="true" /> {% endcomment %}
+            </div>
+          </div>
+
+          <div class="input-field mb-2 col-lg-3 col-md-5 col-sm-8 col-12">
+            <label for="{{ instanceForm.username.id_for_label }}">{{ instanceForm.username.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.username }}
+              {% comment %} <input class="col-12" type="text" name="{{ instanceForm.username.name }}" id="{{ instanceForm.username.id_for_label }}" placeholder="kBBXXXX" autocapitalize="none" autocomplete="{{ instanceForm.username.name }}" max_length="{{ instanceForm.username.field.max_length }}" required="false" /> {% endcomment %}
+            </div>
+          </div>
+
+          {% if instanceForm.first_name.errors or instanceForm.last_name.errors or instanceForm.username.errors %}
+            <div class="alert alert-warning mx-3" style="font-size: 0.8rem;" role="alert">
+              {% if instanceForm.first_name.errors %}
+                {% for error in instanceForm.first_name.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+              {% if instanceForm.last_name.errors %}
+                {% for error in instanceForm.last_name.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+              {% if instanceForm.username.errors %}
+                {% for error in instanceForm.username.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="row m-2">
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
+            <label for="{{ instanceForm.email.id_for_label }}">{{ instanceForm.email.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.email }}
+              {% comment %} <input class="col-12" type="email" name="{{ instanceForm.email.name }}" id="{{ instanceForm.email.id_for_label }}" placeholder="kBBXXXX@nu.edu.pk" autocapitalize="none" autocomplete="{{ instanceForm.email.name }}" max_length="{{ instanceForm.email.field.max_length }}" required="true" /> {% endcomment %}
+            </div>
+          </div>
+
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
+            <label for="{{ instanceForm.password.id_for_label }}">{{ instanceForm.password.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.password }}
+              {% comment %} <input class="col-12" type="text" name="{{ instanceForm.password.name }}" id="{{ instanceForm.password.id_for_label }}" placeholder="Enter password" autocapitalize="none" autocomplete="on" max_length="{{ instanceForm.password.field.max_length }}" required="true" /> {% endcomment %}
+            </div>
+          </div>
+          {% if instanceForm.email.errors or instanceForm.password.errors %}
+            <div class="alert alert-warning mx-3" style="font-size: 0.8rem;" role="alert">
+              {% if instanceForm.email.errors %}
+                {% for error in instanceForm.email.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+              {% if instanceForm.password1.errors %}
+                {% for error in instanceForm.password1.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="row m-2">
+          <div class="input-field mb-2 col-lg-2 col-md-3 col-sm-4 col-12">
+            <label for="{{ instanceForm.batch.id_for_label }}">{{ instanceForm.batch.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {% comment %} {{ instanceForm.batch }} {% endcomment %}
+              <input type="text" name="{{ instanceForm.batch.name }}" placeholder="BB" maxlength="{{instanceForm.batch.field.max_length}}" required="true" id="{{ instanceForm.batch.id_for_label }}">
+            </div>
+          </div>
+
+          <div class="input-field mb-2 col-lg-3 col-md-4 col-sm-6 col-12">
+            <label for="{{ instanceForm.nuid.id_for_label }}">{{ instanceForm.nuid.label|upper }}</label>
+            <div class="input-div rounded px-2">
+              {% comment %} {{ instanceForm.nuid }} {% endcomment %}
+              <input type="text" name="{{ instanceForm.nuid.name }}"placeholder="XXXX" maxlength="{{instanceForm.nuid.field.max_length}}" required="true" id="{{ instanceForm.nuid.id_for_label }}">
+            </div>
+          </div>
+
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
+            <label for="{{ instanceForm.department.id_for_label }}">{{ instanceForm.department.label|title }}</label>
+            <div class="input-div rounded px-2">{{ instanceForm.department }}</div>
+          </div>
+
+          {% if instanceForm.batch.errors or instanceForm.nuid.errors or instanceForm.department.errors %}
+            <div class="alert alert-warning mx-3" style="font-size: 0.8rem;" role="alert">
+              {% if instanceForm.batch.errors %}
+                {% for error in instanceForm.batch.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+              {% if instanceForm.nuid.errors %}
+                {% for error in instanceForm.nuid.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+              {% if instanceForm.department.errors %}
+                {% for error in instanceForm.department.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <div class="col-12 px-4 mx-auto mt-4">
+        {% if messages %}
+          {% for message in messages %}
+            {% if message.tags == 'error' %}
+              <div class="alert alert-danger" role="alert">
+                <i class="bi bi-x-circle-fill me-2"></i>
+                {{ message }}
+              </div>
+            {% elif message.tags == 'success' %}
+              <div class="alert alert-success" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                {{ message }}
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <div class="mt-5 mb-1 px-4">
+        <button class="dark-btn btn mx-1" type="submit">Add {{ model|title }} 👌</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

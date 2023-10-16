@@ -1,0 +1,237 @@
+/* Google Fonts  */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body {
+    font-family: 'Raleway', sans-serif;
+}
+
+.navbar {
+    height: 5rem;
+    background-color: white !important;
+    /* border: 1px solid black; */
+}
+
+.navbar-collapse {
+    background-color: white !important;
+}
+
+.side-spline-container {
+    /* border: 1px solid black; */
+    height: 35rem;
+    position: relative;
+}
+
+.login-left-div,
+.login-right-div {
+    /* border: 1px solid black; */
+    min-height: 80vh;
+    /* height: 80vh; */
+}
+
+.login-left-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    height: max-content;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #393939;
+}
+
+.login-heading {
+    margin-top: 15px;
+    text-align: center;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 7px 13px;
+}
+
+.login-subtitle {
+    font-size: 0.74rem;
+    color: #393939;
+}
+
+.login-form-container {
+    height: max-content;
+}
+
+.input-field {
+    margin: 10px 0.1rem;
+}
+
+.input-field label {
+    margin: 8px 6px;
+    font-weight: 500;
+}
+
+.input-field input {
+    outline: none;
+    margin: 0px 1px;
+    border: none;
+    height: 2.5rem;
+    width: 100%!important;
+}
+
+.input-div select{
+    outline: none;
+    border: none;
+    height: 2.5rem;
+    width: 100%;
+}
+.input-div {
+    border: 1px solid lightgray;
+    display: flex;
+    margin: 0px 5px;
+    font-size: 0.9rem;
+    transition: border 0.2s ease-in-out;
+    padding: 0 5px;
+}
+
+.input-div:focus-within {
+    border: 1px solid #393939;
+}
+
+.input-icon-div {
+    font-size: 1.7rem;
+    height: 2.5rem;
+    width: 2.5rem;
+    text-align: center;
+}
+
+.login-container .alert {
+    font-size: 0.8rem;
+    margin: 0.5rem;
+}
+
+.dark-btn {
+    background-color: #393939;
+    color: white;
+    --bs-btn-hover-bg: #4f4f4f;
+    --bs-btn-hover-color: white;
+    --bs-btn-active-bg: #4f4f4f;
+    --bs-btn-active-color: white;
+}
+
+.white-btn {
+    --bs-btn-color: #000;
+    --bs-btn-bg: #f8f9fa;
+    --bs-btn-border-color: lightgray;
+    --bs-btn-hover-color: #000;
+    --bs-btn-hover-bg: #d3d4d5;
+    --bs-btn-hover-border-color: #c6c7c8;
+    --bs-btn-focus-shadow-rgb: 211, 212, 213;
+    --bs-btn-active-color: #000;
+    --bs-btn-active-bg: #c6c7c8;
+    --bs-btn-active-border-color: #babbbc;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #000;
+    --bs-btn-disabled-bg: #f8f9fa;
+    --bs-btn-disabled-border-color: #f8f9fa;
+}
+
+
+.dashboard-container {
+    height: max-content;
+}
+
+.dashboard-box {
+    height: 10rem;
+    transition: 0.4s ease-in-out;
+    display: flex;
+    align-items: center;
+
+}
+
+.dashboard-link {
+    color: #393939;
+}
+
+.yellow-box {
+    border: 3px solid #FBAF00;
+    color: #393939;
+}
+
+.yellow-box:hover {
+    background-color: #FBAF00;
+    color: white;
+}
+
+.lemon-box {
+    border: 3px solid #FFD639;
+    color: #393939;
+}
+
+.lemon-box:hover {
+    background-color: #FFD639;
+    color: white;
+}
+
+.rosePink-box {
+    border: 3px solid #FFA3AF;
+    color: #393939;
+}
+
+.rosePink-box:hover {
+    background-color: #FFA3AF;
+    color: white;
+}
+
+.blue-box {
+    border: 3px solid #007CBE;
+    color: #393939;
+}
+
+.blue-box:hover {
+    background-color: #007CBE;
+    color: white;
+}
+
+.azure-box {
+    border: 3px solid #009689;
+    color: #393939;
+}
+
+.azure-box:hover {
+    background-color: #009689;
+    color: white;
+}
+
+.brightGreen-box {
+    border: 3px solid #00AF54;
+    color: #393939;
+}
+
+.brightGreen-box:hover {
+    background-color: #00AF54;
+    color: white;
+}
+
+.dashboard-container a {
+    text-decoration: none;
+    color: white;
+    padding: 0;
+}
+
+.dashboard-container a:hover {
+    text-decoration: none;
+}
+
+.model_form_container
+{
+    /* border: 1px solid black; */
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    height: max-content;
+
+}
+.model_form
+{
+    /* border: 1px solid black; */
+    height: max-content;
+}
