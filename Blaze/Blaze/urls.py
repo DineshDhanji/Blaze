@@ -25,3 +25,5 @@ urlpatterns = [
     path("administration/", include("BlazeAdministration.urls")),
     path("", include("BlazeApp.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = "BlazeAdministration.views.page_not_found_404"

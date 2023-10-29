@@ -25,9 +25,9 @@ SECRET_KEY = "django-insecure-mu0c@mze@=py44ta-9p&8)gao3l46*pg*9#dk4p%i29og=0!h4
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# DEBUG = False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 # Application definition
 
@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
     # My Apps
     "BlazeApp",
     "BlazeAdministration",
@@ -122,6 +121,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+# STATIC_ROOT = BASE_DIR / "allstatic/"
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -139,5 +139,5 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Things Added While Development
-AUTH_USER_MODEL = 'BlazeApp.User'   # Telling Django, who is the user in our system
+AUTH_USER_MODEL = "BlazeApp.User"  # Telling Django, who is the user in our system
 # LOGIN_URL = "BlazeAdministration:blaze_administration_login"

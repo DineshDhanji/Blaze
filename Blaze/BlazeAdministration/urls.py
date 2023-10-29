@@ -1,5 +1,4 @@
-from django.urls import path, reverse_lazy, re_path
-from django.contrib.auth.views import LoginView
+from django.urls import path, reverse_lazy
 from . import views
 
 from .customDecorator import admin_required, anonymous_required
@@ -32,6 +31,6 @@ urlpatterns = [
         admin_required(views.administration_logout),
         name="administration_logout",
     ),
-    # Inaccessible
-    re_path(r"^.*/", views.page_not_found_404, name="page_not_found_404"),
 ]
+
+handler404 = "BlazeAdministration.views.page_not_found_404"

@@ -29,7 +29,7 @@ def administration_login(request):
                 messages.error(request, "Invalid username and/or password.")
                 return render(
                     request,
-                    "account/administration_login.html",
+                    "BlazeAdministration/account/administration_login.html",
                     {
                         "login_form": login_form,
                     },
@@ -38,7 +38,7 @@ def administration_login(request):
         else:
             messages.error(request, "Invalid email and/or password or submission.")
             return render(
-                request, "account/administration_login.html", {"login_form": login_form}
+                request, "BlazeAdministration/account/administration_login.html", {"login_form": login_form}
             )
     else:
         if request.user.is_authenticated:
@@ -46,7 +46,7 @@ def administration_login(request):
         else:
             return render(
                 request,
-                "account/administration_login.html",
+                "BlazeAdministration/account/administration_login.html",
                 {"login_form": AdministrationLoginForm()},
             )
 
@@ -122,5 +122,5 @@ def list_instance(request, instanceModel):
     )
 
 
-def page_not_found_404(request):
-    return render(request, "BlazeAdministration/page_not_found_404.html")
+def page_not_found_404(request, exception):
+    return render(request, "BlazeAdministration/page_not_found_404.html", status=404)
