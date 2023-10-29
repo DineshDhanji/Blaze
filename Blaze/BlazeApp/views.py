@@ -44,13 +44,21 @@ def user_login(request):
                     "BlazeApp/account/login.html",
                     {
                         "login_form": login_form,
+                        "splineCanva": selected_data["script"],
+                        "splineCanvaBgColor": selected_data["bg_color"],
                     },
                 )
 
         else:
             messages.error(request, "Invalid email and/or password or submission.")
             return render(
-                request, "BlazeApp/account/login.html", {"login_form": login_form}
+                request,
+                "BlazeApp/account/login.html",
+                {
+                    "login_form": login_form,
+                    "splineCanva": selected_data["script"],
+                    "splineCanvaBgColor": selected_data["bg_color"],
+                },
             )
     else:
         if request.user.is_authenticated:
