@@ -49,19 +49,18 @@ class Student(models.Model):
 
 class Faculty(models.Model):
     Department_Choices = [("CS", "Computer Science"), ("EE", "Electrical Engineering")]
+    # user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="faculty") 
     department = models.CharField(
         max_length=30, choices=Department_Choices, blank=True, null=True
     )
 
 
-# class SocietyPage(models.Model):
-#     name = models.CharField(max_length=30)
-#     username = models.CharField(max_length=30)
-#     email = models.EmailField(max_length=254, unique=True)
-#     facultyHead = models.ForeignKey(
-#         Faculty,
-#         on_delete=models.SET_NULL,
-#         null=True,
-#         blank=True,
-#         related_name="HeadOfSociety",
-#     )
+class SocietyPage(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="societyPage")
+    facultyHead = models.ForeignKey(
+        Faculty,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="HeadOfSociety",
+    )

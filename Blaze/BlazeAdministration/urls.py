@@ -16,6 +16,11 @@ urlpatterns = [
         admin_required(views.add_instance),
         name="add_instance",
     ),
+    path(
+        "list_instance/<str:instanceModel>/",
+        admin_required(views.list_instance),
+        name="list_instance",
+    ),
     # Login & Logout
     path(
         "administration_login/",

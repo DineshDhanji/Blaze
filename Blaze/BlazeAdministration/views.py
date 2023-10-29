@@ -6,7 +6,7 @@ from django.contrib.auth.views import LoginView
 from .forms import AdministrationLoginForm, StudentForm, FacultyForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from BlazeApp.models import Student
+from BlazeApp.models import Student, Faculty, SocietyPage
 
 
 # Create your views here.
@@ -100,6 +100,26 @@ def add_instance(request, instanceModel):
         )
     else:
         pass
+
+
+def list_instance(request, instanceModel):
+    entitiesList = ["student", "faculty", "society_page"]
+
+    if instanceModel not in entitiesList:
+        return redirect("BlazeAdministration:page_not_found_404")
+
+    if instanceModel == entitiesList[0]:
+        dataset = Student.objects.all()
+    elif instanceModel == entitiesList[1]:
+        dataset = Faculty.objects.all()
+    else:
+        dataset = SocietyPage.objects.all()
+
+    return render(
+        request,
+        "BlazeAdministration/list_instance.html",
+        {"model": instanceModel, "dataset": dataset},
+    )
 
 
 def page_not_found_404(request):
