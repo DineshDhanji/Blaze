@@ -1,0 +1,63 @@
+{% extends 'BlazeApp/base.html' %}
+{% load static %}
+
+{% block title %}
+  Blaze Login Portal
+{% endblock %}
+
+{% block ExtraHeaders %}
+  <link href="{% static 'BlazeApp/login.css' %}" rel="stylesheet" />
+{% endblock %}
+{% block navbar %}
+
+{% endblock %}
+
+{% block body %}
+  <script>
+    var colorValue = '{{ splineCanvaBgColor }}' // Get the color value from the Django context
+    document.body.style.backgroundColor = colorValue
+  </script>
+  <div class="container-fluid d-flex align-items-center mt-5" style="background-color: {{ splineCanvaBgColor }}">
+    <div class="login-left-div d-none d-lg-flex col-lg-7 align-items-center justify-content-center col-7">
+      <div class="side-spline-container col-12">{{ splineCanva|safe }}</div>
+    </div>
+    <div class="login-right-div col col-lg-5 py-4 px-1 mt-4">
+      <div class="container-fluid col-9 col-sm-6 col-md-5 col-lg-9 col-xl-8 login-container rounded border py-3 px-4">
+        <div class="login-heading fs-4 mb-2">Login Portal</div>
+        <div class="login-subtitle mb-3 text-center">Welcome 👋, User! Explore the platform, connect with peers, and stay up to date with society pages. 🌟</div>
+
+        <div class="login-form-container col-12 py-2">
+          <form method="post" action="{% url 'BlazeApp:user_login' %}">
+            {% csrf_token %}
+            <div class="input-field mb-2">
+              <label for="id_username">Username</label>
+              <div class="input-div rounded">
+                <div class="input-icon-div">
+                  <i class="bi bi-at"></i>
+                </div>
+                <input type="text" name="username" autofocus="true" placeholder="username" autocapitalize="none" autocomplete="username" maxlength="150" required="" id="id_username" />
+              </div>
+            </div>
+            <div class="input-field mb-2">
+              <label for="id_username">Password</label>
+              <div class="input-div rounded">
+                <div class="input-icon-div" style="rotate: 140deg; transform: rotateX(175deg);">
+                  <i class="bi bi-key"></i>
+                </div>
+                <input type="password" name="password" placeholder="12Ka4" autocomplete="current-password" required="" id="id_password" />
+              </div>
+            </div>
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-warning" role="alert">{{ message }}</div>
+              {% endfor %}
+            {% endif %}
+            <div class="mt-5 mb-2 px-2">
+              <button class="dark-btn btn col-12">Login</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

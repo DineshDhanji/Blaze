@@ -1,0 +1,96 @@
+
+.side-spline-container {
+    /* border: 1px solid black; */
+    height: 35rem;
+    position: relative;
+}
+
+.login-left-div,
+.login-right-div {
+    /* border: 1px solid black; */
+    min-height: 80vh;
+    /* height: 80vh; */
+}
+
+.login-left-div {
+    /* background-color: red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 40rem;
+    /* height: 100vh; */
+}
+
+.login-container {
+    height: max-content;
+    background-color: white;
+    /* border-radius: 8px;
+    border: 1px solid #393939; */
+}
+
+.login-heading {
+    margin-top: 15px;
+    text-align: center;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 7px 13px;
+}
+
+.login-subtitle {
+    font-size: 0.74rem;
+    color: #393939;
+}
+
+.login-form-container {
+    height: max-content;
+}
+
+.input-field {
+    margin: 10px 0.1rem;
+}
+
+.input-field label {
+    margin: 8px 6px;
+    font-weight: 500;
+}
+
+.input-field input {
+    outline: none;
+    margin: 0px 1px;
+    border: none;
+    height: 2.5rem;
+    width: 100%!important;
+}
+
+.input-div select{
+    outline: none;
+    border: none;
+    height: 2.5rem;
+    width: 100%;
+}
+.input-div {
+    border: 1px solid lightgray;
+    display: flex;
+    margin: 0px 5px;
+    font-size: 0.9rem;
+    transition: border 0.2s ease-in-out;
+    padding: 0 5px;
+}
+
+.input-div:focus-within {
+    border: 1px solid #393939;
+}
+
+.input-icon-div {
+    font-size: 1.7rem;
+    height: 2.5rem;
+    width: 2.5rem;
+    text-align: center;
+}
+
+.login-container .alert {
+    font-size: 0.8rem;
+    margin: 0.5rem;
+}

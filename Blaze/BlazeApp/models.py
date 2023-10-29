@@ -29,9 +29,7 @@ class Student(models.Model):
     batch = models.CharField(
         max_length=2, null=True, validators=[validate_studentBatch]
     )
-    nuid = models.CharField(
-        unique=True, max_length=4, null=True, validators=[validate_studentNUID]
-    )
+    nuid = models.CharField(max_length=4, null=True, validators=[validate_studentNUID])
     department = models.CharField(max_length=30, choices=Department_Choices, null=True)
     profile_picture = models.ImageField(
         upload_to="profile_pics/",
@@ -49,14 +47,16 @@ class Student(models.Model):
 
 class Faculty(models.Model):
     Department_Choices = [("CS", "Computer Science"), ("EE", "Electrical Engineering")]
-    # user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="faculty") 
+    # user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="faculty")
     department = models.CharField(
         max_length=30, choices=Department_Choices, blank=True, null=True
     )
 
 
 class SocietyPage(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="societyPage")
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="societyPage"
+    )
     facultyHead = models.ForeignKey(
         Faculty,
         on_delete=models.SET_NULL,
