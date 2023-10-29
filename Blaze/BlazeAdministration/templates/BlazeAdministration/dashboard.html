@@ -5,116 +5,64 @@
   BlazeAdministration DashBoard
 {% endblock %}
 
-
 {% block ExtraHeaders %}
+
 {% endblock %}
 
 {% block body %}
+  <div class="container-fuild d-flex flex-column align-items-center">
+    <div class="col-10 m-3">
+      <div class="alert alert-primary" style="font-size: 0.9rem;" role="alert">
+        <strong>IMPORTANT NOTE:</strong> As the administrator, you have the power to add and manage student profiles, faculty accounts, and society pages. Use the options below to maintain the community and keep everything running smoothly.<hr />
+        <p>
+          For more advanced options, please visit the <strong><a href="/admin/" class="dashboard-link link-offset-3">Admin Data Manipulation Page</a></strong>.
+        </p>
+      </div>
+    </div>
 
-<div class="container-fuild d-flex flex-column align-items-center">
-<div class="col-10 m-3">
-  <div class="alert alert-primary" style="font-size: 0.9rem;" role="alert">
-    <strong>IMPORTANT NOTE:</strong> As the administrator, you have the power to add and manage student profiles, faculty accounts, and society pages. Use the options below to maintain the community and keep everything running smoothly.
-    <hr>
-    <p>For more advanced options, please visit the <strong><a href="/admin/" class="dashboard-link link-offset-3">Admin Data Manipulation Page</a></strong>.</p>
+    <div class="dashboard-container col-10 border p-2 rounded">
+      <div class="row p-3 display-4">
+        <a href="{% url 'BlazeAdministration:add_instance' 'student' %}" class="col m-3">
+          <div class="dashboard-box yellow-box rounded p-3">
+            Add Student<script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+            <lord-icon src="https://cdn.lordicon.com/zmkotitn.json" trigger="hover" colors="primary:#fff" state="hover-2" target=".dashboard-box" style="width:3em;height:2em;"></lord-icon>
+          </div>
+        </a>
+        <a href="{% url 'BlazeAdministration:add_instance' 'faculty' %}" class="col m-3">
+          <div class="dashboard-box lemon-box rounded p-3">
+            Add Faculty<script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+            <lord-icon src="https://cdn.lordicon.com/zmkotitn.json" trigger="hover" colors="primary:#fff" state="hover-2" target=".dashboard-box" style="width:3em;height:2em;"></lord-icon>
+          </div>
+        </a>
+      </div>
+      <div class="row p-3 display-3">
+        <a href="#" class="col m-3">
+          <div class="dashboard-box rosePink-box rounded p-4">
+            Add Society Page<script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+            <lord-icon src="https://cdn.lordicon.com/zmkotitn.json" trigger="hover" colors="primary:#fff" state="hover-2" target=".dashboard-box" style="width:3em;height:2em;"></lord-icon>
+          </div>
+        </a>
+      </div>
+      <div class="row p-3 display-4">
+        <a href="#" class="col m-3">
+          <div class="dashboard-box blue-box rounded p-3">
+            List All Students<script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+            <lord-icon src="https://cdn.lordicon.com/zmkotitn.json" trigger="hover" colors="primary:#fff" state="hover-2" target=".dashboard-box" style="width:3em;height:2em;"></lord-icon>
+          </div>
+        </a>
+        <a href="#" class="col m-3">
+          <div class="dashboard-box azure-box rounded p-3">
+            List All Faculty<script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+            <lord-icon src="https://cdn.lordicon.com/zmkotitn.json" trigger="hover" colors="primary:#fff" state="hover-2" target=".dashboard-box" style="width:3em;height:2em;"></lord-icon>
+          </div>
+        </a>
+        <a href="#" class="col m-3">
+          <div class="dashboard-box brightGreen-box rounded p-3">
+            List All Societies<script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+            <lord-icon src="https://cdn.lordicon.com/zmkotitn.json" trigger="hover" colors="primary:#fff" state="hover-2" target=".dashboard-box" style="width:3em;height:2em;"></lord-icon>
+          </div>
+        </a>
+      </div>
+    </div>
   </div>
-</div>
-
-<div class="dashboard-container col-10 border p-2 rounded">
-  <div class="row p-3 display-4">
-    <a href="{% url 'BlazeAdministration:add_instance' 'student' %}" class="col m-3">
-      <div class="dashboard-box yellow-box rounded p-3">
-        Add Student
-        <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
-        <lord-icon
-            src="https://cdn.lordicon.com/zmkotitn.json"
-            trigger="hover"
-            colors="primary:#fff"
-            state="hover-2"
-            target=".dashboard-box"
-            style="width:3em;height:2em;">
-        </lord-icon>
-      </div>
-    </a>
-    <a href="#" class="col m-3">
-      <div class="dashboard-box lemon-box rounded p-3">
-      Add Faculty
-        <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
-        <lord-icon
-            src="https://cdn.lordicon.com/zmkotitn.json"
-            trigger="hover"
-            colors="primary:#fff"
-            state="hover-2"
-            target=".dashboard-box"
-            style="width:3em;height:2em;">
-        </lord-icon>
-      </div>
-    </a>
-  </div>
-  <div class="row p-3 display-3">
-    <a href="#" class="col m-3">
-      <div class="dashboard-box rosePink-box rounded p-4">
-      Add Society Page
-        <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
-        <lord-icon
-            src="https://cdn.lordicon.com/zmkotitn.json"
-            trigger="hover"
-            colors="primary:#fff"
-            state="hover-2"
-            target=".dashboard-box"
-            style="width:3em;height:2em;">
-        </lord-icon>
-      </div>
-    </a>
-  </div>
-  <div class="row p-3 display-4">
-    <a href="#" class="col m-3">
-      <div class="dashboard-box blue-box rounded p-3">
-        List All Students
-        <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
-        <lord-icon
-            src="https://cdn.lordicon.com/zmkotitn.json"
-            trigger="hover"
-            colors="primary:#fff"
-            state="hover-2"
-            target=".dashboard-box"
-            style="width:3em;height:2em;">
-        </lord-icon>
-      </div>
-    </a>
-    <a href="#" class="col m-3">
-      <div class="dashboard-box azure-box rounded p-3">
-        List All Faculty
-        <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
-        <lord-icon
-            src="https://cdn.lordicon.com/zmkotitn.json"
-            trigger="hover"
-            colors="primary:#fff"
-            state="hover-2"
-            target=".dashboard-box"
-            style="width:3em;height:2em;">
-        </lord-icon>
-      </div>
-    </a>
-    <a href="#" class="col m-3">
-      <div class="dashboard-box brightGreen-box rounded p-3">
-        List All Societies
-        <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
-        <lord-icon
-            src="https://cdn.lordicon.com/zmkotitn.json"
-            trigger="hover"
-            colors="primary:#fff"
-            state="hover-2"
-            target=".dashboard-box"
-            style="width:3em;height:2em;">
-        </lord-icon>
-      </div>
-    </a>
-  </div>
-
-</div>
-
-
-</div>
-
 {% endblock %}

@@ -42,21 +42,16 @@ class Student(models.Model):
             FileExtensionValidator(
                 allowed_extensions=["jpg", "jpeg", "png"]
             ),  # Restrict allowed file extensions
-            validate_profilePicture_size,  # Set a maximum file size limit (5 MB in this example)
+            validate_profilePicture_size,  # Set a maximum file size limit (7 MB in this example)
         ],
     )
 
 
-# class Faculty(AbstractUser):
-#     Department_Choices = [("CS", "Computer Science"), ("EE", "Electrical Engineering")]
-#     department = models.CharField(
-#         max_length=30, choices=Department_Choices, blank=True, null=True
-#     )
-
-#     groups = models.ManyToManyField(Group, blank=True, related_name="faculty_set")
-#     user_permissions = models.ManyToManyField(
-#         Permission, blank=True, related_name="faculty_set"
-#     )
+class Faculty(models.Model):
+    Department_Choices = [("CS", "Computer Science"), ("EE", "Electrical Engineering")]
+    department = models.CharField(
+        max_length=30, choices=Department_Choices, blank=True, null=True
+    )
 
 
 # class SocietyPage(models.Model):

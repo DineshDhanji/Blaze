@@ -87,13 +87,12 @@
             </div>
           {% endif %}
         </div>
-
         <div class="row m-2">
           <div class="input-field mb-2 col-lg-2 col-md-3 col-sm-4 col-12">
             <label for="{{ instanceForm.batch.id_for_label }}">{{ instanceForm.batch.label|title }}</label>
             <div class="input-div rounded px-2">
               {% comment %} {{ instanceForm.batch }} {% endcomment %}
-              <input type="text" name="{{ instanceForm.batch.name }}" placeholder="BB" maxlength="{{instanceForm.batch.field.max_length}}" required="true" id="{{ instanceForm.batch.id_for_label }}">
+              <input type="text" name="{{ instanceForm.batch.name }}" placeholder="BB" maxlength="{{ instanceForm.batch.field.max_length }}" required="true" id="{{ instanceForm.batch.id_for_label }}" />
             </div>
           </div>
 
@@ -101,7 +100,7 @@
             <label for="{{ instanceForm.nuid.id_for_label }}">{{ instanceForm.nuid.label|upper }}</label>
             <div class="input-div rounded px-2">
               {% comment %} {{ instanceForm.nuid }} {% endcomment %}
-              <input type="text" name="{{ instanceForm.nuid.name }}"placeholder="XXXX" maxlength="{{instanceForm.nuid.field.max_length}}" required="true" id="{{ instanceForm.nuid.id_for_label }}">
+              <input type="text" name="{{ instanceForm.nuid.name }}" placeholder="XXXX" maxlength="{{ instanceForm.nuid.field.max_length }}" required="true" id="{{ instanceForm.nuid.id_for_label }}" />
             </div>
           </div>
 
@@ -130,6 +129,8 @@
             </div>
           {% endif %}
         </div>
+      {% elif model == 'faculty' %}
+        {{ instanceForm }}
       {% endif %}
 
       <div class="col-12 px-4 mx-auto mt-4">

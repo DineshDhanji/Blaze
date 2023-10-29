@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.urls import reverse
 from .customDecorator import admin_required
 from django.contrib.auth.views import LoginView
-from .forms import AdministrationLoginForm, StudentForm
+from .forms import AdministrationLoginForm, StudentForm, FacultyForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from BlazeApp.models import Student
@@ -34,7 +34,7 @@ def administration_login(request):
                         "login_form": login_form,
                     },
                 )
-                
+
         else:
             messages.error(request, "Invalid email and/or password or submission.")
             return render(
@@ -78,7 +78,7 @@ def add_instance(request, instanceModel):
                     {"instanceForm": StudentForm(), "model": instanceModel},
                 )
             else:
-                print(instanceForm.errors)
+                # print(instanceForm.errors)
                 messages.error(request, "Something is not quiite right (。_。)")
 
                 return render(
@@ -93,7 +93,11 @@ def add_instance(request, instanceModel):
                 {"instanceForm": StudentForm(), "model": instanceModel},
             )
     elif instanceModel == entitiesList[1]:
-        pass
+        return render(
+            request,
+            "BlazeAdministration/add_instance.html",
+            {"instanceForm": FacultyForm(), "model": instanceModel},
+        )
     else:
         pass
 

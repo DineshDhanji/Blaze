@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from BlazeApp.models import User, Student
+from BlazeApp.models import User, Student, Faculty
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 
@@ -145,3 +145,8 @@ class StudentForm(forms.ModelForm):
             )
 
         return cleaned_data
+
+class FacultyForm(forms.ModelForm):
+    class Meta:
+        model = Faculty
+        fields = "__all__"
