@@ -6,7 +6,7 @@ import random
 
 # Create your views here.
 
-
+# Account Related Views
 # Login & Logout
 def user_login(request):
     splineCanva_data = [
@@ -62,7 +62,11 @@ def user_login(request):
             )
     else:
         if request.user.is_authenticated:
-            return redirect("BlazeApp:newsfeed")
+            if request.user.is_staff:
+                logout(request)
+                return redirect("BlazeAdministration:administration_login")
+            else:
+                return redirect("BlazeApp:newsfeed")
         else:
             return render(
                 request,
@@ -73,12 +77,13 @@ def user_login(request):
                     "splineCanvaBgColor": selected_data["bg_color"],
                 },
             )
-
-
 def user_logout(request):
     logout(request)
     return redirect("BlazeApp:user_login")
+# Settings
+def settings(request):
+    return render(request, "BlazeApp/account/settings.html")
 
-
+# Others
 def newsfeed(request):
     return render(request, "BlazeApp/newsfeed.html")

@@ -13,7 +13,7 @@ body {
     --bs-btn-active-bg: #4f4f4f;
     --bs-btn-active-color: white;
 }
-
+/* 
 .white-btn {
     --bs-btn-color: #000;
     --bs-btn-bg: #f8f9fa;
@@ -29,4 +29,66 @@ body {
     --bs-btn-disabled-color: #000;
     --bs-btn-disabled-bg: #f8f9fa;
     --bs-btn-disabled-border-color: #f8f9fa;
+} */
+
+.nav-profile-d {
+    height: 3.2rem;
+    width: max-content;
+}
+
+.nav-profile-d .dropdown-item:active {
+    background-color: #393939;
+}
+
+.nav-profile {
+    width: max-content;
+    height: 3rem;
+    border: 1px solid #E5E4E2;
+    border-radius: 5px;
+    background-color: white;
+    outline: none;
+    transition: 0.25s ease-in-out;
+}
+
+.nav-profile-pic {
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.nav-profile-pic-cover {
+    border: 1px solid black;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+}
+
+.nav-profile-pic>img {
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+}
+
+.nav-profile-name {
+    width: 9rem;
+    font-size: 0.9rem;
+}
+
+.nav-search-d {
+    height: max-content;
+    overflow: hidden;
+}
+
+.nav-search input {
+    width: 100%;
+    border: none;
+    outline: none;
+}
+
+.nav-search button {
+    border-radius: 0px;
+    border-left: 1px solid lightgray;
+    border-right: none;
+    border-top: none;
+    border-bottom: none;
 }

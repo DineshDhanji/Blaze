@@ -13,7 +13,18 @@ from BlazeAdministration.customValidator import (
 
 class User(AbstractUser):
     # It already have first_name, last_name, email, password
-    pass
+    profile_picture = models.ImageField(
+        upload_to="profile_pics/",
+        blank=True,
+        null=True,
+        default="profile_pics/Default_Profile_Picture.png",
+        validators=[
+            FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png"]
+            ),  # Restrict allowed file extensions
+            validate_profilePicture_size,  # Set a maximum file size limit (7 MB in this example)
+        ],
+    )
 
 
 class Student(models.Model):
@@ -31,18 +42,6 @@ class Student(models.Model):
     )
     nuid = models.CharField(max_length=4, null=True, validators=[validate_studentNUID])
     department = models.CharField(max_length=30, choices=Department_Choices, null=True)
-    profile_picture = models.ImageField(
-        upload_to="profile_pics/",
-        blank=True,
-        null=True,
-        default="profile_pics/Default_Profile_Picture.png",
-        validators=[
-            FileExtensionValidator(
-                allowed_extensions=["jpg", "jpeg", "png"]
-            ),  # Restrict allowed file extensions
-            validate_profilePicture_size,  # Set a maximum file size limit (7 MB in this example)
-        ],
-    )
 
 
 class Faculty(models.Model):

@@ -28,8 +28,97 @@
 
   <body>
     {% block navbar %}
-      <div>Navbar</div>
-      <a href="{% url 'BlazeApp:user_logout' %}"><button>Logout</button></a>
+      <nav class="navbar bg-body-tertiary border-bottom">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'BlazeApp:newsfeed' %}"><img src="{% static 'BlazeApp/logo.png' %}" alt="Logo" width="110px" height="auto" class="d-inline-block align-text-top" /></a>
+
+          {% comment %}Offcanvas{% endcomment %}
+          <div class="nav-profile-pic-cover d-block d-lg-none d-flex justify-content-center align-items-center mx-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <div class="nav-profile-pic">
+              <img src="{{ user.profile_picture.url }}" alt="profile-picture" style="width: 2.7rem; height: 2.7rem" />
+            </div>
+          </div>
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+              {% comment %} <div>{{ user.first_name }}</div> {% endcomment %}
+              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">{{ user.first_name }} {{ user.last_name }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item offcanvas-li">
+                  <a class="nav-link d-flex align-items-center" aria-current="page" href="{% url 'BlazeApp:settings' %}">
+                    <div class="me-3 fs-5">
+                      <i class="bi bi-person" style=""></i>
+                    </div>Profile
+                  </a>
+                </li>
+                <li class="nav-item offcanvas-li">
+                  <a class="nav-link d-flex align-items-center" aria-current="page" href="{% url 'BlazeApp:settings' %}">
+                    <div class="me-3 fs-5">
+                      <i class="bi bi-sliders"></i>
+                    </div>Settings
+                  </a>
+                </li>
+                <li class="nav-item offcanvas-li">
+                  <a class="nav-link d-flex align-items-center" aria-current="page" href="{% url 'BlazeApp:user_logout' %}">
+                    <div class="me-3 fs-5">
+                      <i class="bi bi-box-arrow-right"></i>
+                    </div>Logout
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {% comment %}Search Bar{% endcomment %}
+          <div class="nav-search-d border border-dark-subtle rounded align-items-center d-lg-flex col-lg-5 d-none">
+            <form class="nav-search d-flex col-12" role="search">
+              <input class="me-2 ps-3" type="search" placeholder="Search" />
+              <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
+            </form>
+          </div>
+
+          {% comment %}Navbar Items{% endcomment %}
+          <div class="dropdown-center nav-profile-d col-md-2 d-lg-block d-none">
+            <button class="nav-profile d-flex align-items-center justify-content-around" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="nav-profile-pic-cover d-flex justify-content-center align-items-center mx-2" style="width: 2.4rem; height: 2.4rem;">
+                <div class="nav-profile-pic">
+                  <img src="{{ user.profile_picture.url }}" alt="profile-picture" />
+                </div>
+              </div>
+
+              <div class="nav-profile-name text-start text-truncate fw-medium mx-1 d-lg-block d-none">{{ user.first_name }} {{ user.last_name }}</div>
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item d-flex" href="{% url 'BlazeApp:settings' %}">
+                  <div class="me-3">
+                    <i class="bi bi-person" style="font-size: 1.2rem;"></i>
+                  </div>Profile
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item d-flex" href="{% url 'BlazeApp:settings' %}">
+                  <div class="me-3">
+                    <i class="bi bi-sliders"></i>
+                  </div>Settings
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a class="dropdown-item d-flex" href="{% url 'BlazeApp:user_logout' %}">
+                  <div class="me-3">
+                    <i class="bi bi-box-arrow-right"></i>
+                  </div>Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
     {% endblock %}
 
     <div class="container-xxl">
