@@ -2,12 +2,12 @@
 {% load static %}
 
 {% block title %}
-  BlazeAdministration DashBoard
+  Blaze Administration - {{ model|title }}
 {% endblock %}
 
 {% block body %}
   <div class="container-fluid">
-    <div class="h3 mt-4 mb-4 ">Data Entries of {{ model|title }}</div>
+    <div class="h3 mt-4 mb-4">Data Entries of {{ model|title }}</div>
     <div class="container-fluid my-3 border pt-2">
       <table class="table table-hover">
         <thead>
