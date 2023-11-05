@@ -12,6 +12,9 @@ urlpatterns = [
     path("logout/", login_required(views.user_logout), name="user_logout"),
     # Social Pages
     path("", login_required(views.newsfeed), name="newsfeed"),
+    path("events/", login_required(views.events), name="events"),
+    path("society/", login_required(views.society), name="society"),
+    path("profile/", login_required(views.profile), name="profile"),
     path("settings/", login_required(views.settings), name="settings"),
     
 ]

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-  Blaze Settings
+  {{ user.first_name }} {{ user.last_name }}
 {% endblock %}
 
 {% block ExtraHeaders %}
@@ -11,6 +11,6 @@
 
 {% block content %}
   <div class="content-d border border-top-0 border-bottom-0 border-end-0 col">
-    <div class="lead d-flex justify-content-center align-items-center" style="height: 60%;">This is Settings page (●'◡'●).</div>
+    <div class="lead d-flex justify-content-center align-items-center" style="height: 60%;">This is Profile page (❁´◡`❁)</div>
   </div>
 {% endblock %}

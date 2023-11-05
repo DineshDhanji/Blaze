@@ -12,6 +12,7 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
     <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="{% static 'Blaze Icon.png' %}" />
     {% comment %} <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon - Icon.ico' %}" /> {% endcomment %}
 
     {% comment %}Personal{% endcomment %}
@@ -21,7 +22,7 @@
     {% endblock %}
     <title>
       {% block title %}
-        {{ Blaze }}
+        Blaze
       {% endblock %}
     </title>
   </head>
@@ -29,27 +30,142 @@
   <body>
     {% block navbar %}
       <nav class="navbar bg-body-tertiary border-bottom">
-        <div class="container-fluid">
+        <div class="container-xxl">
           <a class="navbar-brand" href="{% url 'BlazeApp:newsfeed' %}"><img src="{% static 'BlazeApp/logo.png' %}" alt="Logo" width="110px" height="auto" class="d-inline-block align-text-top" /></a>
 
-          {% comment %}Offcanvas{% endcomment %}
-          <div class="nav-profile-pic-cover d-block d-lg-none d-flex justify-content-center align-items-center mx-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-            <div class="nav-profile-pic">
-              <img src="{{ user.profile_picture.url }}" alt="profile-picture" style="width: 2.7rem; height: 2.7rem" />
+          <!-- Search Bar Modal -->
+          <!-- Modal -->
+          <div class="modal fade" id="searchBar" tabindex="-1" aria-labelledby="searchBarLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Search Bar 🔎</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form class="d-flex" role="search" action="https://www.google.com/search?q=">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" />
+                    <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
+                  </form>
+                </div>
+                <div class="modal-footer d-block">
+                  <div class="lead">Instructions</div>
+                  <div class="">You can search name of students, faculty, and society.</div>
+                  {% comment %} <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-dark">Search</button> {% endcomment %}
+                </div>
+              </div>
             </div>
           </div>
+
+          <!-- Navbar Profile Dropdown & Notification -->
+          <div class="d-flex align-items-center">
+            <!-- Notification Offcanvas -->
+            <button class="btn btn-light border mx-2 fs-5 position-relative noti-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#NotificationOffcanvas" aria-controls="offcanvasNotification"><div id="noti-indicator"></div><i class="bi bi-bell"></i></button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="NotificationOffcanvas" aria-labelledby="NotificationOffcanvasLabel">
+              <div class="offcanvas-header">
+                <div class="offcanvas-title h4" id="offcanvasRightLabel">Notifications 🔔</div>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body">
+                <div class="border border-dark">YO Me a Notification</div>
+              </div>
+            </div>
+
+            <!-- Profile Dropdown for lg -->
+            <div class="dropdown-center nav-profile-d col-md-2 d-lg-block d-none">
+              <button class="nav-profile d-flex align-items-center justify-content-around" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="nav-profile-pic-cover d-flex justify-content-center align-items-center mx-2" style="width: 2.4rem; height: 2.4rem;">
+                  <div class="nav-profile-pic">
+                    <img src="{{ user.profile_picture.url }}" alt="profile-picture" />
+                  </div>
+                </div>
+
+                <div class="nav-profile-name text-start text-truncate fw-medium mx-1 d-lg-block d-none">{{ user.first_name }} {{ user.last_name }}</div>
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item d-flex" href="{% url 'BlazeApp:profile' %}">
+                    <div class="me-3">
+                      <i class="bi bi-person" style="font-size: 1.2rem;"></i>
+                    </div>Profile
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex" href="{% url 'BlazeApp:settings' %}">
+                    <div class="me-3">
+                      <i class="bi bi-sliders"></i>
+                    </div>Settings
+                  </a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex" href="{% url 'BlazeApp:user_logout' %}">
+                    <div class="me-3">
+                      <i class="bi bi-box-arrow-right"></i>
+                    </div>Logout
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Profile Icon for less than lg -->
+            <div class="user-select-none nav-profile-pic-cover d-block d-lg-none d-flex justify-content-center align-items-center mx-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+              <div class="nav-profile-pic">
+                <img src="{{ user.profile_picture.url }}" alt="profile-picture" style="width: 2.7rem; height: 2.7rem" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Profile Offcanvas -->
           <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
-              {% comment %} <div>{{ user.first_name }}</div> {% endcomment %}
               <h5 class="offcanvas-title" id="offcanvasNavbarLabel">{{ user.first_name }} {{ user.last_name }}</h5>
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
               <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                <li class="nav-item offcanvas-li">
-                  <a class="nav-link d-flex align-items-center" aria-current="page" href="{% url 'BlazeApp:settings' %}">
+                <li class="d-block d-md-none nav-item offcanvas-li">
+                  <a class="nav-link d-flex align-items-center" aria-current="page" href="{% url 'BlazeApp:newsfeed' %}">
                     <div class="me-3 fs-5">
-                      <i class="bi bi-person" style=""></i>
+                      <i class="bi bi-house"></i>
+                    </div>Newsfeed
+                  </a>
+                </li>
+                <li class="d-block d-md-none nav-item offcanvas-li">
+                  <a class="nav-link d-flex align-items-center" aria-current="page" href="{% url 'BlazeApp:events' %}">
+                    <div class="me-3 fs-5">
+                      <i class="bi bi-calendar4-event"></i>
+                    </div>Events
+                  </a>
+                </li>
+                <li class="d-block d-md-none nav-item offcanvas-li">
+                  <a class="nav-link d-flex align-items-center" aria-current="page" href="{% url 'BlazeApp:society' %}">
+                    <div class="me-3 fs-5">
+                      <i class="bi bi-people"></i>
+                    </div>Society
+                  </a>
+                </li>
+                <li class="d-block d-md-none nav-item offcanvas-li">
+                  <a class="nav-link d-flex align-items-center" aria-current="page" href="{% url 'BlazeApp:newsfeed' %}">
+                    <div class="me-3 fs-5">
+                      <i class="bi bi-newspaper"></i>
+                    </div>Forum
+                  </a>
+                </li>
+                <li class="d-block d-md-none nav-item offcanvas-li" data-bs-toggle="modal" data-bs-target="#searchBar" style="cursor: pointer;">
+                  <div class="nav-link d-flex align-items-center" aria-current="page">
+                    <div class="me-3 fs-5">
+                      <i class="bi bi-search"></i>
+                    </div>Search
+                  </div>
+                </li>
+                <li class="nav-item offcanvas-li">
+                  <a class="nav-link d-flex align-items-center" aria-current="page" href="{% url 'BlazeApp:profile' %}">
+                    <div class="me-3 fs-5">
+                      <i class="bi bi-person"></i>
                     </div>Profile
                   </a>
                 </li>
@@ -70,60 +186,52 @@
               </ul>
             </div>
           </div>
-
-          {% comment %}Search Bar{% endcomment %}
-          <div class="nav-search-d border border-dark-subtle rounded align-items-center d-lg-flex col-lg-5 d-none">
-            <form class="nav-search d-flex col-12" role="search">
-              <input class="me-2 ps-3" type="search" placeholder="Search" />
-              <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
-            </form>
-          </div>
-
-          {% comment %}Navbar Items{% endcomment %}
-          <div class="dropdown-center nav-profile-d col-md-2 d-lg-block d-none">
-            <button class="nav-profile d-flex align-items-center justify-content-around" data-bs-toggle="dropdown" aria-expanded="false">
-              <div class="nav-profile-pic-cover d-flex justify-content-center align-items-center mx-2" style="width: 2.4rem; height: 2.4rem;">
-                <div class="nav-profile-pic">
-                  <img src="{{ user.profile_picture.url }}" alt="profile-picture" />
-                </div>
-              </div>
-
-              <div class="nav-profile-name text-start text-truncate fw-medium mx-1 d-lg-block d-none">{{ user.first_name }} {{ user.last_name }}</div>
-            </button>
-            <ul class="dropdown-menu">
-              <li>
-                <a class="dropdown-item d-flex" href="{% url 'BlazeApp:settings' %}">
-                  <div class="me-3">
-                    <i class="bi bi-person" style="font-size: 1.2rem;"></i>
-                  </div>Profile
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item d-flex" href="{% url 'BlazeApp:settings' %}">
-                  <div class="me-3">
-                    <i class="bi bi-sliders"></i>
-                  </div>Settings
-                </a>
-              </li>
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-              <li>
-                <a class="dropdown-item d-flex" href="{% url 'BlazeApp:user_logout' %}">
-                  <div class="me-3">
-                    <i class="bi bi-box-arrow-right"></i>
-                  </div>Logout
-                </a>
-              </li>
-            </ul>
-          </div>
         </div>
       </nav>
     {% endblock %}
 
-    <div class="container-xxl">
+    <div class="container-xxl d-flex">
       {% block body %}
-
+        <div class="side-panel-d d-none d-md-block">
+          <a href="{% url 'BlazeApp:newsfeed' %}">
+            <div class="side-panel-item d-flex align-items-center fw-normal rounded mx-1 mt-4">
+              <i class="ms-3 me-3 bi bi-house"></i>Newsfeed
+            </div>
+          </a>
+          <a href="{% url 'BlazeApp:events' %}">
+            <div class="side-panel-item d-flex align-items-center fw-normal rounded mx-1 mt-2">
+              <i class="ms-3 me-3 bi bi-calendar4-event"></i>Events
+            </div>
+          </a>
+          <a href="{% url 'BlazeApp:society' %}">
+            <div class="side-panel-item d-flex align-items-center fw-normal rounded mx-1 mt-2">
+              <i class="ms-3 me-3 bi bi-people"></i>Society
+            </div>
+          </a>
+          <a href="{% url 'BlazeApp:newsfeed' %}">
+            <div class="side-panel-item d-flex align-items-center fw-normal rounded mx-1 mt-2">
+              <i class="ms-3 me-3 bi bi-newspaper"></i>Forum
+            </div>
+          </a>
+          <div class="side-panel-item d-flex align-items-center fw-normal rounded mx-1 mt-2" data-bs-toggle="modal" data-bs-target="#searchBar">
+            <i class="ms-3 me-3 bi bi-search"></i>Search
+          </div>
+          <a href="{% url 'BlazeApp:profile' %}">
+            <div class="side-panel-item d-flex align-items-center fw-normal rounded mx-1 mt-2">
+              <i class="ms-3 me-3 bi bi-person"></i>Profile
+            </div>
+          </a>
+          <a href="{% url 'BlazeApp:user_logout' %}">
+            <div class="side-panel-item d-flex align-items-center fw-normal rounded mx-1 mt-2">
+              <i class="ms-3 me-3 bi bi-box-arrow-right"></i>Logout
+            </div>
+          </a>
+        </div>
+        {% block content %}
+          <div class="content-d border border-top-0 border-bottom-0 col-lg-6 col">
+            {% comment %} <div class="border border-dark"></div> {% endcomment %}
+          </div>
+        {% endblock %}
       {% endblock %}
     </div>
   </body>

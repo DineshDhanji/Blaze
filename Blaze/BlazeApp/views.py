@@ -6,6 +6,7 @@ import random
 
 # Create your views here.
 
+
 # Account Related Views
 # Login & Logout
 def user_login(request):
@@ -77,13 +78,30 @@ def user_login(request):
                     "splineCanvaBgColor": selected_data["bg_color"],
                 },
             )
+
+
 def user_logout(request):
     logout(request)
     return redirect("BlazeApp:user_login")
+
+
 # Settings
 def settings(request):
     return render(request, "BlazeApp/account/settings.html")
 
+
 # Others
 def newsfeed(request):
     return render(request, "BlazeApp/newsfeed.html")
+
+
+def events(request):
+    return render(request, "BlazeApp/events.html")
+
+
+def society(request):
+    return render(request, "BlazeApp/society.html")
+
+
+def profile(request):
+    return render(request, "BlazeApp/profile.html")
