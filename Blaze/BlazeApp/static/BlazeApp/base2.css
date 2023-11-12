@@ -1,0 +1,123 @@
+.create-post-d:hover {
+    background-color: #F8F9FA;
+}
+
+.create-post-d {
+    cursor: pointer;
+}
+
+.create-post {
+    height: max-content;
+}
+
+.create-post-pp {
+    width: 2.6rem;
+    border-radius: 50%;
+    height: 2.6rem;
+    overflow: hidden;
+}
+
+.create-post-pp>img {
+    width: inherit;
+}
+
+#post-content {
+    outline: none;
+    border: none;
+    resize: none;
+    overflow-y: hidden;
+}
+
+.post-image-input {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    height: max-content;
+    background-color: brown;
+}
+
+.post-image-input input {
+    cursor: pointer !important;
+    position: absolute;
+    font-size: 100px;
+    opacity: 0;
+    right: 0;
+    top: 0;
+}
+
+.post-d {
+    height: max-content;
+    overflow: hidden;
+}
+
+.post-header {
+    height: 4rem;
+}
+
+.post-d-profile-pic {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.post-d-timestamp {
+    font-size: 0.75rem;
+}
+
+.post-footer {
+    /* border: 1px solid red; */
+    height: max-content;
+}
+
+.post-interactions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.post-interaction-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* font-size: 1rem; */
+}
+
+.post-interaction-item:hover {
+    background-color: #F8F9FA;
+    cursor: pointer;
+}
+
+.post-interaction-item span {
+    font-size: 1.1rem;
+    margin: 0px 10px 0px 3px;
+}
+
+.post-comment-d {
+    height: 4rem;
+}
+
+#post-comment {
+    height: 2.7rem;
+    border: none;
+    outline: none;
+    border-radius: 50px;
+    background-color: #F8F9FA;
+}
+
+.new-posted-comments {
+    /* border: 1px solid red; */
+    max-height: 15rem;
+    overflow: auto;
+}
+
+.posted-comments-item {
+    display: flex;
+    align-items: center;
+    height: 4rem;
+}
+
+.posted-comment {
+    border-radius: 10px;
+    font-size: 0.9rem;
+}

@@ -1,8 +1,172 @@
 {% extends 'BlazeApp/base.html' %}
 {% load static %}
+{% block ExtraHeaders %}
+  <link rel="stylesheet" href="{% static 'BlazeApp/base2.css' %}" />
+  <script src="{% static 'BlazeApp/newsfeed.js' %}"></script>
+{% endblock %}
 
 {% block content %}
-<div class="content-d border border-top-0 border-bottom-0 col-lg-7 col">
-  {% comment %} <div class="border border-dark"></div> {% endcomment %}
-</div>
+  <div class="content-d border border-top-0 border-bottom-0 col-lg-7 col py-5 px-3">
+    <div class="create-post mb-4 border border-dark-subtle rounded user-select-none overflow-hidden">
+      <div class="h5 p-3 mb-0 border-bottom">Create post</div>
+      <div class="d-flex align-items-center text-secondary p-3 create-post-d" data-bs-toggle="modal" data-bs-target="#createPost">
+        <div class="create-post-pp col-1">
+          <img src="{{ user.profile_picture.url }}" alt="profile picture" />
+        </div>
+        <div class="fs-6 col text-body-tertiary mx-3">What's on your mind?</div>
+        <div class="fs-3 col-1">
+          <i class="bi bi-images"></i>
+        </div>
+      </div>
+
+      <!-- Create Post Modal -->
+      <div class="modal fade" id="createPost" tabindex="-1" aria-labelledby="createPostLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Create Post</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form enctype="multipart/form-data" action="#" method="post">
+                <textarea class="my-2 p-2 col-12" placeholder="Write something" id="post-content" name="post-content" rows="1" oninput="autoResize(this)"></textarea><br />
+                <div id="image-preview" class="my-3"></div>
+                <div class="post-image-input col-12 bg-body-tertiary border rounded">
+                  <input type="file" id="image-upload" name="image" accept="image/*" onchange="previewImage()" />
+
+                  <div class="d-flex flex-column align-items-center text-secondary m-3 p-1">
+                    <div class="fs-4 d-flex align-items-center justify-content-center" style="width: 2.7rem; height: 2.7rem; border: 1px solid black; border-radius: 50%;">
+                      <i class="bi bi-file-plus"></i>
+                    </div>
+                    <div class="fs-6 mt-1">Add Photos</div>
+                    <div style="font-size: 0.8rem;">or drag and drop</div>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-dark col-12 mt-3">Post</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-d mb-4 py-1 border border-dark-subtle rounded">
+      <div class="post-header d-flex align-items-center py-1 px-2">
+        <div class="post-d-profile-pic ms-2 me-3 my-1">
+          <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+        </div>
+        <div class="d-flex flex-column justify-content-center text-truncate">
+          <div class="text-secondary-emphasis">{{ user.first_name }} {{ user.last_name }}</div>
+          <div class="post-d-timestamp text-body-tertiary">11 Nov at 06:58 PM</div>
+        </div>
+      </div>
+      <div class="post-material p-3">
+        Hey this is the first post here (～￣▽￣)~<br /><br /><br />End of post boi
+      </div>
+      <div class="post-footer col-12">
+        <div class="post-interactions text-secondary">
+          <div class="post-interaction-item col p-1 user-select-none">
+            <i class="fs-5 m-1 bi bi-heart"></i>
+            <span id="postLikedNum">12</span>
+            <div class="d-none d-md-block fs-6">Likes</div>
+          </div>
+          <div class="post-interaction-item col p-1 user-select-none">
+            <i class="fs-5 m-1 bi bi-chat-square-text"></i>
+            <span id="postCommentsNum">2</span>
+            <div class="d-none d-md-block fs-6">Comments</div>
+          </div>
+          <div class="post-interaction-item col p-1 user-select-none">
+            <i class="fs-5 m-1 bi bi-share"></i>
+            <span id="postSharedNum">3</span>
+            <div class="d-none d-md-block fs-6">Share</div>
+          </div>
+          <div class="post-interaction-item col p-1 user-select-none">
+            <i class="fs-5 m-1 bi bi-bookmark"></i>
+            <span id="postSavedNum">7</span>
+            <div class="d-none d-md-block fs-6">Saved</div>
+          </div>
+        </div>
+
+        <div class="post-comment-d d-flex align-items-center pt-2 pb-1 px-2 border-top">
+          <div class="post-d-profile-pic ms-2 me-3 my-1">
+            <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+          </div>
+          <form class="col" method="POST" onsubmit="return addNewComment(this)">
+            {% csrf_token %}
+            {% comment %} <input type="hidden" class="post-id" value="1" /> <!-- Add your actual post ID here --> {% endcomment %}
+            <input id="post-comment" class="col-12 px-3 border py-2" placeholder="Write your comment" required />
+          </form>
+        </div>
+
+        <div class="new-posted-comments">
+          <div class="posted-comments-item my-2 ps-1 pe-3">
+            <div class="post-d-profile-pic ms-2 me-3 my-1">
+              <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+            </div>
+            <div class="posted-comment col py-1 px-2 bg-light border">Try commenting :)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-d mb-4 py-1 border border-dark-subtle rounded">
+      <div class="post-header d-flex align-items-center py-1 px-2">
+        <div class="post-d-profile-pic ms-2 me-3 my-1">
+          <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+        </div>
+        <div class="d-flex flex-column justify-content-center text-truncate">
+          <div class="text-secondary-emphasis">{{ user.first_name }} {{ user.last_name }}</div>
+          <div class="post-d-timestamp text-body-tertiary">11 Nov at 06:58 PM</div>
+        </div>
+      </div>
+      <div class="post-material p-3">
+        Hey this is the first post here (～￣▽￣)~<br /><br /><br />End of post boi
+      </div>
+      <div class="post-footer col-12">
+        <div class="post-interactions text-secondary">
+          <div class="post-interaction-item col p-1 user-select-none">
+            <i class="fs-5 m-1 bi bi-heart"></i>
+            <span id="postLikedNum">12</span>
+            <div class="d-none d-md-block fs-6">Likes</div>
+          </div>
+          <div class="post-interaction-item col p-1 user-select-none">
+            <i class="fs-5 m-1 bi bi-chat-square-text"></i>
+            <span id="postCommentsNum">2</span>
+            <div class="d-none d-md-block fs-6">Comments</div>
+          </div>
+          <div class="post-interaction-item col p-1 user-select-none">
+            <i class="fs-5 m-1 bi bi-share"></i>
+            <span id="postSharedNum">3</span>
+            <div class="d-none d-md-block fs-6">Share</div>
+          </div>
+          <div class="post-interaction-item col p-1 user-select-none">
+            <i class="fs-5 m-1 bi bi-bookmark"></i>
+            <span id="postSavedNum">7</span>
+            <div class="d-none d-md-block fs-6">Saved</div>
+          </div>
+        </div>
+
+        <div class="post-comment-d d-flex align-items-center pt-2 pb-1 px-2 border-top">
+          <div class="post-d-profile-pic ms-2 me-3 my-1">
+            <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+          </div>
+          <form class="col" method="POST" onsubmit="return addNewComment(this)">
+            {% csrf_token %}
+            {% comment %} <input type="hidden" class="post-id" value="1" /> <!-- Add your actual post ID here --> {% endcomment %}
+            <input id="post-comment" class="col-12 px-3 border py-2" placeholder="Write your comment" required />
+          </form>
+        </div>
+
+        <div class="new-posted-comments">
+          <div class="posted-comments-item my-2 ps-1 pe-3">
+            <div class="post-d-profile-pic ms-2 me-3 my-1">
+              <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+            </div>
+            <div class="posted-comment col py-1 px-2 bg-light border">First Comment</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
