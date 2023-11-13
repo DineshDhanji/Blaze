@@ -70,6 +70,19 @@
     height: max-content;
 }
 
+.dd1 {
+    width: 33rem;
+}
+
+@media (max-width: 586px) {
+
+    /* Adjust styles for screens smaller than 768 pixels */
+    .dd1 {
+        width: 100%;
+        /* or another value suitable for smaller screens */
+    }
+}
+
 .post-interactions {
     display: flex;
     justify-content: center;
@@ -120,4 +133,20 @@
 .posted-comment {
     border-radius: 10px;
     font-size: 0.9rem;
+}
+
+.minisidebar-d {
+    position: sticky;
+    top: 75px;
+    max-height: calc(100vh - 75px);
+    z-index: 100;
+}
+
+.minisidebar-event-d {
+    height: max-content;
+}
+
+.minisidebar-event-item {
+    height: max-content;
+    background-image: linear-gradient(to bottom right, #8100E6, #D175E0);
 }

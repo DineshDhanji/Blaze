@@ -28,35 +28,9 @@
 
   <body>
     {% block navbar %}
-      <nav class="navbar bg-body-tertiary border-bottom">
+      <nav class="navbar bg-body-tertiary border-bottom position-sticky">
         <div class="container-xxl">
           <a class="navbar-brand" href="{% url 'BlazeApp:newsfeed' %}"><img src="{% static 'BlazeApp/logo.png' %}" alt="Logo" width="110px" height="auto" class="d-inline-block align-text-top" /></a>
-
-          <!-- Search Bar Modal -->
-          <!-- Modal -->
-          <div class="modal fade" id="searchBar" tabindex="-1" aria-labelledby="searchBarLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">Search Bar 🔎</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <form class="d-flex" role="search" action="https://www.google.com/search?q=">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" />
-                    <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
-                  </form>
-                </div>
-                <div class="modal-footer d-block">
-                  <div class="lead">Instructions</div>
-                  <div class="">You can search name of students, faculty, and society.</div>
-                  {% comment %} <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-dark">Search</button> {% endcomment %}
-                </div>
-              </div>
-            </div>
-          </div>
-
           <!-- Navbar Profile Dropdown & Notification -->
           <div class="d-flex align-items-center">
             <!-- Notification Offcanvas -->
@@ -67,7 +41,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
               </div>
               <div class="offcanvas-body">
-                <div class="border border-dark">YO Me a Notification</div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item notification-item rounded border noti-read">
+                    <span class="fw-semibold">Aqua</span> commented on your post.
+                  </li>
+                  <li class="list-group-item notification-item rounded border noti-not-read">
+                    <span class="fw-semibold">Aqua</span> commented on your forum post.
+                  </li>
+                </ul>
               </div>
             </div>
 
@@ -187,6 +168,31 @@
           </div>
         </div>
       </nav>
+
+      <!-- Search Bar Modal -->
+      <!-- Modal -->
+      <div class="modal fade" id="searchBar" tabindex="-1" aria-labelledby="searchBarLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Search Bar 🔎</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form class="d-flex" role="search" action="https://www.google.com/search?q=">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" />
+                <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
+              </form>
+            </div>
+            <div class="modal-footer d-block">
+              <div class="lead">Instructions</div>
+              <div class="">You can search name of students, faculty, and society.</div>
+              {% comment %} <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-dark">Search</button> {% endcomment %}
+            </div>
+          </div>
+        </div>
+      </div>
     {% endblock %}
 
     <div class="container-xxl d-flex" style="padding: 0px;">
@@ -227,6 +233,7 @@
           </a>
         </div>
         {% block content %}
+
         {% endblock %}
       {% endblock %}
     </div>

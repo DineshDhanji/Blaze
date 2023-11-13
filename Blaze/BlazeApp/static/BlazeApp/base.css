@@ -20,6 +20,10 @@ a {
     color: #393939;
 }
 
+.navbar{
+    top: 0;
+    z-index: 100;
+}
 .nav-profile-d {
     height: 3.2rem;
     width: max-content;
@@ -81,8 +85,11 @@ a {
 
 .side-panel-d {
     width: 15rem;
-    height: 50rem;
+    max-height: calc(100vh - 75px);
     overflow: auto;
+    position: sticky;
+    top: 75px;
+    z-index: 101;
 }
 
 /* width */
@@ -128,4 +135,16 @@ a {
 
 .content-d {
     height: max-content;
+}
+.notification-item{
+    cursor: pointer;
+    margin: 5px 0px;
+}
+.noti-read
+{
+    background-color: #E9ECEF;
+}
+.noti-not-read
+{
+    /* background-color: #F8F9FA; */
 }
