@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse
+from django import forms
 from .customDecorator import admin_required
 from django.contrib.auth.views import LoginView
 from .forms import AdministrationLoginForm, StudentForm, FacultyForm
@@ -38,7 +39,9 @@ def administration_login(request):
         else:
             messages.error(request, "Invalid email and/or password or submission.")
             return render(
-                request, "BlazeAdministration/account/administration_login.html", {"login_form": login_form}
+                request,
+                "BlazeAdministration/account/administration_login.html",
+                {"login_form": login_form},
             )
     else:
         if request.user.is_authenticated:
@@ -66,11 +69,13 @@ def add_instance(request, instanceModel):
         if request.method == "POST":
             instanceForm = StudentForm(request.POST)
             if instanceForm.is_valid():
-                instanceForm.save()
-
-                messages.success(
-                    request, "Student profile successfully created ヾ(≧▽≦*)o"
-                )
+                try:
+                    instanceForm.save()
+                    messages.success(
+                        request, "Student profile successfully created ヾ(≧▽≦*)o"
+                    )
+                except forms.ValidationError as e:
+                    messages.error(request, "Integrity Error " + str(e))
 
                 return render(
                     request,

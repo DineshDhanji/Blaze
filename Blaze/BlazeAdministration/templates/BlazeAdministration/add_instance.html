@@ -105,11 +105,11 @@
           </div>
 
           <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
-            <label for="{{ instanceForm.department.id_for_label }}">{{ instanceForm.department.label|title }}</label>
-            <div class="input-div rounded px-2">{{ instanceForm.department }}</div>
+            <label for="{{ instanceForm.major.id_for_label }}">{{ instanceForm.major.label|title }}</label>
+            <div class="input-div rounded px-2">{{ instanceForm.major }}</div>
           </div>
 
-          {% if instanceForm.batch.errors or instanceForm.nuid.errors or instanceForm.department.errors %}
+          {% if instanceForm.batch.errors or instanceForm.nuid.errors or instanceForm.major.errors %}
             <div class="alert alert-warning mx-3" style="font-size: 0.8rem;" role="alert">
               {% if instanceForm.batch.errors %}
                 {% for error in instanceForm.batch.errors %}
@@ -121,8 +121,8 @@
                   {{ error }}
                 {% endfor %}
               {% endif %}
-              {% if instanceForm.department.errors %}
-                {% for error in instanceForm.department.errors %}
+              {% if instanceForm.major.errors %}
+                {% for error in instanceForm.major.errors %}
                   {{ error }}
                 {% endfor %}
               {% endif %}

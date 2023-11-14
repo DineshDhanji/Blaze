@@ -28,7 +28,7 @@ class User(AbstractUser):
 
 
 class Student(models.Model):
-    Department_Choices = [
+    Major_Choices = [
         ("CS", "Computer Science"),
         ("SE", "Software Engineering"),
         ("AI", "Artificial Intelligence"),
@@ -41,7 +41,7 @@ class Student(models.Model):
         max_length=2, null=True, validators=[validate_studentBatch]
     )
     nuid = models.CharField(max_length=4, null=True, validators=[validate_studentNUID])
-    department = models.CharField(max_length=30, choices=Department_Choices, null=True)
+    major = models.CharField(max_length=30, choices=Major_Choices, null=True)
 
 
 class Faculty(models.Model):

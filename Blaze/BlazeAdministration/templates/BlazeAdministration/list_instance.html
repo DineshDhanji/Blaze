@@ -18,7 +18,7 @@
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             {% if model == 'student' %}
-              <th scope="col">Department</th>
+              <th scope="col">Major</th>
               <th scope="col">Batch</th>
               <th scope="col">NUID</th>
             {% endif %}
@@ -32,7 +32,7 @@
               <td>{{ data.user.first_name }} {{ data.user.last_name }}</td>
               <td>{{ data.user.email }}</td>
               {% if model == 'student' %}
-                <td>{{ data.department }}</td>
+                <td>{{ data.major }}</td>
                 <td>{{ data.batch }}</td>
                 <td>{{ data.nuid }}</td>
               {% endif %}

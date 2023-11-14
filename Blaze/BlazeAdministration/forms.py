@@ -4,21 +4,22 @@ from BlazeApp.models import User, Student, Faculty
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 
-
 class AdministrationLoginForm(AuthenticationForm):
     """
-        It's just an authentication form.
+    It's just an authentication form.
     """
+
     pass
 
 
 class StudentForm(forms.ModelForm):
     """
-        All of the required fields are mentioned here.
-        Eventhough, fields such as firstname, last_name, email, username, and password 
-        are available in the User's model. We have also included them in this form. These
-        fields will be then use in User model.     
+    All of the required fields are mentioned here.
+    Eventhough, fields such as firstname, last_name, email, username, and password
+    are available in the User's model. We have also included them in this form. These
+    fields will be then use in User model.
     """
+
     first_name = forms.CharField(
         label="First Name",
         widget=forms.TextInput(
@@ -78,6 +79,7 @@ class StudentForm(forms.ModelForm):
         Keep track of all fields that are needed for the creation of Student instance.
         Meta is the way of telling form to add feilds from model in the model's form.
     """
+
     class Meta:
         model = Student
         fields = [
@@ -88,7 +90,7 @@ class StudentForm(forms.ModelForm):
             "password",
             "batch",
             "nuid",
-            "department",
+            "major",
         ]
 
     """
@@ -99,9 +101,17 @@ class StudentForm(forms.ModelForm):
             3. Finally, we added the user instance in the student instance (because the user is a 
                 variable in the student model) and saved it. 
     """
+
     def save(self, commit=True):
         student = super().save(commit=False)
 
+        # Check if a user with the given username already exists
+        existing_user = User.objects.filter(
+            username=self.cleaned_data["username"]
+        ).first()
+        if existing_user:
+            raise forms.ValidationError("A user with this username already exists.")
+        
         # Create and associate a user with the student
         user = User(
             username=self.cleaned_data["username"],
@@ -123,6 +133,7 @@ class StudentForm(forms.ModelForm):
         When data is retrieved from the submited data, it's first clean.
         Cleaning is just checking if data is valid or not (not empty, and must follow domain).
     """
+
     def clean(self):
         cleaned_data = super().clean()
         batch = cleaned_data.get("batch")
@@ -145,6 +156,7 @@ class StudentForm(forms.ModelForm):
             )
 
         return cleaned_data
+
 
 class FacultyForm(forms.ModelForm):
     class Meta:
