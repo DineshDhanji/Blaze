@@ -106,256 +106,9 @@
               <div class="d-none d-md-block ms-3 fs-6">Saved</div>
             </div>
           </div>
-
-          <div class="post-comment-d d-flex align-items-center pt-2 pb-1 px-2 border-top">
-            <div class="post-d-profile-pic ms-2 me-3 my-1">
-              <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
-            </div>
-            <form class="col" method="POST" onsubmit="return addNewComment(this)">
-              {% csrf_token %}
-              {% comment %} <input type="hidden" class="post-id" value="1" /> <!-- Add your actual post ID here --> {% endcomment %}
-              <input id="post-comment" class="col-12 px-3 border py-2" placeholder="Write your comment" required />
-            </form>
-          </div>
-
-          <div class="new-posted-comments">
-            <div class="posted-comments-item my-2 ps-1 pe-3">
-              <div class="post-d-profile-pic ms-2 me-3 my-1">
-                <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
-              </div>
-              <div class="posted-comment col py-1 px-2 bg-light border">Try commenting :)</div>
-            </div>
-          </div>
         </div>
       </div>
-      <div class="post-d mb-4 py-1 border border-dark-subtle rounded">
-        <div class="post-header d-flex align-items-center py-1 px-2">
-          <div class="post-d-profile-pic ms-2 me-3 my-1">
-            <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
-          </div>
-          <div class="d-flex flex-column justify-content-center text-truncate">
-            <div class="text-secondary-emphasis">{{ user.first_name }} {{ user.last_name }}</div>
-            <div class="post-d-timestamp text-body-tertiary">11 Nov at 06:58 PM</div>
-          </div>
-        </div>
-        <div class="post-material p-3">
-          Hey this is the first post here (～￣▽￣)~<br /><br /><br />End of post boi
-        </div>
-        <div class="post-footer col-12">
-          <div class="d-flex justify-content-between border-bottom text-secondary px-3 py-1 user-select-none">
-            <div class="d-flex">
-              <div class="ms-1 me-2">
-                <i class="bi bi-heart-fill"></i>
-                <span id="postLikedNum">12</span>
-              </div>
-              <div class="ms-1 me-2">
-                <i class="bi bi-chat-square-text-fill"></i>
-                <span id="postCommentsNum">2</span>
-              </div>
-              <div class="ms-1 me-2">
-                <i class="bi bi-share-fill"></i>
-                <span id="postSharedNum">3</span>
-              </div>
-            </div>
-            <div class="d-flex">
-              <div class="ms-1 me-2">
-                <i class="bi bi-bookmark-fill"></i>
-                <span id="postSavedNum">7</span>
-              </div>
-            </div>
-          </div>
-          <div class="post-interactions text-secondary">
-            <div class="post-interaction-item col p-1 user-select-none">
-              <i class="fs-5 m-1 bi bi-heart"></i>
-              <div class="d-none d-md-block ms-3 fs-6">Likes</div>
-            </div>
-            <div class="post-interaction-item col p-1 user-select-none">
-              <i class="fs-5 m-1 bi bi-chat-square-text"></i>
-              <div class="d-none d-md-block ms-3 fs-6">Comments</div>
-            </div>
-            <div class="post-interaction-item col p-1 user-select-none">
-              <i class="fs-5 m-1 bi bi-share"></i>
-              <div class="d-none d-md-block ms-3 fs-6">Share</div>
-            </div>
-            <div class="post-interaction-item col p-1 user-select-none">
-              <i class="fs-5 m-1 bi bi-bookmark"></i>
-              <div class="d-none d-md-block ms-3 fs-6">Saved</div>
-            </div>
-          </div>
 
-          <div class="post-comment-d d-flex align-items-center pt-2 pb-1 px-2 border-top">
-            <div class="post-d-profile-pic ms-2 me-3 my-1">
-              <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
-            </div>
-            <form class="col" method="POST" onsubmit="return addNewComment(this)">
-              {% csrf_token %}
-              {% comment %} <input type="hidden" class="post-id" value="1" /> <!-- Add your actual post ID here --> {% endcomment %}
-              <input id="post-comment" class="col-12 px-3 border py-2" placeholder="Write your comment" required />
-            </form>
-          </div>
-
-          <div class="new-posted-comments">
-            <div class="posted-comments-item my-2 ps-1 pe-3">
-              <div class="post-d-profile-pic ms-2 me-3 my-1">
-                <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
-              </div>
-              <div class="posted-comment col py-1 px-2 bg-light border">Try commenting :)</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="post-d mb-4 py-1 border border-dark-subtle rounded">
-        <div class="post-header d-flex align-items-center py-1 px-2">
-          <div class="post-d-profile-pic ms-2 me-3 my-1">
-            <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
-          </div>
-          <div class="d-flex flex-column justify-content-center text-truncate">
-            <div class="text-secondary-emphasis">{{ user.first_name }} {{ user.last_name }}</div>
-            <div class="post-d-timestamp text-body-tertiary">11 Nov at 06:58 PM</div>
-          </div>
-        </div>
-        <div class="post-material p-3">
-          Hey this is the first post here (～￣▽￣)~<br /><br /><br />End of post boi
-        </div>
-        <div class="post-footer col-12">
-          <div class="d-flex justify-content-between border-bottom text-secondary px-3 py-1 user-select-none">
-            <div class="d-flex">
-              <div class="ms-1 me-2">
-                <i class="bi bi-heart-fill"></i>
-                <span id="postLikedNum">12</span>
-              </div>
-              <div class="ms-1 me-2">
-                <i class="bi bi-chat-square-text-fill"></i>
-                <span id="postCommentsNum">2</span>
-              </div>
-              <div class="ms-1 me-2">
-                <i class="bi bi-share-fill"></i>
-                <span id="postSharedNum">3</span>
-              </div>
-            </div>
-            <div class="d-flex">
-              <div class="ms-1 me-2">
-                <i class="bi bi-bookmark-fill"></i>
-                <span id="postSavedNum">7</span>
-              </div>
-            </div>
-          </div>
-          <div class="post-interactions text-secondary">
-            <div class="post-interaction-item col p-1 user-select-none">
-              <i class="fs-5 m-1 bi bi-heart"></i>
-              <div class="d-none d-md-block ms-3 fs-6">Likes</div>
-            </div>
-            <div class="post-interaction-item col p-1 user-select-none">
-              <i class="fs-5 m-1 bi bi-chat-square-text"></i>
-              <div class="d-none d-md-block ms-3 fs-6">Comments</div>
-            </div>
-            <div class="post-interaction-item col p-1 user-select-none">
-              <i class="fs-5 m-1 bi bi-share"></i>
-              <div class="d-none d-md-block ms-3 fs-6">Share</div>
-            </div>
-            <div class="post-interaction-item col p-1 user-select-none">
-              <i class="fs-5 m-1 bi bi-bookmark"></i>
-              <div class="d-none d-md-block ms-3 fs-6">Saved</div>
-            </div>
-          </div>
-
-          <div class="post-comment-d d-flex align-items-center pt-2 pb-1 px-2 border-top">
-            <div class="post-d-profile-pic ms-2 me-3 my-1">
-              <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
-            </div>
-            <form class="col" method="POST" onsubmit="return addNewComment(this)">
-              {% csrf_token %}
-              {% comment %} <input type="hidden" class="post-id" value="1" /> <!-- Add your actual post ID here --> {% endcomment %}
-              <input id="post-comment" class="col-12 px-3 border py-2" placeholder="Write your comment" required />
-            </form>
-          </div>
-
-          <div class="new-posted-comments">
-            <div class="posted-comments-item my-2 ps-1 pe-3">
-              <div class="post-d-profile-pic ms-2 me-3 my-1">
-                <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
-              </div>
-              <div class="posted-comment col py-1 px-2 bg-light border">Try commenting :)</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="post-d mb-4 py-1 border border-dark-subtle rounded">
-        <div class="post-header d-flex align-items-center py-1 px-2">
-          <div class="post-d-profile-pic ms-2 me-3 my-1">
-            <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
-          </div>
-          <div class="d-flex flex-column justify-content-center text-truncate">
-            <div class="text-secondary-emphasis">{{ user.first_name }} {{ user.last_name }}</div>
-            <div class="post-d-timestamp text-body-tertiary">11 Nov at 06:58 PM</div>
-          </div>
-        </div>
-        <div class="post-material p-3">
-          Hey this is the first post here (～￣▽￣)~<br /><br /><br />End of post boi
-        </div>
-        <div class="post-footer col-12">
-          <div class="d-flex justify-content-between border-bottom text-secondary px-3 py-1 user-select-none">
-            <div class="d-flex">
-              <div class="ms-1 me-2">
-                <i class="bi bi-heart-fill"></i>
-                <span id="postLikedNum">12</span>
-              </div>
-              <div class="ms-1 me-2">
-                <i class="bi bi-chat-square-text-fill"></i>
-                <span id="postCommentsNum">2</span>
-              </div>
-              <div class="ms-1 me-2">
-                <i class="bi bi-share-fill"></i>
-                <span id="postSharedNum">3</span>
-              </div>
-            </div>
-            <div class="d-flex">
-              <div class="ms-1 me-2">
-                <i class="bi bi-bookmark-fill"></i>
-                <span id="postSavedNum">7</span>
-              </div>
-            </div>
-          </div>
-          <div class="post-interactions text-secondary">
-            <div class="post-interaction-item col p-1 user-select-none">
-              <i class="fs-5 m-1 bi bi-heart"></i>
-              <div class="d-none d-md-block ms-3 fs-6">Likes</div>
-            </div>
-            <div class="post-interaction-item col p-1 user-select-none">
-              <i class="fs-5 m-1 bi bi-chat-square-text"></i>
-              <div class="d-none d-md-block ms-3 fs-6">Comments</div>
-            </div>
-            <div class="post-interaction-item col p-1 user-select-none">
-              <i class="fs-5 m-1 bi bi-share"></i>
-              <div class="d-none d-md-block ms-3 fs-6">Share</div>
-            </div>
-            <div class="post-interaction-item col p-1 user-select-none">
-              <i class="fs-5 m-1 bi bi-bookmark"></i>
-              <div class="d-none d-md-block ms-3 fs-6">Saved</div>
-            </div>
-          </div>
-
-          <div class="post-comment-d d-flex align-items-center pt-2 pb-1 px-2 border-top">
-            <div class="post-d-profile-pic ms-2 me-3 my-1">
-              <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
-            </div>
-            <form class="col" method="POST" onsubmit="return addNewComment(this)">
-              {% csrf_token %}
-              {% comment %} <input type="hidden" class="post-id" value="1" /> <!-- Add your actual post ID here --> {% endcomment %}
-              <input id="post-comment" class="col-12 px-3 border py-2" placeholder="Write your comment" required />
-            </form>
-          </div>
-
-          <div class="new-posted-comments">
-            <div class="posted-comments-item my-2 ps-1 pe-3">
-              <div class="post-d-profile-pic ms-2 me-3 my-1">
-                <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
-              </div>
-              <div class="posted-comment col py-1 px-2 bg-light border">Try commenting :)</div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
   <div class="minisidebar-d border-start d-none col d-lg-block">
@@ -396,9 +149,7 @@
             </div>
           </div>
           <div class="carousel-item">
-            <div class="minisidebar-event-item col-11 mx-auto px-4 py-5 text-light rounded">
-              Follow society to keep your eyes on upcoming events
-            </div>
+            <div class="minisidebar-event-item col-11 mx-auto px-4 py-5 text-light rounded">Follow society to keep your eyes on upcoming events</div>
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -413,3 +164,9 @@
     </div>
   </div>
 {% endblock %}
+
+{% comment %} <form class="col" method="POST" onsubmit="return addNewComment(this)">
+  {% csrf_token %}
+  <input type="hidden" class="post-id" value="1" /> <!-- Add your actual post ID here -->
+  <input id="post-comment" class="col-12 px-3 border py-2" placeholder="Write your comment" required />
+</form> {% endcomment %}

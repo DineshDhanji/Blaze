@@ -106,10 +106,6 @@
     margin: 0px 10px 0px 3px;
 }
 
-.post-comment-d {
-    height: 4rem;
-}
-
 #post-comment {
     height: 2.7rem;
     border: none;
@@ -118,28 +114,12 @@
     background-color: #F8F9FA;
 }
 
-.new-posted-comments {
-    /* border: 1px solid red; */
-    max-height: 15rem;
-    overflow: auto;
-}
-
-.posted-comments-item {
-    display: flex;
-    align-items: center;
-    height: 4rem;
-}
-
-.posted-comment {
-    border-radius: 10px;
-    font-size: 0.9rem;
-}
 
 .minisidebar-d {
     position: sticky;
     top: 75px;
     max-height: calc(100vh - 75px);
-    z-index: 100;
+    z-index: 10;
 }
 
 .minisidebar-event-d {
