@@ -1,7 +1,8 @@
 from django.contrib import admin
 
-# from .models import Student, Faculty, SocietyPage
-from .models import User, Student
+# from .models import Student, Faculty, Society
+# from .models import User, Student
+from .models import *
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -9,7 +10,13 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ["get_username", "get_first_name", "get_last_name", "get_email"]
+    list_display = [
+        "get_username",
+        "get_first_name",
+        "get_last_name",
+        "get_email",
+        "get_major",
+    ]
 
     def get_username(self, obj):
         return obj.user.username if obj.user else ""
@@ -23,15 +30,21 @@ class StudentAdmin(admin.ModelAdmin):
     def get_email(self, obj):
         return obj.user.email if obj.user else ""
 
+    def get_major(self, obj):
+        return obj.major if obj.user else ""
+
     get_username.short_description = "username"
     get_first_name.short_description = "first name"
     get_last_name.short_description = "last name"
     get_email.short_description = "email"
+    get_major.short_description = "major"
 
 
 # Register your models here.
 admin.site.register(User, UserAdmin)
 admin.site.register(Student, StudentAdmin)
 
-# admin.site.register(Faculty)
-# admin.site.register(SocietyPage)
+admin.site.register(Faculty)
+admin.site.register(Society)
+admin.site.register(Post)
+admin.site.register(Comment)

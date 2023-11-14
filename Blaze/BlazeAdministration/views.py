@@ -7,7 +7,7 @@ from django.contrib.auth.views import LoginView
 from .forms import AdministrationLoginForm, StudentForm, FacultyForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from BlazeApp.models import Student, Faculty, SocietyPage
+from BlazeApp.models import Student, Faculty, Society
 
 
 # Create your views here.
