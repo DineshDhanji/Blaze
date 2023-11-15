@@ -163,15 +163,15 @@ class Comment(models.Model):
         # Check if the associated object exists
         try:
             # Get the ContentType for the specified category
-            content_type = ContentType.objects.get(model=self.category)
+            content_type = ContentType.objects.get(model=self.object_type)
             # Get the associated object using content_type and object_id
             associated_object = content_type.get_object_for_this_type(pk=self.object_id)
 
         except ContentType.DoesNotExist:
-            raise ValidationError(f"Invalid content type {self.category}.")
+            raise ValidationError(f"Invalid content type {self.object_type}.")
         except ObjectDoesNotExist:
             raise ValidationError(
-                f"Object with ID {self.object_id} does not exist in the {self.category} category."
+                f"Object with ID {self.object_id} does not exist in the {self.object_type} category."
             )
         super().save(*args, **kwargs)
 
@@ -287,6 +287,22 @@ class Notification(models.Model):
         default=0,
     )
     is_read = models.BooleanField(null=False, default=False)
+
+    def save(self, *args, **kwargs):
+        # Check if the associated object exists
+        try:
+            # Get the ContentType for the specified category
+            content_type = ContentType.objects.get(model=self.object_type)
+            # Get the associated object using content_type and object_id
+            associated_object = content_type.get_object_for_this_type(pk=self.object_id)
+
+        except ContentType.DoesNotExist:
+            raise ValidationError(f"Invalid content type {self.object_type}.")
+        except ObjectDoesNotExist:
+            raise ValidationError(
+                f"Object with ID {self.object_id} does not exist in the {self.object_type} object type."
+            )
+        super().save(*args, **kwargs)
 
 
 class Reply(models.Model):

@@ -6,7 +6,7 @@ from .models import *
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ["pk","username", "first_name", "last_name", "email"]
+    list_display = ["pk", "username", "first_name", "last_name", "email"]
 
 
 class StudentAdmin(admin.ModelAdmin):
@@ -43,6 +43,7 @@ class StudentAdmin(admin.ModelAdmin):
 class ShareAdmin(admin.ModelAdmin):
     list_display = ["pk", "pid", "uid", "date"]
 
+
 # Register your models here.
 admin.site.register(User, UserAdmin)
 admin.site.register(Student, StudentAdmin)
@@ -52,9 +53,9 @@ admin.site.register(Post)
 admin.site.register(Comment)
 admin.site.register(Share, ShareAdmin)
 admin.site.register(Event)
+admin.site.register(Question)
+admin.site.register(Answer)
+admin.site.register(Notification)
 
 
 # admin.site.register(Share)
-
-
-
