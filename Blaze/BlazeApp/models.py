@@ -130,7 +130,7 @@ class Post(models.Model):
         related_name="posts",
     )
     # Internally this is treated as different table
-    likes = models.ManyToManyField(User, related_name="likes")
+    likes = models.ManyToManyField(User, related_name="post_likes")
 
     class Meta:
         verbose_name = "Post"
@@ -208,6 +208,9 @@ class Event(models.Model):
     )
     venue = models.CharField(max_length=50, null=False, default="No Venue")
     time = models.TimeField(null=False, default="00:00")
+    
+    # Internally this is treated as different table
+    likes = models.ManyToManyField(User, related_name="events_likes")
 
     class Meta:
         verbose_name = "Event"
@@ -288,6 +291,10 @@ class Notification(models.Model):
     )
     is_read = models.BooleanField(null=False, default=False)
 
+    class Meta:
+        verbose_name = "Notification"
+        verbose_name_plural = "Notifications"
+
     def save(self, *args, **kwargs):
         # Check if the associated object exists
         try:
@@ -306,4 +313,6 @@ class Notification(models.Model):
 
 
 class Reply(models.Model):
-    pass
+    class Meta:
+        verbose_name = "Reply"
+        verbose_name_plural = "Replies"
