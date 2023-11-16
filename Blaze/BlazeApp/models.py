@@ -30,7 +30,9 @@ class User(AbstractUser):
         ],
     )
     # Internally we have different table.
-    follow = models.ManyToManyField("self", symmetrical=False, related_name="followers")
+    follow = models.ManyToManyField(
+        "self", symmetrical=False, related_name="followers", blank=True
+    )
 
     class Meta:
         verbose_name = "User"
@@ -123,18 +125,33 @@ class Post(models.Model):
         max_length=1500,
         help_text="Enter the content of your post (up to 1500 characters).",
     )
-    date = models.DateTimeField(auto_now=True, null=True)
+    timestamp = models.DateTimeField(auto_now=True, null=True)
     poster = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name="posts",
     )
     # Internally this is treated as different table
-    likes = models.ManyToManyField(User, related_name="post_likes")
+    likes = models.ManyToManyField(User, related_name="liked_post", blank=True)
+    saved = models.ManyToManyField(User, related_name="saved_post", blank=True)
 
     class Meta:
         verbose_name = "Post"
         verbose_name_plural = "Posts"
+
+    @property
+    def like_count(self):
+        return self.likes.count()
+
+    def comment_count(self):
+        comment = Comment.objects.filter(object_type="post", object_id=self.pk)
+        return comment.count()
+
+    def share_count(self):
+        return self.shares.count()
+
+    def saved_count(self):
+        return self.saved.count()
 
     # def __str__(self):
     #     return f"Post {self.pk} by {self.poster.username} on {self.date}"
@@ -142,8 +159,8 @@ class Post(models.Model):
 
 class Comment(models.Model):
     Object_Choices = [
-        ("Post", "Post"),
-        ("Event", "Event"),
+        ("post", "Post"),
+        ("event", "Event"),
     ]
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False, default=0, related_name="comments"
@@ -152,7 +169,7 @@ class Comment(models.Model):
     object_type = models.CharField(
         max_length=10, choices=Object_Choices, default="Post"
     )
-    date = models.DateTimeField(auto_now=True)
+    timestamp = models.DateTimeField(auto_now=True)
     object_id = models.PositiveIntegerField(default=0)
 
     class Meta:
@@ -179,7 +196,7 @@ class Comment(models.Model):
 class Share(models.Model):
     pid = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="shares")
     uid = models.ForeignKey(User, on_delete=models.CASCADE, related_name="shares")
-    date = models.DateTimeField(auto_now_add=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
         verbose_name = "Share"
@@ -208,9 +225,9 @@ class Event(models.Model):
     )
     venue = models.CharField(max_length=50, null=False, default="No Venue")
     time = models.TimeField(null=False, default="00:00")
-    
+    timestamp = models.DateTimeField(auto_now=True, null=False)
     # Internally this is treated as different table
-    likes = models.ManyToManyField(User, related_name="events_likes")
+    likes = models.ManyToManyField(User, related_name="liked_events", blank=True)
 
     class Meta:
         verbose_name = "Event"
@@ -263,7 +280,7 @@ class Answer(models.Model):
         max_length=500,
         help_text="Enter the content of your answer/reply (up to 500 characters).",
     )
-    date = models.DateField(auto_now=True)
+    timestamp = models.DateField(auto_now=True)
 
     class Meta:
         verbose_name = "Answer"
@@ -277,7 +294,7 @@ class Notification(models.Model):
         ("Forum", "Forum"),
     ]
     content = models.TextField(max_length=500, null=False, default="No Content")
-    date = models.DateTimeField(auto_now=True, null=False)
+    timestamp = models.DateTimeField(auto_now=True, null=False)
     object_type = models.CharField(
         max_length=10, choices=Object_Choices, null=False, default="Post"
     )

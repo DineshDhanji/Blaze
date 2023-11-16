@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     # My Apps
     "BlazeApp",
     "BlazeAdministration",
+    # My Help
+    "rest_framework",
 ]
 
 MIDDLEWARE = [

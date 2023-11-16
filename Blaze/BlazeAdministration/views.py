@@ -127,5 +127,10 @@ def list_instance(request, instanceModel):
     )
 
 
-def page_not_found_404(request, exception):
-    return render(request, "BlazeAdministration/page_not_found_404.html", status=404)
+def page_not_found_404(request, exception, message=None):
+    return render(
+        request,
+        "BlazeAdministration/page_not_found_404.html",
+        {"message": message},
+        status=404,
+    )

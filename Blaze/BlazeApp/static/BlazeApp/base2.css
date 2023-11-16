@@ -61,9 +61,30 @@
     overflow: hidden;
 }
 
+.post-d-pic {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+
+.post-d-pic img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
 .post-d-timestamp {
     font-size: 0.75rem;
 }
+
+.post-delete-d button::before {
+    content: none!important;
+}
+.post-delete-d .dropdown-item:active {
+    background-color: #393939;
+    color: white!important;
+}
+
 
 .post-footer {
     /* border: 1px solid red; */

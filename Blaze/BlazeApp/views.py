@@ -1,10 +1,12 @@
-from django.shortcuts import render, redirect
-from .forms import UserLoginForm
-from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
 import random
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.http import Http404
+from django.contrib.auth import authenticate, login, logout
+from .forms import UserLoginForm, PostForm
+from .models import Post
 
-# Create your views here.
+from BlazeAdministration.views import page_not_found_404
 
 
 # Account Related Views
@@ -90,9 +92,29 @@ def settings(request):
     return render(request, "BlazeApp/account/settings.html")
 
 
-# Others
+# Others Views
 def newsfeed(request):
-    return render(request, "BlazeApp/newsfeed.html")
+    newsfeed_posts = Post.objects.order_by("-timestamp").all()
+    post_form = PostForm()
+
+    if request.method == "POST":
+        post_form = PostForm(request.POST, request.FILES)
+        if post_form.is_valid():
+            # Upon valid data, we will save the post
+            new_post = post_form.save(
+                commit=False
+            )  # Create but don't save to the database yet
+            new_post.poster = (
+                request.user
+            )  # Assuming you have a User associated with the post
+            new_post.save()
+            post_form = PostForm()
+            return redirect("BlazeApp:profile")
+        else:
+            messages.error(request, "Invalid post submission.")
+
+    content = {"post_form": post_form, "newsfeed_posts": newsfeed_posts}
+    return render(request, "BlazeApp/newsfeed.html", content)
 
 
 def events(request):
@@ -105,3 +127,24 @@ def society(request):
 
 def profile(request):
     return render(request, "BlazeApp/profile.html")
+
+
+def delete_post(request):
+    if request.method == "POST":
+        post_id = request.POST["post_id"]
+        try:
+            # Try to get the post object, return 404 if not found
+            post = get_object_or_404(Post, pk=post_id)
+            print(post)
+            print(post.poster)
+            print(request.user)
+            if post.poster == request.user:
+                post.delete()
+            else:
+                return page_not_found_404(request, exception=404, message="Just how low you will go?")
+
+        except Http404:
+            # Post does not exist, return JsonResponse with appropriate message
+            return page_not_found_404(request, exception=404, message="You just lost my trust.")
+        return redirect("BlazeApp:newsfeed")
+    return page_not_found_404(request, exception=404, message="Mama not gonna be proud of you.")

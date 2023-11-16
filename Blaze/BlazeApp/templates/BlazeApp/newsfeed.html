@@ -29,12 +29,21 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form enctype="multipart/form-data" action="#" method="post">
-                  <textarea class="my-2 p-2 col-12" placeholder="Write something" id="post-content" name="post-content" rows="1" oninput="autoResize(this)"></textarea><br />
-                  <div id="image-preview" class="my-3"></div>
-                  <div class="post-image-input col-12 bg-body-tertiary border rounded">
-                    <input type="file" id="image-upload" name="image" accept="image/*" onchange="previewImage()" />
+                <form enctype="multipart/form-data" action="{% url 'BlazeApp:newsfeed' %}" method="post">
+                  {% csrf_token %}
 
+                  {{ post_form.content }}
+                  {% if post_form.content.errors %}
+                    <div class="alert alert-warning" style="font-size: 0.8rem;" role="alert">
+                      {% for error in post_form.content.errors %}
+                        {{ error }}
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                  <div id="image-preview" class="my-3"></div>
+
+                  <div class="post-image-input col-12 bg-body-tertiary border rounded">
+                    {{ post_form.picture }}
                     <div class="d-flex flex-column align-items-center text-secondary m-3 p-1">
                       <div class="fs-4 d-flex align-items-center justify-content-center" style="width: 2.7rem; height: 2.7rem; border: 1px solid black; border-radius: 50%;">
                         <i class="bi bi-file-plus"></i>
@@ -43,72 +52,104 @@
                       <div style="font-size: 0.8rem;">or drag and drop</div>
                     </div>
                   </div>
+                  {% if post_form.picture.errors %}
+                    <div class="alert alert-warning" style="font-size: 0.8rem;" role="alert">
+                      {% for error in post_form.picture.errors %}
+                        {{ error }}
+                      {% endfor %}
+                    </div>
+                  {% endif %}
 
                   <button type="submit" class="btn btn-dark col-12 mt-3">Post</button>
                 </form>
+
+                {% comment %} {{ post_form }} {% endcomment %}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="post-d mb-4 py-1 border border-dark-subtle rounded">
-        <div class="post-header d-flex align-items-center py-1 px-2">
-          <div class="post-d-profile-pic ms-2 me-3 my-1">
-            <img src="{{ user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
-          </div>
-          <div class="d-flex flex-column justify-content-center text-truncate">
-            <div class="text-secondary-emphasis">{{ user.first_name }} {{ user.last_name }}</div>
-            <div class="post-d-timestamp text-body-tertiary">11 Nov at 06:58 PM</div>
-          </div>
-        </div>
-        <div class="post-material p-3">
-          Hey this is the first post here (～￣▽￣)~<br /><br /><br />End of post boi
-        </div>
-        <div class="post-footer col-12">
-          <div class="d-flex justify-content-between border-bottom text-secondary px-3 py-1 user-select-none">
+      <!-- Rendering post on the newsfeed -->
+      {% for post in newsfeed_posts %}
+        <div class="post-d mb-4 pt-1 border border-dark-subtle rounded" data-pid="{{ post.pk }}">
+          <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
             <div class="d-flex">
-              <div class="ms-1 me-2">
-                <i class="bi bi-heart-fill"></i>
-                <span id="postLikedNum">12</span>
+              <div class="post-d-profile-pic ms-2 me-3 my-1">
+                <img src="{{ post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
               </div>
-              <div class="ms-1 me-2">
-                <i class="bi bi-chat-square-text-fill"></i>
-                <span id="postCommentsNum">2</span>
-              </div>
-              <div class="ms-1 me-2">
-                <i class="bi bi-share-fill"></i>
-                <span id="postSharedNum">3</span>
+              <div class="d-flex flex-column justify-content-center text-truncate">
+                <div class="text-secondary-emphasis">{{ post.poster.first_name }} {{ post.poster.last_name }}</div>
+                <div class="post-d-timestamp text-body-tertiary">{{ post.timestamp }}</div>
               </div>
             </div>
-            <div class="d-flex">
-              <div class="ms-1 me-2">
-                <i class="bi bi-bookmark-fill"></i>
-                <span id="postSavedNum">7</span>
+            {% if post.poster == request.user %}
+              <div class="btn-group dropstart post-delete-d">
+                <button type="button" class="btn text-night dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <form action="{% url 'BlazeApp:delete_post' %}" method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="post_id" value="{{ post.pk }}" />
+                      <button type="submit" class="dropdown-item text-danger">Delete this post</button>
+                    </form>
+                  </li>
+                </ul>
               </div>
-            </div>
+            {% endif %}
           </div>
-          <div class="post-interactions text-secondary">
-            <div class="post-interaction-item col p-1 user-select-none">
-              <i class="fs-5 m-1 bi bi-heart"></i>
-              <div class="d-none d-md-block ms-3 fs-6">Likes</div>
+          <div class="post-material p-3">
+            {{ post.content|linebreaks }}
+            {% if post.picture %}
+              <div class="post-d-pic mt-3 rounded">
+                <img src="{{ post.picture.url }}" alt="post-image" />
+              </div>
+            {% endif %}
+          </div>
+          <div class="post-footer col-12">
+            <div class="d-flex justify-content-between border-bottom text-secondary px-3 py-1 user-select-none">
+              <div class="d-flex">
+                <div class="ms-1 me-2">
+                  <i class="bi bi-heart-fill"></i>
+                  <span id="postLikedNum">{{ post.like_count }}</span>
+                </div>
+                <div class="ms-1 me-2">
+                  <i class="bi bi-chat-square-text-fill"></i>
+                  <span id="postCommentsNum">{{ post.comment_count }}</span>
+                </div>
+                <div class="ms-1 me-2">
+                  <i class="bi bi-share-fill"></i>
+                  <span id="postSharedNum">{{ post.share_count }}</span>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="ms-1 me-2">
+                  <i class="bi bi-bookmark-fill"></i>
+                  <span id="postSavedNum">{{ post.saved_count }}</span>
+                </div>
+              </div>
             </div>
-            <div class="post-interaction-item col p-1 user-select-none">
-              <i class="fs-5 m-1 bi bi-chat-square-text"></i>
-              <div class="d-none d-md-block ms-3 fs-6">Comments</div>
-            </div>
-            <div class="post-interaction-item col p-1 user-select-none">
-              <i class="fs-5 m-1 bi bi-share"></i>
-              <div class="d-none d-md-block ms-3 fs-6">Share</div>
-            </div>
-            <div class="post-interaction-item col p-1 user-select-none">
-              <i class="fs-5 m-1 bi bi-bookmark"></i>
-              <div class="d-none d-md-block ms-3 fs-6">Saved</div>
+            <div class="post-interactions text-secondary">
+              <div class="post-interaction-item post-like-btn col p-1 user-select-none">
+                <i class="fs-5 m-1 bi bi-heart"></i>
+                <div class="d-none d-md-block ms-3 fs-6">Likes</div>
+              </div>
+              <div class="post-interaction-item col p-1 user-select-none">
+                <i class="fs-5 m-1 bi bi-chat-square-text"></i>
+                <div class="d-none d-md-block ms-3 fs-6">Comments</div>
+              </div>
+              <div class="post-interaction-item col p-1 user-select-none">
+                <i class="fs-5 m-1 bi bi-share"></i>
+                <div class="d-none d-md-block ms-3 fs-6">Share</div>
+              </div>
+              <div class="post-interaction-item post-save-btn col p-1 user-select-none">
+                <i class="fs-5 m-1 bi bi-bookmark"></i>
+                <div class="d-none d-md-block ms-3 fs-6">Saved</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
+      {% endfor %}
     </div>
   </div>
   <div class="minisidebar-d border-start d-none col d-lg-block">

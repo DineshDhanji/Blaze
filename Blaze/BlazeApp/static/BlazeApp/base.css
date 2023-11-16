@@ -20,6 +20,10 @@ a {
     color: #393939;
 }
 
+.text-night
+{
+    color: #4f4f4f!important;
+}
 .navbar{
     top: 0;
     z-index: 100;

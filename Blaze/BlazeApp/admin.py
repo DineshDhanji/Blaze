@@ -41,7 +41,7 @@ class StudentAdmin(admin.ModelAdmin):
 
 
 class ShareAdmin(admin.ModelAdmin):
-    list_display = ["pk", "pid", "uid", "date"]
+    list_display = ["pk", "pid", "uid", "timestamp"]
 
 
 # Register your models here.
