@@ -139,6 +139,12 @@ class Post(models.Model):
         verbose_name = "Post"
         verbose_name_plural = "Posts"
 
+    def delete(self, *args, **kwargs):
+        # Delete the associated image file
+        if self.picture:
+            self.picture.delete()
+        super().delete(*args, **kwargs)
+        
     @property
     def like_count(self):
         return self.likes.count()
