@@ -9,11 +9,17 @@ document.addEventListener("DOMContentLoaded", () => {
             save_or_unsave(event.currentTarget);
         })
     });
+    document.querySelectorAll(".post-comment-btn").forEach((element) => {
+        element.addEventListener("click", (event) => {
+            show_post_comment_canva(event.currentTarget);
+        })
+    });
 
     // Update the content on the page
     update_likes();
     update_saves();
 })
+
 
 
 // Like Post Functionalities
@@ -50,7 +56,6 @@ function like_or_unlike(element) {
             // Handle the error here
             console.error('Fetch error:', error);
         });
-
 }
 
 function update_like_count(element, like_status) {
@@ -180,3 +185,56 @@ function update_saves() {
             });
     });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function show_post_comment_canva(element) {
+//     // Getting post id of the post
+//     let pid = element.parentNode.parentNode.parentNode.dataset.pid;
+//     console.log(element)
+//     console.log(pid)
+
+// }
+
+// function comment_by_canva() {
+//     var commentText = document.querySelector('#canva_comment').value;
+
+//     // Check if the comment is not empty
+//     if (commentText.trim() !== '') {
+//         user_profile_picture = 'A';
+//         // Create a new comment div
+//         var newCommentDiv = document.createElement('div');
+//         newCommentDiv.classList.add("post-all-comments-item", "my-2");
+//         newCommentDiv.innerHTML = `
+//                                 <div class="post-d-profile-pic ms-2 me-3 my-1">
+//                                     <img src="${user_profile_picture}" alt="poster profile picture" style="width: inherit;" />
+//                                 </div>
+//                                 <div class="post-comment-d col p-2 border rounded">
+//                                     <div class="fw-semibold text-truncate">{{ user.first_name }}{{ user.last_name }}</div>
+//                                     <div class="fw-normal mb-2" style="font-size: 0.7rem;">15 Nov 2023, 01:25</div>
+//                                     <div>HHDLHFJKHFKHKH</div>
+//                                 </div>
+//         `;
+
+
+//         // Append the new comment div to the corresponding post's comments
+//         commentContainer.appendChild(newCommentDiv);
+//         // Clear the input field
+//         commentForm.querySelector('#post-comment').value = '';
+//     }
+
+
+//     console.log(commentText)
+//     return false;
+// }

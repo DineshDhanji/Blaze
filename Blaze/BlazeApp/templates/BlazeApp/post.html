@@ -1,0 +1,120 @@
+{% extends 'BlazeApp/base.html' %}
+{% load static %}
+
+{% block title %}
+  Blaze
+{% endblock %}
+
+{% block ExtraHeaders %}
+  <link href="{% static 'BlazeApp/base2.css' %}" rel="stylesheet" />
+  <link href="{% static 'BlazeApp/post.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+  <div class="content-d border border-top-0 border-bottom-0 border-end-0 col">
+    <div class="post-view-d border rounded my-3 col-10 mx-auto">
+      <div class="col-12" style="height: max-content;" data-pid="{{ post.pk }}">
+        <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
+          <div class="d-flex">
+            <div class="post-d-profile-pic ms-2 me-3 my-1">
+              <img src="{{ post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+            </div>
+            <div class="d-flex flex-column justify-content-center text-truncate">
+              <div class="text-secondary-emphasis">{{ post.poster.first_name }} {{ post.poster.last_name }}</div>
+              <div class="post-d-timestamp text-body-tertiary">{{ post.timestamp }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="post-material p-3">
+          {{ post.content|linebreaks }}
+          {% if post.picture %}
+            <div class="post-d-pic mt-3 rounded">
+              <img src="{{ post.picture.url }}" alt="post-image" />
+            </div>
+          {% endif %}
+        </div>
+        <div class="post-footer col-12">
+          <div class="d-flex justify-content-between border-bottom text-secondary px-3 py-1 user-select-none">
+            <div class="d-flex">
+              <div class="ms-1 me-2">
+                <i class="bi bi-heart-fill"></i>
+                <span id="postLikedNum">{{ post.like_count }}</span>
+              </div>
+              <div class="ms-1 me-2">
+                <i class="bi bi-chat-square-text-fill"></i>
+                <span id="postCommentsNum">{{ post.comment_count }}</span>
+              </div>
+              <div class="ms-1 me-2">
+                <i class="bi bi-share-fill"></i>
+                <span id="postSharedNum">{{ post.share_count }}</span>
+              </div>
+            </div>
+            <div class="d-flex">
+              <div class="ms-1 me-2">
+                <i class="bi bi-bookmark-fill"></i>
+                <span id="postSavedNum">{{ post.saved_count }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="post-interactions text-secondary">
+            <div class="post-interaction-item post-like-btn col p-1 user-select-none">
+              <i class="fs-5 m-1 bi bi-heart"></i>
+              <div class="d-none d-md-block ms-3 fs-6">Likes</div>
+            </div>
+            <a href="#comment">
+              <div class="post-interaction-item col p-1 user-select-none">
+                <i class="fs-5 m-1 bi bi-chat-square-text"></i>
+                <div class="d-none d-md-block ms-3 fs-6">Comments</div>
+              </div>
+            </a>
+            <div class="post-interaction-item col p-1 user-select-none">
+              <i class="fs-5 m-1 bi bi-share"></i>
+              <div class="d-none d-md-block ms-3 fs-6">Share</div>
+            </div>
+            <div class="post-interaction-item post-save-btn col p-1 user-select-none">
+              <i class="fs-5 m-1 bi bi-bookmark"></i>
+              <div class="d-none d-md-block ms-3 fs-6">Saved</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 p-3 border-start">
+        <div class="h4 fw-normal">Write Comment</div>
+        <div class="post-view-user-section col-12 p-1">
+          <form action="{% url 'BlazeApp:view_post' post.pk %}" method="post" class="d-flex flex-column align-items-start justify-content-center">
+            {% csrf_token %}
+            <input type="hidden" name="post_id" value="{{ post.pk }}" />
+            {{ comment_form.content }}
+            <button type="submit" class="btn btn-dark my-2">Comment 💬</button>
+            {% if comment_form.errors %}
+              <div class="alert alert-warning col-12" role="alert">{{ comment_form.errors }}</div>
+            {% endif %}
+          </form>
+        </div>
+        <div class="h4 fw-normal mt-3">Other Comment(s)</div>
+        <div class="post-all-comments">
+          {% if comments %}
+            {% for comment in comments %}
+              <div class="post-all-comments-item my-2">
+                <div class="post-d-profile-pic col-1 ms-2 me-3 my-1">
+                  <img src="{{ comment.user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                </div>
+                <div class="post-comment-d p-2 border rounded">
+                  <div class="fw-semibold text-truncate">{{ comment.user.first_name }}{{ comment.user.last_name }}</div>
+                  <div class="fw-normal mb-2" style="font-size: 0.7rem;">{{ comment.timestamp }}</div>
+                  <div>{{ comment.content }}</div>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function autoResize(textarea) {
+      textarea.style.height = 'auto' // Reset the height to auto to calculate the new height
+      textarea.style.height = textarea.scrollHeight + 'px' // Set the height to the calculated scroll height
+    }
+  </script>
+{% endblock %}

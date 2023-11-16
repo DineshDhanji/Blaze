@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
-from .forms import UserLoginForm, PostForm
-from .models import Post
+from .forms import UserLoginForm, PostForm, CommentForm
+from .models import Post, Comment
 
 from BlazeAdministration.views import page_not_found_404
 
@@ -129,22 +129,64 @@ def profile(request):
     return render(request, "BlazeApp/profile.html")
 
 
+def view_post(request, post_id):
+    comment_form = CommentForm()
+
+    try:
+        # Try to get the post object, return 404 if not found
+        post = get_object_or_404(Post, pk=post_id)
+    except Http404:
+        # Post does not exist, return JsonResponse with appropriate message
+        return page_not_found_404(
+            request, exception=404, message="You just lost my trust."
+        )
+
+    if request.method == "POST":
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            # Upon valid data, we will save the comment
+            new_comment = comment_form.save(
+                commit=False
+            )  # Create but don't save to the database yet
+            new_comment.object_type = "post"
+            new_comment.object_id = post_id
+            new_comment.user = (
+                request.user
+            )  # Assuming you have a User associated with the post
+            new_comment.save()
+            comment_form = CommentForm()
+        else:
+            messages.error(request, "Invalid comment submission.")
+
+    content = {
+        "post": post,
+        "comments": Comment.objects.filter(
+            object_id=post_id, object_type="post"
+        ).order_by("-timestamp"),
+        "comment_form": comment_form,
+    }
+    return render(request, "BlazeApp/post.html", content)
+
+
 def delete_post(request):
     if request.method == "POST":
         post_id = request.POST["post_id"]
         try:
             # Try to get the post object, return 404 if not found
             post = get_object_or_404(Post, pk=post_id)
-            print(post)
-            print(post.poster)
-            print(request.user)
             if post.poster == request.user:
                 post.delete()
             else:
-                return page_not_found_404(request, exception=404, message="Just how low you will go?")
+                return page_not_found_404(
+                    request, exception=404, message="Just how low you will go?"
+                )
 
         except Http404:
             # Post does not exist, return JsonResponse with appropriate message
-            return page_not_found_404(request, exception=404, message="You just lost my trust.")
+            return page_not_found_404(
+                request, exception=404, message="You just lost my trust."
+            )
         return redirect("BlazeApp:newsfeed")
-    return page_not_found_404(request, exception=404, message="Mama not gonna be proud of you.")
+    return page_not_found_404(
+        request, exception=404, message="Mama not gonna be proud of you."
+    )

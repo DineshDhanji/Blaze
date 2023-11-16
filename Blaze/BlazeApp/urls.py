@@ -19,6 +19,11 @@ urlpatterns = [
     path("settings/", login_required(views.settings), name="settings"),
     
     path(
+        "view_post/xy9i3ao40yr6zp<int:post_id>ssd&2um[a/",
+        login_required(views.view_post),
+        name="view_post",
+    ),
+    path(
         "delete_post/",
         login_required(views.delete_post),
         name="delete_post",

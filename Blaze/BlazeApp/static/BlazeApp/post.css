@@ -1,0 +1,32 @@
+.post-view-d {
+    height: max-content;
+}
+.post-view-user-section {
+    height: max-content;
+}
+#comment {
+    overflow: hidden;
+    min-height: 4rem;
+    outline: none;
+    resize: none;
+    transition: 0.18s ease-in;
+}
+#comment:active {
+    border: 1px solid #393939!important;
+}
+#comment:focus {
+    border: 1px solid #393939!important;
+}
+.post-all-comments {
+    height: max-content;
+}
+
+.post-all-comments-item {
+    height: max-content;
+    display: flex;
+}
+
+.post-comment-d {
+    height: max-content;
+    background-color: #F8F9FA;
+}

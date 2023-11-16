@@ -78,11 +78,12 @@
 }
 
 .post-delete-d button::before {
-    content: none!important;
+    content: none !important;
 }
+
 .post-delete-d .dropdown-item:active {
     background-color: #393939;
-    color: white!important;
+    color: white !important;
 }
 
 

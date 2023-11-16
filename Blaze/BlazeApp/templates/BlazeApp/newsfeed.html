@@ -134,10 +134,15 @@
                 <i class="fs-5 m-1 bi bi-heart"></i>
                 <div class="d-none d-md-block ms-3 fs-6">Likes</div>
               </div>
-              <div class="post-interaction-item col p-1 user-select-none">
-                <i class="fs-5 m-1 bi bi-chat-square-text"></i>
-                <div class="d-none d-md-block ms-3 fs-6">Comments</div>
-              </div>
+              {% comment %} <div data-bs-toggle="modal" data-bs-target="#post_comment_canva" class="post-interaction-item post-comment-btn col p-1 user-select-none"> {% endcomment %}
+              {% comment %} <div data-bs-toggle="modal" data-bs-target="#post_comment_canva" class="post-interaction-item post-comment-btn col p-1 user-select-none"> {% endcomment %}
+                
+                <a href="{% url 'BlazeApp:view_post' post.pk %}">
+                  <div class="post-interaction-item col p-1 user-select-none">
+                    <i class="fs-5 m-1 bi bi-chat-square-text"></i>
+                    <div class="d-none d-md-block ms-3 fs-6">Comments</div>
+                  </div>
+                </a>
               <div class="post-interaction-item col p-1 user-select-none">
                 <i class="fs-5 m-1 bi bi-share"></i>
                 <div class="d-none d-md-block ms-3 fs-6">Share</div>
@@ -211,3 +216,32 @@
   <input type="hidden" class="post-id" value="1" /> <!-- Add your actual post ID here -->
   <input id="post-comment" class="col-12 px-3 border py-2" placeholder="Write your comment" required />
 </form> {% endcomment %}
+
+<!-- 
+  {% comment %} Comment Canva  {% endcomment %}
+ <div class="modal fade" id="post_comment_canva" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-lg-down modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+
+        {% comment %} <div class="d-flex justify-content-center">
+          <div class="spinner-border mx-auto my-3" style="width: 7rem; height: 7rem;" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div> {% endcomment %}
+
+      </div>
+      {% comment %} <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> {% endcomment %}
+    </div>
+  </div>
+</div>
+  
+ -->

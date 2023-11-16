@@ -9,3 +9,7 @@ class LikeStatusSerializer(serializers.Serializer):
 class SavedStatusSerializer(serializers.Serializer):
     saved_status = serializers.BooleanField()
     error = serializers.CharField(allow_blank=True, required=False)
+
+
+class CommentSerializer(serializers.Serializer):
+    pass
