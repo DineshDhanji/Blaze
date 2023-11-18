@@ -102,12 +102,37 @@
                   <img src="{{ comment.user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
                 </div>
                 <div class="post-comment-d p-2 border rounded">
-                  <div class="fw-semibold text-truncate">{{ comment.user.first_name }}{{ comment.user.last_name }}</div>
-                  <div class="fw-normal mb-2" style="font-size: 0.7rem;">{{ comment.timestamp }}</div>
-                  <div>{{ comment.content }}</div>
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <div class="fw-semibold text-truncate">{{ comment.user.first_name }}{{ comment.user.last_name }}</div>
+                      <div class="fw-normal mb-2" style="font-size: 0.7rem;">{{ comment.timestamp }}</div>
+                    </div>
+                    {% if comment.user == request.user %}
+                      <div class="btn-group dropstart post-delete-d">
+                        <button type="button" class="btn text-night dropdown-toggle" style="height: 2rem; width: 2rem; padding: 0rem;" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
+                        <ul class="dropdown-menu">
+                          <li class="fs-6">
+                            <form action="{% url 'BlazeApp:delete_comment' %}" method="post">
+                              {% csrf_token %}
+                              <input type="hidden" name="comment_id" value="{{ comment.pk }}" />
+                              <button type="submit" class="dropdown-item text-danger">Delete this comment</button>
+                            </form>
+                          </li>
+                        </ul>
+                      </div>
+                    {% endif %}
+                  </div>
+                  <div>{{ comment.content|linebreaks }}</div>
                 </div>
               </div>
             {% endfor %}
+          {% else %}
+            <div class="border rounded bg-body-tertiary text-secondary" style="height: max-content;">
+              <div class="text-center my-2 p-3">
+                <i class="fs-3 bi bi-chat-quote"></i>
+                <div>Be the first one to comment 😊</div>
+              </div>
+            </div>
           {% endif %}
         </div>
       </div>

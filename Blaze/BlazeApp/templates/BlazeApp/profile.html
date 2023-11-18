@@ -12,5 +12,16 @@
 {% block content %}
   <div class="content-d border border-top-0 border-bottom-0 border-end-0 col">
     <div class="lead d-flex justify-content-center align-items-center" style="height: 60%;">This is Profile page (❁´◡`❁)</div>
+    <button class="btn btn-dark"onclick="playAudio()">Play Sound</button>
   </div>
+  <script>
+    // Function to play the audio
+    function playAudio() {
+      // Create an Audio object
+      var audio = new Audio('path/to/your/sound.mp3');
+  
+      // Play the audio
+      audio.play();
+    }
+  </script>
 {% endblock %}

@@ -109,7 +109,8 @@ def newsfeed(request):
             )  # Assuming you have a User associated with the post
             new_post.save()
             post_form = PostForm()
-            return redirect("BlazeApp:profile")
+            return redirect("BlazeApp:redirecting_page")
+            # return redirect("BlazeApp:profile")
         else:
             messages.error(request, "Invalid post submission.")
 
@@ -154,7 +155,8 @@ def view_post(request, post_id):
                 request.user
             )  # Assuming you have a User associated with the post
             new_comment.save()
-            comment_form = CommentForm()
+            # Redirect user to redirecting page to clear cache
+            return redirect("BlazeApp:redirecting_page")
         else:
             messages.error(request, "Invalid comment submission.")
 
@@ -226,3 +228,40 @@ def share_post(request, post_id):
         "post": post,
     }
     return render(request, "BlazeApp/share_post.html", content)
+
+
+def delete_comment(request):
+    if request.method == "POST":
+        comment_id = request.POST["comment_id"]
+        try:
+            # Try to get the post object, return 404 if not found
+            comment_instance = get_object_or_404(Comment, pk=comment_id)
+            if comment_instance.user == request.user:
+                comment_instance.delete()
+            else:
+                return page_not_found_404(
+                    request, exception=404, message="Go home and take a rest."
+                )
+
+        except Http404:
+            # Post does not exist, return JsonResponse with appropriate message
+            return page_not_found_404(
+                request,
+                exception=404,
+                message="Earth will be amazing without invansions.",
+            )
+        # Redirect the user to the previous view
+        previous_view = request.META.get("HTTP_REFERER")
+        return redirect(previous_view)
+
+    return page_not_found_404(request, exception=404, message="Get a life already man.")
+
+
+def redirecting_page(request):
+    # Redirect user to redirecting page to clear cache
+    previous_view = request.META.get("HTTP_REFERER")
+
+    if previous_view:
+        return redirect(previous_view)
+    else:
+        return redirect("BlazeApp:newsfeed")

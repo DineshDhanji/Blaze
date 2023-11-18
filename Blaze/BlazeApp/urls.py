@@ -33,6 +33,11 @@ urlpatterns = [
         login_required(views.delete_post),
         name="delete_post",
     ),
+    path(
+        "delete_comment/",
+        login_required(views.delete_comment),
+        name="delete_comment",
+    ),
     # API Routes
     
     # API related to LIKE
@@ -57,6 +62,14 @@ urlpatterns = [
         login_required(api_views.check_save_or_unsave),
         name="check_save_or_unsave",
     ),
+    
+    # Redirecting page
+    path(
+        "redirecting_page/",
+        login_required(views.redirecting_page),
+        name="redirecting_page",
+    ),
+    
 ]
 
 handler404 = "BlazeAdministration.views.page_not_found_404"
