@@ -152,8 +152,10 @@ class Post(models.Model):
             self.picture.delete()
         # Delete related Share entries
         if self.original_post:
-            Share.objects.filter(pid=self.original_post, uid=self.poster).first().delete()
-        
+            Share.objects.filter(
+                pid=self.original_post, uid=self.poster
+            ).first().delete()
+
         Share.objects.filter(pid=self).delete()
         super().delete(*args, **kwargs)
 
@@ -348,6 +350,14 @@ class Notification(models.Model):
 
 
 class Reply(models.Model):
+    aid = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name="replies")
+    uid = models.ForeignKey(User, on_delete=models.CASCADE, related_name="replies")
+    content = models.CharField(
+        max_length=500,
+        help_text="Enter the content of your answer/reply (up to 500 characters).",
+    )
+    timestamp = models.DateField(auto_now=True)
+
     class Meta:
         verbose_name = "Reply"
         verbose_name_plural = "Replies"

@@ -55,8 +55,5 @@ admin.site.register(Share, ShareAdmin)
 admin.site.register(Event)
 admin.site.register(Question)
 admin.site.register(Answer)
-admin.site.register(Notification)
 admin.site.register(Reply)
-
-
-# admin.site.register(Share)
+admin.site.register(Notification)
