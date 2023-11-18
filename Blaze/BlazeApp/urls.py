@@ -24,6 +24,11 @@ urlpatterns = [
         name="view_post",
     ),
     path(
+        "share_post/spv023di#r05rov2<int:post_id>sh9=shu/",
+        login_required(views.share_post),
+        name="share_post",
+    ),
+    path(
         "delete_post/",
         login_required(views.delete_post),
         name="delete_post",

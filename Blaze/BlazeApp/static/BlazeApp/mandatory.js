@@ -14,6 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
             show_post_comment_canva(event.currentTarget);
         })
     });
+    // document.querySelectorAll(".post-share-btn").forEach((element) => {
+    //     element.addEventListener("click", (event) => {
+    //         show_post_comment_canva(event.currentTarget);
+    //     })
+    // });
 
     // Update the content on the page
     update_likes();

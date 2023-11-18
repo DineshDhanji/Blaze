@@ -61,16 +61,18 @@
               <i class="fs-5 m-1 bi bi-heart"></i>
               <div class="d-none d-md-block ms-3 fs-6">Likes</div>
             </div>
-            <a href="#comment">
+            <a href="#comment" class="col">
               <div class="post-interaction-item col p-1 user-select-none">
                 <i class="fs-5 m-1 bi bi-chat-square-text"></i>
                 <div class="d-none d-md-block ms-3 fs-6">Comments</div>
               </div>
             </a>
-            <div class="post-interaction-item col p-1 user-select-none">
-              <i class="fs-5 m-1 bi bi-share"></i>
-              <div class="d-none d-md-block ms-3 fs-6">Share</div>
-            </div>
+            <a href="{% url 'BlazeApp:share_post' post.pk %}" class="col">
+              <div class="post-interaction-item post-share-btn col p-1 user-select-none">
+                <i class="fs-5 m-1 bi bi-share"></i>
+                <div class="d-none d-md-block ms-3 fs-6">Share</div>
+              </div>
+            </a>
             <div class="post-interaction-item post-save-btn col p-1 user-select-none">
               <i class="fs-5 m-1 bi bi-bookmark"></i>
               <div class="d-none d-md-block ms-3 fs-6">Saved</div>
@@ -95,7 +97,7 @@
         <div class="post-all-comments">
           {% if comments %}
             {% for comment in comments %}
-              <div class="post-all-comments-item my-2">
+              <div class="post-all-comments-item my-3">
                 <div class="post-d-profile-pic col-1 ms-2 me-3 my-1">
                   <img src="{{ comment.user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
                 </div>

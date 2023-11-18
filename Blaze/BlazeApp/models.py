@@ -131,6 +131,13 @@ class Post(models.Model):
         on_delete=models.CASCADE,
         related_name="posts",
     )
+    original_post = models.ForeignKey(
+        "self",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="shared_posts",
+    )
     # Internally this is treated as different table
     likes = models.ManyToManyField(User, related_name="liked_post", blank=True)
     saved = models.ManyToManyField(User, related_name="saved_post", blank=True)
@@ -143,8 +150,13 @@ class Post(models.Model):
         # Delete the associated image file
         if self.picture:
             self.picture.delete()
-        super().delete(*args, **kwargs)
+        # Delete related Share entries
+        if self.original_post:
+            Share.objects.filter(pid=self.original_post, uid=self.poster).first().delete()
         
+        Share.objects.filter(pid=self).delete()
+        super().delete(*args, **kwargs)
+
     @property
     def like_count(self):
         return self.likes.count()

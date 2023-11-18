@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
-from .forms import UserLoginForm, PostForm, CommentForm
-from .models import Post, Comment
+from .forms import UserLoginForm, PostForm, CommentForm, ShareForm
+from .models import Post, Comment, Share
 
 from BlazeAdministration.views import page_not_found_404
 
@@ -190,3 +190,39 @@ def delete_post(request):
     return page_not_found_404(
         request, exception=404, message="Mama not gonna be proud of you."
     )
+
+
+def share_post(request, post_id):
+    try:
+        # Try to get the post object, return 404 if not found
+        post = get_object_or_404(Post, pk=post_id)
+
+    except Http404:
+        # Post does not exist, return JsonResponse with appropriate message
+        return page_not_found_404(
+            request, exception=404, message="Why are you the way your are?"
+        )
+
+    share_post_form = ShareForm(shared_post_id=post_id)
+    post = Post.objects.get(pk=post_id)
+    if request.method == "POST":
+        share_post_form = ShareForm(request.POST, shared_post_id=post_id)
+        if share_post_form.is_valid():
+            # Creating new instance of share
+            share_instance = Share.objects.create(pid=post, uid=request.user)
+
+            # Creating new instance of post
+            new_post_instance = Post.objects.create(
+                picture=share_post_form.cleaned_data["picture"],
+                content=share_post_form.cleaned_data["content"],
+                poster=request.user,
+                original_post=post,
+            )
+
+            return redirect("BlazeApp:profile")
+
+    content = {
+        "share_post_form": share_post_form,
+        "post": post,
+    }
+    return render(request, "BlazeApp/share_post.html", content)
