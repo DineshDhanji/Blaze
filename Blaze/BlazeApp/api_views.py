@@ -5,8 +5,12 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 
-from .models import Post
-from .serializers import LikeStatusSerializer, SavedStatusSerializer
+from .models import Post, User
+from .serializers import (
+    LikeStatusSerializer,
+    SavedStatusSerializer,
+    FollowStatusSerializer,
+)
 
 
 # LIKE
@@ -89,6 +93,7 @@ def save_or_unsave(request, post_id):
     # Return the serialized data as JSON response
     return Response(serializer.data)
 
+
 @api_view(["GET"])
 def check_save_or_unsave(request, post_id):
     try:
@@ -104,6 +109,68 @@ def check_save_or_unsave(request, post_id):
     # Serialize the response data
     serializer = SavedStatusSerializer(
         {"saved_status": request.user.saved_post.filter(pk=post_id).exists()}
+    )
+
+    # Return the serialized data as JSON response
+    return Response(serializer.data)
+
+
+# FOLLOW
+@api_view(["GET"])
+def check_follow_or_unfollow(request, user_id):
+    try:
+        # Try to get the user object, return 404 if not found
+        user = get_object_or_404(User, pk=user_id)
+    except Http404:
+        # User does not exist, return JsonResponse with appropriate message
+        return Response(
+            {"follow_status": False, "error": "No such user exists in the database."},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+    if user == request.user:
+        return Response(
+            {"follow_status": False, "error": "user entity can not follow itself."}
+        )
+    # Serialize the response data
+    serializer = FollowStatusSerializer(
+        {"follow_status": request.user.follow.filter(pk=user_id).exists()}
+    )
+
+    # Return the serialized data as JSON response
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def follow_or_unfollow(request, user_id):
+    try:
+        # Try to get the user object, return 404 if not found
+        user = get_object_or_404(User, pk=user_id)
+    except Http404:
+        # User does not exist, return JsonResponse with appropriate message
+        return Response(
+            {"follow_status": False, "error": "No such user exists in the database."},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    if user == request.user:
+        return Response(
+            {"follow_status": False, "error": "user entity can not follow itself."},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    # Check if the requested user is already following the user
+    if request.user.follow.filter(pk=user.pk).exists():
+        # User follows the requested user, remove the follow
+        request.user.follow.remove(user)
+        saved_status = False
+    else:
+        # User does not follow the requested user, add the follow
+        request.user.follow.add(user)
+        saved_status = True
+
+    # Serialize the response data
+    serializer = FollowStatusSerializer(
+        {"follow_status": request.user.follow.filter(pk=user_id).exists()}
     )
 
     # Return the serialized data as JSON response

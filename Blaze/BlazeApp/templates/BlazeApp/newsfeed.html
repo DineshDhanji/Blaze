@@ -75,18 +75,23 @@
         <div class="post-d mb-4 pt-1 border border-dark-subtle rounded" data-pid="{{ post.pk }}">
           <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
             <div class="d-flex">
-              <div class="post-d-profile-pic ms-2 me-3 my-1">
-                <img src="{{ post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
-              </div>
+              <a href="{% url 'BlazeApp:profile' post.poster.pk %}">
+                <div class="post-d-profile-pic ms-2 me-3 my-1">
+                  <img src="{{ post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                </div>
+              </a>
               <div class="d-flex flex-column justify-content-center text-truncate">
-                <div class="text-secondary-emphasis">{{ post.poster.first_name }} {{ post.poster.last_name }}</div>
+                <a href="{% url 'BlazeApp:profile' post.poster.pk %}"><div class="text-secondary-emphasis">{{ post.poster.first_name }} {{ post.poster.last_name }}</div></a>
                 <div class="post-d-timestamp text-body-tertiary">{{ post.timestamp }}</div>
               </div>
             </div>
-            {% if post.poster == request.user %}
-              <div class="btn-group dropstart post-delete-d">
-                <button type="button" class="btn text-night dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
-                <ul class="dropdown-menu">
+            <div class="btn-group dropstart post-delete-d">
+              <button type="button" class="btn text-night dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="{% url 'BlazeApp:view_post' post.pk %}" class="dropdown-item">View this post</a>
+                </li>
+                {% if post.poster == request.user %}
                   <li>
                     <form action="{% url 'BlazeApp:delete_post' %}" method="post">
                       {% csrf_token %}
@@ -94,9 +99,9 @@
                       <button type="submit" class="dropdown-item text-danger">Delete this post</button>
                     </form>
                   </li>
-                </ul>
-              </div>
-            {% endif %}
+                {% endif %}
+              </ul>
+            </div>
           </div>
           <div class="post-material p-3">
             {{ post.content|linebreaks }}
@@ -109,11 +114,13 @@
               <div class="post-d mb-2 pt-1 border rounded">
                 <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
                   <div class="d-flex">
-                    <div class="post-d-profile-pic ms-2 me-3 my-1">
-                      <img src="{{ post.original_post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
-                    </div>
+                    <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}">
+                      <div class="post-d-profile-pic ms-2 me-3 my-1">
+                        <img src="{{ post.original_post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                      </div>
+                    </a>
                     <div class="d-flex flex-column justify-content-center text-truncate">
-                      <div class="text-secondary-emphasis">{{ post.original_post.poster.first_name }} {{ post.original_post.poster.last_name }}</div>
+                      <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}"><div class="text-secondary-emphasis">{{ post.original_post.poster.first_name }} {{ post.original_post.poster.last_name }}</div></a>
                       <div class="post-d-timestamp text-body-tertiary">{{ post.original_post.timestamp }}</div>
                     </div>
                   </div>
@@ -239,7 +246,7 @@
   <input id="post-comment" class="col-12 px-3 border py-2" placeholder="Write your comment" required />
 </form> {% endcomment %}
 
-<!--                            
+<!--                                              
   {% comment %} Comment Canva  {% endcomment %}
  <div class="modal fade" id="post_comment_canva" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-lg-down modal-xl">
@@ -266,4 +273,4 @@
   </div>
 </div>
   
-                            -->
+                                              -->

@@ -1,0 +1,42 @@
+.profile-header-d {
+    height: max-content;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.profile-picture-ring {
+    height: 11rem;
+    border: 2px solid #8100E6;
+    width: 11rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-picture {
+    height: 10rem;
+    width: 10rem;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profile-posts-d {
+    height: max-content;
+}
+
+@media (min-width: 950px) {
+    .ppd {
+        width: 48%;
+        float: left;
+    }
+}
+
+@media (min-width: 1200px) {
+    .ppd {
+        width: 31%;
+        float: left;
+    }
+}

@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
 from .forms import UserLoginForm, PostForm, CommentForm, ShareForm
-from .models import Post, Comment, Share
+from .models import Post, Comment, Share, User, Student, Faculty, Society
 
 from BlazeAdministration.views import page_not_found_404
 
@@ -126,8 +126,30 @@ def society(request):
     return render(request, "BlazeApp/society.html")
 
 
-def profile(request):
-    return render(request, "BlazeApp/profile.html")
+def profile(request, uid):
+    try:
+        # Try to get the post object, return 404 if not found
+        user_instance = get_object_or_404(User, pk=uid)
+    except Http404:
+        # User does not exist, return JsonResponse with appropriate message
+        return page_not_found_404(
+            request, exception=404, message="Got wrong address bro."
+        )
+    user_type = user_instance.get_user_type
+    if user_type == "student":
+        user_instance = Student.objects.get(user=user_instance)
+    elif user_type == "faculty":
+        user_instance = Faculty.objects.get(user=user_instance)
+    elif user_type == "society":
+        user_instance = Society.objects.get(user=user_instance)
+
+    content = {
+        "instance": user_instance,
+        "instance_posts": Post.objects.filter(poster=user_instance.user).order_by(
+            "-timestamp"
+        ),
+    }
+    return render(request, "BlazeApp/profile.html", content)
 
 
 def view_post(request, post_id):

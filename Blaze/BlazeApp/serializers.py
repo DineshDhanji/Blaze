@@ -11,5 +11,10 @@ class SavedStatusSerializer(serializers.Serializer):
     error = serializers.CharField(allow_blank=True, required=False)
 
 
+class FollowStatusSerializer(serializers.Serializer):
+    follow_status = serializers.BooleanField()
+    error = serializers.CharField(allow_blank=True, required=False)
+
+
 class CommentSerializer(serializers.Serializer):
     pass

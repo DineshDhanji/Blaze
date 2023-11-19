@@ -58,15 +58,15 @@
               <button class="nav-profile d-flex align-items-center justify-content-around" data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="nav-profile-pic-cover d-flex justify-content-center align-items-center mx-2" style="width: 2.4rem; height: 2.4rem;">
                   <div class="nav-profile-pic">
-                    <img src="{{ user.profile_picture.url }}" alt="profile-picture" />
+                    <img src="{{ request.user.profile_picture.url }}" alt="profile-picture" />
                   </div>
                 </div>
 
-                <div class="nav-profile-name text-start text-truncate fw-medium mx-1 d-lg-block d-none">{{ user.first_name }} {{ user.last_name }}</div>
+                <div class="nav-profile-name text-start text-truncate fw-medium mx-1 d-lg-block d-none">{{ request.user.first_name }} {{ request.user.last_name }}</div>
               </button>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="dropdown-item d-flex" href="{% url 'BlazeApp:profile' %}">
+                  <a class="dropdown-item d-flex" href="{% url 'BlazeApp:profile' request.user.pk %}">
                     <div class="me-3">
                       <i class="bi bi-person" style="font-size: 1.2rem;"></i>
                     </div>Profile
@@ -144,7 +144,7 @@
                   </div>
                 </li>
                 <li class="nav-item offcanvas-li">
-                  <a class="nav-link d-flex align-items-center" aria-current="page" href="{% url 'BlazeApp:profile' %}">
+                  <a class="nav-link d-flex align-items-center" aria-current="page" href="{% url 'BlazeApp:profile' request.user.pk %}">
                     <div class="me-3 fs-5">
                       <i class="bi bi-person"></i>
                     </div>Profile
@@ -222,7 +222,7 @@
           <div class="side-panel-item d-flex align-items-center fw-normal rounded mx-1 mt-2" data-bs-toggle="modal" data-bs-target="#searchBar">
             <i class="ms-3 me-3 bi bi-search"></i>Search
           </div>
-          <a href="{% url 'BlazeApp:profile' %}">
+          <a href="{% url 'BlazeApp:profile' request.user.pk %}">
             <div class="side-panel-item d-flex align-items-center fw-normal rounded mx-1 mt-2">
               <i class="ms-3 me-3 bi bi-person"></i>Profile
             </div>

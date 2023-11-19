@@ -15,7 +15,7 @@ urlpatterns = [
     path("", login_required(views.newsfeed), name="newsfeed"),
     path("events/", login_required(views.events), name="events"),
     path("society/", login_required(views.society), name="society"),
-    path("profile/", login_required(views.profile), name="profile"),
+    path("profile/129s36dp#v=k35<int:uid>313d60#c3a9pvmq5c3vjg", login_required(views.profile), name="profile"),
     path("settings/", login_required(views.settings), name="settings"),
     
     path(
@@ -40,7 +40,7 @@ urlpatterns = [
     ),
     # API Routes
     
-    # API related to LIKE
+    # API related to like
     path(
         "like_or_unlike/<int:post_id>/",
         login_required(api_views.like_or_unlike),
@@ -51,7 +51,7 @@ urlpatterns = [
         login_required(api_views.check_like_or_unlike),
         name="check_like_or_unlike",
     ),
-    # API related to SAVED
+    # API related to save
     path(
         "save_or_unsave/<int:post_id>/",
         login_required(api_views.save_or_unsave),
@@ -62,6 +62,18 @@ urlpatterns = [
         login_required(api_views.check_save_or_unsave),
         name="check_save_or_unsave",
     ),
+    # API related to follow
+    path(
+        "follow_or_unfollow/<int:user_id>/",
+        login_required(api_views.follow_or_unfollow),
+        name="follow_or_unfollow",
+    ),
+    path(
+        "check_follow_or_unfollow/<int:user_id>/",
+        login_required(api_views.check_follow_or_unfollow),
+        name="check_follow_or_unfollow",
+    ),
+    
     
     # Redirecting page
     path(

@@ -2,26 +2,161 @@
 {% load static %}
 
 {% block title %}
-  {{ user.first_name }} {{ user.last_name }}
+  {{ instance.user.first_name }} {{ instance.user.last_name }}
 {% endblock %}
 
 {% block ExtraHeaders %}
   <link href="{% static 'BlazeApp/base2.css' %}" rel="stylesheet" />
+  <link href="{% static 'BlazeApp/profile.css' %}" rel="stylesheet" />
+  <script src="{% static 'BlazeApp/profile.js' %}"></script>
 {% endblock %}
 
 {% block content %}
   <div class="content-d border border-top-0 border-bottom-0 border-end-0 col">
-    <div class="lead d-flex justify-content-center align-items-center" style="height: 60%;">This is Profile page (❁´◡`❁)</div>
-    <button class="btn btn-dark"onclick="playAudio()">Play Sound</button>
+    <div class="profile-header-d px-3 pt-4 pb-3">
+      <div class="d-flex justify-content-center col-4 col-12 col-lg-4">
+        <div class="profile-picture-ring">
+          <div class="profile-picture border">
+            <img src="{{ instance.user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-8 px-3 py-2" style="min-height: 11rem;">
+        <div class="d-flex justify-content-between my-1">
+          <div id="user-name-d" class="fs-4 fw-normal col-10 py-1 text-truncate" data-uid="{{ instance.user.pk }}">{{ instance.user.first_name }} {{ instance.user.last_name }}</div>
+          {% if request.user == instance.user %}
+            <div class="d-flex justify-content-center align-items-center" style="height: 2.5rem; width: 2.5rem;">
+              <a href="{% url 'BlazeApp:settings' %}"><button class="btn fs-3 py-1 px-2"><i class="bi bi-gear-wide"></i></button></a>
+            </div>
+          {% else %}
+            <div id="fuf-d">
+              <!-- This div will be filled dynamically. -->
+            </div>
+          {% endif %}
+        </div>
+
+        <table class="table table-sm table-borderless text-center mt-3 mb-0 fs-6">
+          <thead>
+            <tr>
+              <th scope="col">Posts</th>
+              <th scope="col">Followers</th>
+              <th scope="col">Following</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ instance_posts.all.count }}</td>
+              <td id="follow-d">{{ instance.user.get_followers_count }}</td>
+              <td>{{ instance.user.follow.all.count }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {% comment %} <div class="border border-dark col-12 mt-2" style="height: 3rem;"></div> {% endcomment %}
+    </div>
+    <div class="profile-posts-d p-3 d-flex justify-content-evenly flex-wrap">
+      {% if instance_posts %}
+        {% for post in instance_posts %}
+          <div class="post-d ppd pt-2 pb-1 px-2 my-2 border rounded" data-pid="{{ post.pk }}">
+            <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
+              <div class="d-flex">
+                <a href="{% url 'BlazeApp:profile' post.poster.pk %}">
+                  <div class="post-d-profile-pic ms-2 me-3 my-1">
+                    <img src="{{ post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                  </div>
+                </a>
+                <div class="d-flex flex-column justify-content-center text-truncate">
+                  <a href="{% url 'BlazeApp:profile' post.poster.pk %}"><div class="text-secondary-emphasis">{{ post.poster.first_name }} {{ post.poster.last_name }}</div></a>
+                  <div class="post-d-timestamp text-body-tertiary">{{ post.timestamp }}</div>
+                </div>
+              </div>
+              <div class="btn-group dropstart post-delete-d">
+                <button type="button" class="btn text-night dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="{% url 'BlazeApp:view_post' post.pk %}" class="dropdown-item">View this post</a>
+                  </li>
+                  {% if post.poster == request.user %}
+                    <li>
+                      <form action="{% url 'BlazeApp:delete_post' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="post_id" value="{{ post.pk }}" />
+                        <button type="submit" class="dropdown-item text-danger">Delete this post</button>
+                      </form>
+                    </li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div>
+            <div class="post-material p-3">
+              {{ post.content|linebreaks }}
+              {% if post.picture %}
+                <div class="post-d-pic mt-3 rounded">
+                  <img src="{{ post.picture.url }}" alt="post-image" />
+                </div>
+              {% endif %}
+              {% if post.original_post %}
+                <div class="mb-2 pt-1 border rounded">
+                  <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
+                    <div class="d-flex">
+                      <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}">
+                        <div class="post-d-profile-pic ms-2 me-3 my-1">
+                          <img src="{{ post.original_post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                        </div>
+                      </a>
+                      <div class="d-flex flex-column justify-content-center text-truncate">
+                        <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}"><div class="text-secondary-emphasis">{{ post.original_post.poster.first_name }} {{ post.original_post.poster.last_name }}</div></a>
+                        <div class="post-d-timestamp text-body-tertiary">{{ post.original_post.timestamp }}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="post-material p-3">
+                    {{ post.original_post.content|linebreaks }}
+                    {% if post.original_post.picture %}
+                      <div class="post-d-pic mt-3 rounded">
+                        <img src="{{ post.original_post.picture.url }}" alt="post-image" />
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+            <div class="post-footer col-12">
+              <div class="d-flex justify-content-between text-secondary px-3 py-1 user-select-none">
+                <div class="d-flex">
+                  <div class="ms-1 me-2">
+                    <i class="bi bi-heart-fill"></i>
+                    <span id="postLikedNum">{{ post.like_count }}</span>
+                  </div>
+                  <div class="ms-1 me-2">
+                    <i class="bi bi-chat-square-text-fill"></i>
+                    <span id="postCommentsNum">{{ post.comment_count }}</span>
+                  </div>
+                  <div class="ms-1 me-2">
+                    <i class="bi bi-share-fill"></i>
+                    <span id="postSharedNum">{{ post.share_count }}</span>
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <div class="ms-1 me-2">
+                    <i class="bi bi-bookmark-fill"></i>
+                    <span id="postSavedNum">{{ post.saved_count }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="border rounded bg-body-tertiary text-secondary col-10 m-4" style="height: max-content;">
+          <div class="d-flex justify-content-center align-items-center flex-column my-2 p-3" style="height: 7rem;">
+            <i class="fs-3 bi bi-file-richtext"></i>
+            <div>No post found 🤨🫡</div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
   </div>
-  <script>
-    // Function to play the audio
-    function playAudio() {
-      // Create an Audio object
-      var audio = new Audio('path/to/your/sound.mp3');
-  
-      // Play the audio
-      audio.play();
-    }
-  </script>
 {% endblock %}

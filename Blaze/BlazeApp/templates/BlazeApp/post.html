@@ -16,20 +16,61 @@
       <div class="col-12" style="height: max-content;" data-pid="{{ post.pk }}">
         <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
           <div class="d-flex">
-            <div class="post-d-profile-pic ms-2 me-3 my-1">
-              <img src="{{ post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
-            </div>
+            <a href="{% url 'BlazeApp:profile' post.poster.pk %}">
+              <div class="post-d-profile-pic ms-2 me-3 my-1">
+                <img src="{{ post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+              </div>
+            </a>
             <div class="d-flex flex-column justify-content-center text-truncate">
-              <div class="text-secondary-emphasis">{{ post.poster.first_name }} {{ post.poster.last_name }}</div>
+              <a href="{% url 'BlazeApp:profile' post.poster.pk %}"><div class="text-secondary-emphasis">{{ post.poster.first_name }} {{ post.poster.last_name }}</div></a>
               <div class="post-d-timestamp text-body-tertiary">{{ post.timestamp }}</div>
             </div>
           </div>
+          {% if post.poster == request.user %}
+            <div class="btn-group dropstart post-delete-d">
+              <button type="button" class="btn text-night dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
+              <ul class="dropdown-menu">
+                <li>
+                  <form action="{% url 'BlazeApp:delete_post' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value="{{ post.pk }}" />
+                    <button type="submit" class="dropdown-item text-danger">Delete this post</button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+          {% endif %}
         </div>
         <div class="post-material p-3">
           {{ post.content|linebreaks }}
           {% if post.picture %}
             <div class="post-d-pic mt-3 rounded">
               <img src="{{ post.picture.url }}" alt="post-image" />
+            </div>
+          {% endif %}
+          {% if post.original_post %}
+            <div class="post-d mb-2 pt-1 border rounded">
+              <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
+                <div class="d-flex">
+                  <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}">
+                    <div class="post-d-profile-pic ms-2 me-3 my-1">
+                      <img src="{{ post.original_post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                    </div>
+                  </a>
+                  <div class="d-flex flex-column justify-content-center text-truncate">
+                    <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}"><div class="text-secondary-emphasis">{{ post.original_post.poster.first_name }} {{ post.original_post.poster.last_name }}</div></a>
+                    <div class="post-d-timestamp text-body-tertiary">{{ post.original_post.timestamp }}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="post-material p-3">
+                {{ post.original_post.content|linebreaks }}
+                {% if post.original_post.picture %}
+                  <div class="post-d-pic mt-3 rounded">
+                    <img src="{{ post.original_post.picture.url }}" alt="post-image" />
+                  </div>
+                {% endif %}
+              </div>
             </div>
           {% endif %}
         </div>

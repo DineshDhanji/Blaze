@@ -38,6 +38,33 @@ class User(AbstractUser):
         verbose_name = "User"
         verbose_name_plural = "Users"
 
+    @property
+    def get_followers_count(self):
+        return self.followers.all().count()
+    
+    @property
+    def is_student(self):
+        return hasattr(self, "student")
+
+    @property
+    def is_faculty(self):
+        return hasattr(self, "faculty")
+
+    @property
+    def is_society(self):
+        return hasattr(self, "society")
+
+    @property
+    def get_user_type(self):
+        user_type = ""
+        if self.is_student:
+            user_type = "student"
+        elif self.is_faculty:
+            user_type = "faculty"
+        elif self.is_society:
+            user_type = "society"
+        return user_type
+
 
 class Student(models.Model):
     Major_Choices = [
@@ -62,7 +89,9 @@ class Student(models.Model):
 
 class Faculty(models.Model):
     Department_Choices = [("CS", "Computer Science"), ("EE", "Electrical Engineering")]
-    # user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="faculty")
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="faculty", null=False, default=0
+    )
     department = models.CharField(
         max_length=30, choices=Department_Choices, blank=True, null=True
     )
@@ -163,13 +192,16 @@ class Post(models.Model):
     def like_count(self):
         return self.likes.count()
 
+    @property
     def comment_count(self):
         comment = Comment.objects.filter(object_type="post", object_id=self.pk)
         return comment.count()
 
+    @property
     def share_count(self):
         return self.shares.count()
 
+    @property
     def saved_count(self):
         return self.saved.count()
 
