@@ -243,7 +243,7 @@ def share_post(request, post_id):
                 original_post=post,
             )
 
-            return redirect("BlazeApp:profile")
+            return redirect("BlazeApp:newsfeed")
 
     content = {
         "share_post_form": share_post_form,

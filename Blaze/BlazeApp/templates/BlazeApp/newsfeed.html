@@ -62,8 +62,6 @@
 
                   <button type="submit" class="btn btn-dark col-12 mt-3">Post</button>
                 </form>
-
-                {% comment %} {{ post_form }} {% endcomment %}
               </div>
             </div>
           </div>
@@ -123,6 +121,14 @@
                       <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}"><div class="text-secondary-emphasis">{{ post.original_post.poster.first_name }} {{ post.original_post.poster.last_name }}</div></a>
                       <div class="post-d-timestamp text-body-tertiary">{{ post.original_post.timestamp }}</div>
                     </div>
+                  </div>
+                  <div class="btn-group dropstart post-delete-d">
+                    <button type="button" class="btn text-night dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a href="{% url 'BlazeApp:view_post' post.original_post.pk %}" class="dropdown-item">View this post</a>
+                      </li>
+                    </ul>
                   </div>
                 </div>
                 <div class="post-material p-3">
@@ -246,7 +252,7 @@
   <input id="post-comment" class="col-12 px-3 border py-2" placeholder="Write your comment" required />
 </form> {% endcomment %}
 
-<!--                                              
+<!--                                                  
   {% comment %} Comment Canva  {% endcomment %}
  <div class="modal fade" id="post_comment_canva" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-lg-down modal-xl">
@@ -273,4 +279,4 @@
   </div>
 </div>
   
-                                              -->
+                                                  -->
