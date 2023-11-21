@@ -9,6 +9,10 @@
   <link href="{% static 'BlazeApp/base2.css' %}" rel="stylesheet" />
   <link href="{% static 'BlazeApp/profile.css' %}" rel="stylesheet" />
   <script src="{% static 'BlazeApp/profile.js' %}"></script>
+  <!-- Masonry -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
 {% endblock %}
 
 {% block content %}
@@ -69,7 +73,7 @@
     <div id="profile-posts-d" class="p-3 justify-content-evenly flex-wrap">
       {% if instance_posts %}
         {% for post in instance_posts %}
-          <div class="post-d ppd pt-2 pb-1 px-2 my-2 border rounded" data-pid="{{ post.pk }}">
+          <div class="post-d ppd pt-2 pb-1 px-2 m-1 border rounded" data-pid="{{ post.pk }}">
             <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
               <div class="d-flex">
                 <a href="{% url 'BlazeApp:profile' post.poster.pk %}">
@@ -168,6 +172,17 @@
         </div>
       {% endif %}
     </div>
+    <script>
+      var elem = document.querySelector('#profile-posts-d');
+      var msnry = new Masonry(elem, {
+      });
+
+      // element argument can be a selector string
+      //   for an individual element
+      var msnry = new Masonry('.grid', {
+          // options
+      });
+  </script>
 
     <div id="profile-saved-posts-d" class="justify-content-evenly flex-wrap">
       {% if instance_saved_posts %}
