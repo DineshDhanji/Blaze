@@ -74,8 +74,10 @@
           <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
             <div class="d-flex">
               <a href="{% url 'BlazeApp:profile' post.poster.pk %}">
-                <div class="post-d-profile-pic ms-2 me-3 my-1">
-                  <img src="{{ post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                <div class="ms-2 me-3 my-1" style="border: 2px solid black; border-radius: 50%; padding: 2px; border-color: {{ post.poster.ring_color }}!important;">
+                  <div class="post-d-profile-pic">
+                    <img src="{{ post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                  </div>
                 </div>
               </a>
               <div class="d-flex flex-column justify-content-center text-truncate">
@@ -113,8 +115,10 @@
                 <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
                   <div class="d-flex">
                     <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}">
-                      <div class="post-d-profile-pic ms-2 me-3 my-1">
-                        <img src="{{ post.original_post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                      <div class="ms-2 me-3 my-1" style="border: 2px solid black; border-radius: 50%; padding: 2px; border-color: {{ post.original_post.poster.ring_color }}!important;">
+                        <div class="post-d-profile-pic">
+                          <img src="{{ post.original_post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                        </div>
                       </div>
                     </a>
                     <div class="d-flex flex-column justify-content-center text-truncate">
@@ -252,7 +256,7 @@
   <input id="post-comment" class="col-12 px-3 border py-2" placeholder="Write your comment" required />
 </form> {% endcomment %}
 
-<!--                                                  
+<!--                                                                 
   {% comment %} Comment Canva  {% endcomment %}
  <div class="modal fade" id="post_comment_canva" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-lg-down modal-xl">
@@ -279,4 +283,4 @@
   </div>
 </div>
   
-                                                  -->
+                                                                 -->

@@ -41,7 +41,7 @@ class User(AbstractUser):
     @property
     def get_followers_count(self):
         return self.followers.all().count()
-    
+
     @property
     def is_student(self):
         return hasattr(self, "student")
@@ -65,6 +65,34 @@ class User(AbstractUser):
             user_type = "society"
         return user_type
 
+    @property
+    def ring_color(self):
+        if self.get_user_type == "student":
+            current_year = timezone.now().year
+            difference = current_year - int(self.student.batch)
+
+            # Define the color ranges based on the difference
+            if difference == 0:
+                return "#FFBF00"  # Super Saiyan
+            elif difference == 1:
+                return "#E32636"  # Super Saiyan God
+            elif difference == 2:
+                return "#23B5D3"  # Super Saiyan Blue
+            elif difference >= 3:
+                return "#279AF1"  # Super Saiyan God Blue
+            else:
+                # You can choose a default color or handle other cases as needed
+                return "#FFFFFF"
+        elif self.get_user_type == "faculty":
+            # You can choose a default color or handle other cases as needed
+            return "#FF0000"
+        elif self.get_user_type == "society":
+            # You can choose a default color or handle other cases as needed
+            return "#00FF00"
+        else:
+            # You can choose a default color or handle other cases as needed
+            return "#FFFFFF"
+
 
 class Student(models.Model):
     Major_Choices = [
@@ -74,7 +102,12 @@ class Student(models.Model):
         ("CYS", "Cyber Security"),
         ("EE", "Electrical Engineering"),
     ]
-
+    # Ring_Choices = [
+    #     ("#FFBF00", "Super Saiyan"),
+    #     ("#E32636", "Super Saiyan God"),
+    #     ("#23B5D3", "Super Saiyan Blue"),
+    #     ("#279AF1", "Super Saiyan God Blue"),
+    # ]
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="student")
     batch = models.CharField(
         max_length=2, null=True, validators=[validate_studentBatch]

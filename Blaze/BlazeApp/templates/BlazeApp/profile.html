@@ -18,7 +18,7 @@
   <div class="content-d border border-top-0 border-bottom-0 border-end-0 col">
     <div class="profile-header-d px-3 pt-4 pb-1">
       <div class="d-flex justify-content-center col-4 col-12 col-lg-4">
-        <div class="profile-picture-ring">
+        <div class="profile-picture-ring" style="border-color: {{ instance.user.ring_color }};">
           <div class="profile-picture border">
             <img src="{{ instance.user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
           </div>
@@ -79,8 +79,10 @@
             <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
               <div class="d-flex">
                 <a href="{% url 'BlazeApp:profile' post.poster.pk %}">
-                  <div class="post-d-profile-pic ms-2 me-3 my-1">
-                    <img src="{{ post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                  <div class="ms-2 me-3 my-1" style="border: 2px solid black; border-radius: 50%; padding: 2px; border-color: {{ post.poster.ring_color }}!important;">
+                    <div class="post-d-profile-pic">
+                      <img src="{{ post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                    </div>
                   </div>
                 </a>
                 <div class="d-flex flex-column justify-content-center text-truncate">
@@ -118,8 +120,10 @@
                   <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
                     <div class="d-flex">
                       <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}">
-                        <div class="post-d-profile-pic ms-2 me-3 my-1">
-                          <img src="{{ post.original_post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                        <div class="ms-2 me-3 my-1" style="border: 2px solid black; border-radius: 50%; padding: 2px; border-color: {{ post.original_post.poster.ring_color }}!important;">
+                          <div class="post-d-profile-pic">
+                            <img src="{{ post.original_post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                          </div>
                         </div>
                       </a>
                       <div class="d-flex flex-column justify-content-center text-truncate">
@@ -329,33 +333,6 @@
           </div>
         {% endif %}
       </div>
-
-      {% comment %} <table class="table table-hover table-borderless m-2">
-        <tbody>
-          <tr>
-            <th scope="row">Name</th>
-            <td>{{ instance.user.first_name }} {{ instance.user.last_name }}</td>
-          </tr>
-          <tr>
-            <th scope="row">Username</th>
-            <td>{{ instance.user.username }}</td>
-          </tr>
-          {% if instance.user.get_user_type %}
-            <tr>
-              <th scope="row">Batch</th>
-              <td>{{ instance.batch }}</td>
-            </tr>
-            <tr>
-              <th scope="row">NUID</th>
-              <td>{{ instance.nuid }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Major</th>
-              <td>{{ instance.major }}</td>
-            </tr>
-          {% endif %}
-        </tbody>
-      </table> {% endcomment %}
     </div>
   </div>
 {% endblock %}
