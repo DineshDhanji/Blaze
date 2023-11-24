@@ -81,14 +81,12 @@ class User(AbstractUser):
             elif difference >= 3:
                 return "#279AF1"  # Super Saiyan God Blue
             else:
-                # You can choose a default color or handle other cases as needed
                 return "#FFFFFF"
         elif self.get_user_type == "faculty":
             # You can choose a default color or handle other cases as needed
-            return "#FF0000"
+            return "#8A2BE2"
         elif self.get_user_type == "society":
-            # You can choose a default color or handle other cases as needed
-            return "#00FF00"
+            return "#00bd9d"
         else:
             # You can choose a default color or handle other cases as needed
             return "#FFFFFF"

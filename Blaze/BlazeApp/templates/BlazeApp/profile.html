@@ -193,8 +193,10 @@
             <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
               <div class="d-flex">
                 <a href="{% url 'BlazeApp:profile' post.poster.pk %}">
-                  <div class="post-d-profile-pic ms-2 me-3 my-1">
-                    <img src="{{ post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                  <div class="ms-2 me-3 my-1" style="border: 2px solid black; border-radius: 50%; padding: 2px; border-color: {{ post.poster.ring_color }}!important;">
+                    <div class="post-d-profile-pic">
+                      <img src="{{ post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                    </div>
                   </div>
                 </a>
                 <div class="d-flex flex-column justify-content-center text-truncate">
@@ -232,8 +234,10 @@
                   <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
                     <div class="d-flex">
                       <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}">
-                        <div class="post-d-profile-pic ms-2 me-3 my-1">
-                          <img src="{{ post.original_post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                        <div class="ms-2 me-3 my-1" style="border: 2px solid black; border-radius: 50%; padding: 2px; border-color: {{ post.original_post.poster.ring_color }}!important;">
+                          <div class="post-d-profile-pic">
+                            <img src="{{ post.original_post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                          </div>
                         </div>
                       </a>
                       <div class="d-flex flex-column justify-content-center text-truncate">
@@ -314,7 +318,7 @@
           <div class="fs-6 fw-semibold p-2">Email</div>
           <div class="border rounded p-2 text-truncate">{{ instance.user.email }}</div>
         </div>
-        {% if instance.user.get_user_type %}
+        {% if instance.user.get_user_type == 'student' %}
           <div class="col-12 col-sm-2 mx-1 my-2">
             <div class="fs-6 fw-semibold p-2">Batch</div>
             <div class="border rounded p-2 text-truncate">{{ instance.batch }}</div>
@@ -323,13 +327,51 @@
             <div class="fs-6 fw-semibold p-2">NUID</div>
             <div class="border rounded p-2 text-truncate">{{ instance.nuid }}</div>
           </div>
+        {% elif instance.user.get_user_type == 'faculty' %}
+          <div class="col-12 col-sm-2 mx-1 my-2">
+            <div class="fs-6 fw-semibold p-2">Department</div>
+            <div class="border rounded p-2 text-truncate">{{ instance.department }}</div>
+          </div>
         {% endif %}
       </div>
       <div class="row">
-        {% if instance.user.get_user_type %}
+        {% if instance.user.get_user_type == 'student' %}
           <div class="col-12 col-sm-5 mx-1 my-2">
             <div class="fs-6 fw-semibold p-2">Major</div>
             <div class="border rounded p-2 text-truncate">{{ instance.major }}</div>
+          </div>
+        {% elif instance.user.get_user_type == 'society' %}
+          <div class="col-12 col-sm-5 mx-1 my-2">
+            <div class="fs-6 fw-semibold p-2">Faculty Head Name</div>
+            <div class="border rounded p-2 text-truncate">{{ instance.faculty_head.user.first_name }} {{ instance.faculty_head.user.last_name }}</div>
+          </div>
+          <div class="col-12 col-sm-5 mx-1 my-2">
+            <div class="fs-6 fw-semibold p-2">Faculty Head Email</div>
+            <div class="border rounded p-2 text-truncate">{{ instance.faculty_head.user.email }}</div>
+          </div>
+          <div class="col-12 col-sm-5 mx-1 my-2">
+            <div class="fs-6 fw-semibold p-2">President Name</div>
+            <div class="border rounded p-2 text-truncate">{{ instance.president.user.first_name }} {{ instance.president.user.last_name }}</div>
+          </div>
+          <div class="col-12 col-sm-5 mx-1 my-2">
+            <div class="fs-6 fw-semibold p-2">President Email</div>
+            <div class="border rounded p-2 text-truncate">{{ instance.president.user.email }}</div>
+          </div>
+          <div class="col-12 col-sm-5 mx-1 my-2">
+            <div class="fs-6 fw-semibold p-2">Vice President Name</div>
+            <div class="border rounded p-2 text-truncate">{{ instance.vice_president.user.first_name }} {{ instance.vice_president.user.last_name }}</div>
+          </div>
+          <div class="col-12 col-sm-5 mx-1 my-2">
+            <div class="fs-6 fw-semibold p-2">Vice President Email</div>
+            <div class="border rounded p-2 text-truncate">{{ instance.vice_president.user.email }}</div>
+          </div>
+          <div class="col-12 col-sm-5 mx-1 my-2">
+            <div class="fs-6 fw-semibold p-2">Treasurer Name</div>
+            <div class="border rounded p-2 text-truncate">{{ instance.treasurer.user.first_name }} {{ instance.treasurer.user.last_name }}</div>
+          </div>
+          <div class="col-12 col-sm-5 mx-1 my-2">
+            <div class="fs-6 fw-semibold p-2">Treasurer Email</div>
+            <div class="border rounded p-2 text-truncate">{{ instance.treasurer.user.email }}</div>
           </div>
         {% endif %}
       </div>
