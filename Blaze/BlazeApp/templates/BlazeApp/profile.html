@@ -292,8 +292,70 @@
       })
     </script>
 
-    <div id="profile-info-d">
-      <div class="lead border border-dark" style="height: 10rem;">INFO</div>
+    <div id="profile-info-d" class="p-3 flex-column flex-wrap">
+      <div class="fs-3 mb-3 px-2 py-1">Info</div>
+      <div class="row">
+        <div class="col-12 col-sm-5 mx-1 my-2">
+          <div class="fs-6 fw-semibold p-2">Name</div>
+          <div class="border rounded p-2 text-truncate">{{ instance.user.first_name }} {{ instance.user.last_name }}</div>
+        </div>
+        <div class="col-12 col-sm-5 mx-1 my-2">
+          <div class="fs-6 fw-semibold p-2">Username</div>
+          <div class="border rounded p-2 text-truncate">{{ instance.user.username }}</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-sm-5 mx-1 my-2">
+          <div class="fs-6 fw-semibold p-2">Email</div>
+          <div class="border rounded p-2 text-truncate">{{ instance.user.email }}</div>
+        </div>
+        {% if instance.user.get_user_type %}
+          <div class="col-12 col-sm-2 mx-1 my-2">
+            <div class="fs-6 fw-semibold p-2">Batch</div>
+            <div class="border rounded p-2 text-truncate">{{ instance.batch }}</div>
+          </div>
+          <div class="col-12 col-sm-2 mx-1 my-2">
+            <div class="fs-6 fw-semibold p-2">NUID</div>
+            <div class="border rounded p-2 text-truncate">{{ instance.nuid }}</div>
+          </div>
+        {% endif %}
+      </div>
+      <div class="row">
+        {% if instance.user.get_user_type %}
+          <div class="col-12 col-sm-5 mx-1 my-2">
+            <div class="fs-6 fw-semibold p-2">Major</div>
+            <div class="border rounded p-2 text-truncate">{{ instance.major }}</div>
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} <table class="table table-hover table-borderless m-2">
+        <tbody>
+          <tr>
+            <th scope="row">Name</th>
+            <td>{{ instance.user.first_name }} {{ instance.user.last_name }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Username</th>
+            <td>{{ instance.user.username }}</td>
+          </tr>
+          {% if instance.user.get_user_type %}
+            <tr>
+              <th scope="row">Batch</th>
+              <td>{{ instance.batch }}</td>
+            </tr>
+            <tr>
+              <th scope="row">NUID</th>
+              <td>{{ instance.nuid }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Major</th>
+              <td>{{ instance.major }}</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table> {% endcomment %}
     </div>
   </div>
 {% endblock %}

@@ -24,7 +24,8 @@
 }
 
 #profile-posts-d,
-#profile-saved-posts-d {
+#profile-saved-posts-d,
+#profile-info-d {
     height: max-content;
 }
 
