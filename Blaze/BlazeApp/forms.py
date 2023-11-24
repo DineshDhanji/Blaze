@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from BlazeApp.models import Post, Comment, Share
+from BlazeApp.models import Post, Comment, Share, Event
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.validators import FileExtensionValidator
 from BlazeAdministration.customValidator import (
@@ -98,3 +98,89 @@ class ShareForm(PostForm, forms.ModelForm):
         if shared_post_id is not None:
             self.fields["shared_post_id"].initial = shared_post_id
             self.fields["shared_post_id"].widget.attrs["readonly"] = True
+
+
+class EventForm(forms.ModelForm):
+    banner = forms.ImageField(
+        required=True, widget=forms.ClearableFileInput(attrs={"id": "picture-upload"})
+    )
+    title = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "class": "col efi border rounded px-2",
+                "placeholder": "Enter your event title",
+                "style": "height: 2.3rem;",
+            }
+        )
+    )
+    description = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "class": "col-12 efi border rounded p-2",
+                "placeholder": "Enter your event description",
+                "cols": "30",
+                "rows": "10",
+            }
+        )
+    )
+    start_date = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                "placeholder": "Start Date",
+                "class": "col efi border rounded px-2",
+                "type": "date",
+                "style": "height: 2.3rem;",
+            }
+        )
+    )
+    end_date = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                "placeholder": "End Date",
+                "class": "col efi border rounded px-2",
+                "type": "date",
+                "style": "height: 2.3rem;",
+            }
+        )
+    )
+    venue = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Enter your event venue",
+                "class": "col efi border rounded px-2",
+                "style": "height: 2.3rem;",
+            }
+        )
+    )
+    time = forms.TimeField(
+        widget=forms.TimeInput(
+            attrs={
+                "placeholder": "Enter your event time",
+                "class": "col efi border rounded px-2",
+                "style": "height: 2.3rem;",
+                "type": "time",
+            }
+        )
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        start_date = cleaned_data.get("start_date")
+        end_date = cleaned_data.get("end_date")
+
+        if start_date and end_date and end_date < start_date:
+            raise forms.ValidationError(
+                "End date should not be less than the start date."
+            )
+
+    class Meta:
+        model = Event
+        fields = [
+            "banner",
+            "title",
+            "description",
+            "start_date",
+            "end_date",
+            "venue",
+            "time",
+        ]

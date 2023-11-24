@@ -13,7 +13,7 @@
 
 {% block content %}
   <div class="content-d border border-top-0 border-bottom-0 border-end-0 col">
-    <div class="create-post mb-4 border border-dark-subtle rounded user-select-none overflow-hidden">
+    <div class="create-post mt-3 mb-4 mx-5 border rounded user-select-none overflow-hidden">
       <div class="h5 p-3 mb-0 border-bottom">Share this post</div>
       <div class="col col-md-11 col-lg-9 p-3 mx-auto">
         <form enctype="multipart/form-data" action="{% url 'BlazeApp:share_post' post.pk %}" method="post">

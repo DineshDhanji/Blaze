@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
-from .forms import UserLoginForm, PostForm, CommentForm, ShareForm
+from .forms import UserLoginForm, PostForm, CommentForm, ShareForm, EventForm
 from .models import Post, Comment, Share, User, Student, Faculty, Society
 
 from BlazeAdministration.views import page_not_found_404
@@ -287,7 +287,35 @@ def delete_comment(request):
 
 
 def create_event(request):
-    return render(request, "BlazeApp/create_event.html")
+    # If the requesting user is not society instance then we won't
+    # allow them to access this page.
+    if not request.user.is_society:
+        return page_not_found_404(
+            request,
+            exception=404,
+            message="Instead of events try to make humanity in yourself.",
+        )
+    event_form = EventForm()
+    if request.method == "POST":
+        # Retrieving data from post request
+        event_form = EventForm(request.POST, request.FILES)
+        if event_form.is_valid():
+            # Upon valid data, we will save the event
+            new_event = event_form.save(
+                commit=False
+            )  # Create but don't save it to the database yet
+            new_event.poster = (
+                # Associating user with the event
+                request.user
+            )
+            new_event.save()
+            return redirect("BlazeApp:redirecting_page")
+            # return redirect("BlazeApp:profile")
+        else:
+            messages.error(request, "Invalid event submission.")
+
+    content = {"event_form": event_form}
+    return render(request, "BlazeApp/create_event.html", content)
 
 
 def redirecting_page(request):
