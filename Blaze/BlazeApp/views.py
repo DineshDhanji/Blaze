@@ -286,6 +286,10 @@ def delete_comment(request):
     return page_not_found_404(request, exception=404, message="Get a life already man.")
 
 
+def create_event(request):
+    return render(request, "BlazeApp/create_event.html")
+
+
 def redirecting_page(request):
     # Redirect user to redirecting page to clear cache
     previous_view = request.META.get("HTTP_REFERER")

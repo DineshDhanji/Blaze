@@ -38,6 +38,11 @@ urlpatterns = [
         login_required(views.delete_comment),
         name="delete_comment",
     ),
+    path(
+        "create_event/",
+        login_required(views.create_event),
+        name="create_event",
+    ),
     # API Routes
     
     # API related to like

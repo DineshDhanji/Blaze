@@ -8,6 +8,17 @@
 {% block content %}
   <div class="content-d border border-top-0 border-bottom-0 col-lg-7 col py-4 px-3">
     <div class="dd1 mx-auto">
+      {% if request.user.is_society %}
+        <div class="create-post mb-4 border border-dark-subtle rounded user-select-none overflow-hidden">
+          <div class="h5 p-3 mb-0 border-bottom">Create Event</div>
+          <a href="{% url 'BlazeApp:create_event' %}">
+            <div class="d-flex align-items-center text-secondary p-3 create-post-d">
+              <div class="fs-6 col text-body-tertiary mx-3">Craft unforgettable moments! Create society events that leave a lasting impression 🎉✨</div>
+            </div>
+          </a>
+        </div>
+      {% endif %}
+
       <div class="create-post mb-4 border border-dark-subtle rounded user-select-none overflow-hidden">
         <div class="h5 p-3 mb-0 border-bottom">Create post</div>
         <div class="d-flex align-items-center text-secondary p-3 create-post-d" data-bs-toggle="modal" data-bs-target="#createPost">
@@ -249,38 +260,3 @@
     </div>
   </div>
 {% endblock %}
-
-{% comment %} <form class="col" method="POST" onsubmit="return addNewComment(this)">
-  {% csrf_token %}
-  <input type="hidden" class="post-id" value="1" /> <!-- Add your actual post ID here -->
-  <input id="post-comment" class="col-12 px-3 border py-2" placeholder="Write your comment" required />
-</form> {% endcomment %}
-
-<!--                                                                 
-  {% comment %} Comment Canva  {% endcomment %}
- <div class="modal fade" id="post_comment_canva" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-lg-down modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        
-
-        {% comment %} <div class="d-flex justify-content-center">
-          <div class="spinner-border mx-auto my-3" style="width: 7rem; height: 7rem;" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        </div> {% endcomment %}
-
-      </div>
-      {% comment %} <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div> {% endcomment %}
-    </div>
-  </div>
-</div>
-  
-                                                                 -->
