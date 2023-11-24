@@ -6,11 +6,64 @@
 {% endblock %}
 
 {% block ExtraHeaders %}
-  {% comment %} <link href="{% static 'BlazeApp/login.css' %}" rel="stylesheet" /> {% endcomment %}
+  <link href="{% static 'BlazeApp/society.css' %}" rel="stylesheet" />
+  <!-- VANTA.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
 {% endblock %}
 
 {% block content %}
   <div class="content-d border border-top-0 border-bottom-0 border-end-0 col">
-    <div class="lead d-flex justify-content-center align-items-center" style="height: 60%;">This is Society page (*^▽^*)</div>
+    <div class="border rounded m-2" style="height: max-content;">
+      <div class="fs-3 p-3" style="height: max-content;">Explore Our Dynamic Societies 🌟</div>
+      <div class="fs-6 p-3" style="height: max-content;">Discover a world of possibilities! Joining our diverse societies is your ticket to unlocking new passions, making lasting friendships, and enhancing your university journey. Whether you're into coding, arts, or community service, there's a society waiting for you. Explore the cards below and dive into a world of opportunities! 🚀✨</div>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-center align-items-center border-dark m-2" style="height: max-content;">
+      {% if society_instances %}
+        {% for society in society_instances %}
+          <a href="{% url 'BlazeApp:profile' society.user.pk %}" class="col-11 col-sm-10 col-lg-5 m-2">
+            <div id="society_{{ society.pk }}" class="society-card border rounded p-2">
+              <div class="society-card-bottom col-12"></div>
+              <div class="society-card-dd col-12 mb-2 ps-2">
+                <div class="society-card-pfp col-1 me-3 border border-light border-2">
+                  <img src="{{ society.user.profile_picture.url }}" alt="society profile picture" />
+                </div>
+                <div class="mt-3">
+                  <div class="lead text-truncate">{{ society.user.first_name }}{{ society.user.last_name }}</div>
+
+                  <div class="d-flex">
+                    <div class="fs-6 mt-2 me-2 text-secondary" style="font-size: 0.9rem;">
+                      {{ society.user.get_followers_count }} <i class="bi bi-people-fill"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <script>
+              VANTA.WAVES({
+                el: `#society_{{society.pk}}`,
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.0,
+                minWidth: 200.0,
+                scale: 1.0,
+                scaleMobile: 1.0,
+                color: 0x{{society.pk}}{{society.pk}}{{society.pk}}{{society.pk}}{{society.pk}}{{society.pk}}
+              })
+            </script>
+          </a>
+        {% endfor %}
+      {% else %}
+        <div class="border rounded bg-body-tertiary text-secondary col-11 m-4" style="height: max-content;">
+          <div class="d-flex justify-content-center align-items-center flex-column my-2 p-3" style="height: 7rem;">
+            <div class="lead mt-2 mb-3">Oops! No Societies Found 😕</div>
+            <div class="fs-6 mb-2">Currently, there are no societies available. Stay tuned for updates and explore other amazing features on our platform! 🌟</div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
   </div>
 {% endblock %}

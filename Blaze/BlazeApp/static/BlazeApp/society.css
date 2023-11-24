@@ -1,0 +1,38 @@
+.society-card {
+    height: 12rem;
+    /* width: 27rem; */
+    background-color: lightpink;
+    display: flex;
+    align-items: end;
+    position: relative;
+    overflow: hidden;
+}
+
+.society-card-bottom {
+    background-color: white;
+    height: 5.7rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.society-card-pfp {
+    height: 6rem;
+    width: 6rem;
+    background-color: #393939;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
+.society-card-pfp img
+{
+    width: 100%;
+    height: auto;
+}
+.society-card-dd
+{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    z-index: 1;
+}

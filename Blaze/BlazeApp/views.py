@@ -123,7 +123,9 @@ def events(request):
 
 
 def society(request):
-    return render(request, "BlazeApp/society.html")
+    society_instances = Society.objects.all()
+    content = {"society_instances": society_instances}
+    return render(request, "BlazeApp/society.html", content)
 
 
 def profile(request, uid):
@@ -145,8 +147,14 @@ def profile(request, uid):
 
     content = {
         "instance": user_instance,
-        "instance_posts": Post.objects.filter(poster=user_instance.user).order_by("-timestamp"),
-        "instance_saved_posts": user_instance.user.saved_post.all().order_by("-timestamp") if user_instance.user == request.user else None
+        "instance_posts": Post.objects.filter(poster=user_instance.user).order_by(
+            "-timestamp"
+        ),
+        "instance_saved_posts": user_instance.user.saved_post.all().order_by(
+            "-timestamp"
+        )
+        if user_instance.user == request.user
+        else None,
     }
     return render(request, "BlazeApp/profile.html", content)
 
