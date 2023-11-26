@@ -61,6 +61,16 @@ urlpatterns = [
         login_required(api_views.check_like_or_unlike),
         name="check_like_or_unlike",
     ),
+    path(
+        "event_like_or_unlike/<int:event_id>/",
+        login_required(api_views.event_like_or_unlike),
+        name="event_like_or_unlike",
+    ),
+    path(
+        "event_check_like_or_unlike/<int:event_id>/",
+        login_required(api_views.event_check_like_or_unlike),
+        name="event_check_like_or_unlike",
+    ),
     # API related to save
     path(
         "save_or_unsave/<int:post_id>/",

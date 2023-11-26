@@ -14,6 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
             show_post_comment_canva(event.currentTarget);
         })
     });
+    document.querySelectorAll(".event-like-btn").forEach((element) => {
+        element.addEventListener("click", (event) => {
+            event_like_or_unlike(event.currentTarget);
+        })
+    });
     // document.querySelectorAll(".post-share-btn").forEach((element) => {
     //     element.addEventListener("click", (event) => {
     //         show_post_comment_canva(event.currentTarget);
@@ -23,9 +28,81 @@ document.addEventListener("DOMContentLoaded", () => {
     // Update the content on the page
     update_likes();
     update_saves();
+    update_event_likes();
 })
 
 
+// Event Functionalities
+function event_like_or_unlike(element) {
+    // Getting post id of the post
+    let eid = element.parentNode.parentNode.parentNode.dataset.eid;
+    if (eid !== undefined) {
+        // Getting like icon from post div
+        fetch(`/event_like_or_unlike/${eid}/`, {
+            method: 'GET',
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error === null) {
+                    if (data.like_status) {
+                        // user has liked the event
+                        element.innerHTML = `<i class="text-danger fs-5 m-1 bi bi-heart-fill"></i>
+                <div class="d-none d-md-block ms-3 fs-6">Likes</div>`
+                    } else {
+                        // user has unliked the event
+                        element.innerHTML = `<i class="fs-5 m-1 bi bi-heart"></i>
+                <div class="d-none d-md-block ms-3 fs-6">Likes</div>`
+                    }
+                    update_like_count(element, data.like_status);
+                } else {
+                    console.error(data.error);
+                }
+            })
+            .catch(error => {
+                // Handle the error here
+                console.error('Fetch error:', error);
+            });
+    }
+}
+function update_event_likes() {
+    document.querySelectorAll(".event-like-btn").forEach((element) => {
+        console.log(element.parentNode.parentNode.parentNode)
+        let eid = element.parentNode.parentNode.parentNode.dataset.eid;
+        if (eid !== undefined) {
+            fetch(`/event_check_like_or_unlike/${eid}/`, {
+                method: 'GET',
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error === undefined) {
+                        if (data.like_status) {
+                            // user has liked the post
+                            element.innerHTML = `<i class="text-danger fs-5 m-1 bi bi-heart-fill"></i>
+                        <div class="d-none d-md-block ms-3 fs-6">Likes</div>`
+                        } else {
+                            // user has unliked the post
+                            element.innerHTML = `<i class="fs-5 m-1 bi bi-heart"></i>
+                                            <div class="d-none d-md-block ms-3 fs-6">Likes</div>`
+                        }
+                    }
+                })
+                .catch(error => {
+                    // Handle the error here
+                    console.error('Fetch error:', error);
+                });
+        }
+    });
+}
 
 // Like Post Functionalities
 function like_or_unlike(element) {
@@ -79,33 +156,36 @@ function update_like_count(element, like_status) {
 
 function update_likes() {
     document.querySelectorAll(".post-like-btn").forEach((element) => {
+        console.log(element.parentNode.parentNode.parentNode)
         let pid = element.parentNode.parentNode.parentNode.dataset.pid;
-        fetch(`/check_like_or_unlike/${pid}/`, {
-            method: 'GET',
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
+        if (pid !== undefined) {
+            fetch(`/check_like_or_unlike/${pid}/`, {
+                method: 'GET',
             })
-            .then(data => {
-                if (data.error === undefined) {
-                    if (data.like_status) {
-                        // user has liked the post
-                        element.innerHTML = `<i class="text-danger fs-5 m-1 bi bi-heart-fill"></i>
-                        <div class="d-none d-md-block ms-3 fs-6">Likes</div>`
-                    } else {
-                        // user has unliked the post
-                        element.innerHTML = `<i class="fs-5 m-1 bi bi-heart"></i>
-                                            <div class="d-none d-md-block ms-3 fs-6">Likes</div>`
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
                     }
-                }
-            })
-            .catch(error => {
-                // Handle the error here
-                console.error('Fetch error:', error);
-            });
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error === undefined) {
+                        if (data.like_status) {
+                            // user has liked the post
+                            element.innerHTML = `<i class="text-danger fs-5 m-1 bi bi-heart-fill"></i>
+                        <div class="d-none d-md-block ms-3 fs-6">Likes</div>`
+                        } else {
+                            // user has unliked the post
+                            element.innerHTML = `<i class="fs-5 m-1 bi bi-heart"></i>
+                                            <div class="d-none d-md-block ms-3 fs-6">Likes</div>`
+                        }
+                    }
+                })
+                .catch(error => {
+                    // Handle the error here
+                    console.error('Fetch error:', error);
+                });
+        }
     });
 }
 

@@ -5,12 +5,63 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 
-from .models import Post, User
+from .models import Post, User, Event
 from .serializers import (
     LikeStatusSerializer,
     SavedStatusSerializer,
     FollowStatusSerializer,
 )
+
+
+# LIKE FOR EVENT
+@api_view(["GET"])
+def event_like_or_unlike(request, event_id):
+    try:
+        # Try to get the event object, return 404 if not found
+        event = get_object_or_404(Event, pk=event_id)
+    except Http404:
+        # Event does not exist, return JsonResponse with appropriate message
+        return Response(
+            {"like_status": False, "error": "No such event exists in the database."},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    # Check if the user has already liked the event
+    if request.user.liked_events.filter(pk=event_id).exists():
+        # User has liked the event, remove the like
+        request.user.liked_events.remove(event)
+        like_status = False
+    else:
+        # User hasn't liked the event, add the like
+        request.user.liked_events.add(event)
+        like_status = True
+
+    # Serialize the response data
+    serializer = LikeStatusSerializer({"like_status": like_status, "error": None})
+
+    # Return the serialized data as JSON response
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def event_check_like_or_unlike(request, event_id):
+    try:
+        # Try to get the event object, return 404 if not found
+        event = get_object_or_404(Event, pk=event_id)
+    except Http404:
+        # Event does not exist, return JsonResponse with appropriate message
+        return Response(
+            {"like_status": False, "error": "No such event exists in the database."},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    # Serialize the response data
+    serializer = LikeStatusSerializer(
+        {"like_status": request.user.liked_events.filter(pk=event_id).exists()}
+    )
+
+    # Return the serialized data as JSON response
+    return Response(serializer.data)
 
 
 # LIKE
