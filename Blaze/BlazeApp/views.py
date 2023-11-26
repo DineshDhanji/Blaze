@@ -1,10 +1,11 @@
 import random
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from django.contrib import messages
 from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
 from .forms import UserLoginForm, PostForm, CommentForm, ShareForm, EventForm
-from .models import Post, Comment, Share, User, Student, Faculty, Society
+from .models import Post, Comment, Share, User, Student, Faculty, Society, Event
 
 from BlazeAdministration.views import page_not_found_404
 
@@ -119,7 +120,9 @@ def newsfeed(request):
 
 
 def events(request):
-    return render(request, "BlazeApp/events.html")
+    event_instances = Event.objects.all()
+    content = {"event_instances": event_instances}
+    return render(request, "BlazeApp/events.html", content)
 
 
 def society(request):
@@ -309,13 +312,29 @@ def create_event(request):
                 request.user
             )
             new_event.save()
-            return redirect("BlazeApp:redirecting_page")
-            # return redirect("BlazeApp:profile")
+            return redirect(
+                reverse("BlazeApp:view_event", kwargs={"event_id": new_event.pk})
+            )
         else:
             messages.error(request, "Invalid event submission.")
 
     content = {"event_form": event_form}
     return render(request, "BlazeApp/create_event.html", content)
+
+
+def view_event(request, event_id):
+    try:
+        # Try to get the event object, return 404 if not found
+        event_instance = get_object_or_404(Event, pk=event_id)
+    except Http404:
+        # Event does not exist, return JsonResponse with appropriate message
+        return page_not_found_404(
+            request,
+            exception=404,
+            message="May God gift you amazing event soon (●'◡'●)",
+        )
+    content = {"event_instance": event_instance}
+    return render(request, "BlazeApp/view_event.html", content)
 
 
 def redirecting_page(request):

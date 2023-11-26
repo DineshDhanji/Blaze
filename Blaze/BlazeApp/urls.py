@@ -43,6 +43,11 @@ urlpatterns = [
         login_required(views.create_event),
         name="create_event",
     ),
+    path(
+        "view_event/pqmpevna5fjc0yr6zp<int:event_id>sdhfd[m[a/",
+        login_required(views.view_event),
+        name="view_event",
+    ),
     # API Routes
     
     # API related to like

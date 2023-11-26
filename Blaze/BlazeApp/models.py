@@ -207,6 +207,9 @@ class Post(models.Model):
         verbose_name_plural = "Posts"
 
     def delete(self, *args, **kwargs):
+        # Delete associated comments
+        Comment.objects.filter(object_type="post", object_id=self.pk).delete()
+
         # Delete the associated image file
         if self.picture:
             self.picture.delete()
@@ -217,6 +220,7 @@ class Post(models.Model):
             ).first().delete()
 
         Share.objects.filter(pid=self).delete()
+        # Now let the super delete handle from here
         super().delete(*args, **kwargs)
 
     @property
@@ -236,8 +240,8 @@ class Post(models.Model):
     def saved_count(self):
         return self.saved.count()
 
-    # def __str__(self):
-    #     return f"Post {self.pk} by {self.poster.username} on {self.date}"
+    def __str__(self):
+        return f"Post {self.pk} by {self.poster.username}"
 
 
 class Comment(models.Model):
@@ -316,10 +320,25 @@ class Event(models.Model):
         verbose_name = "Event"
         verbose_name_plural = "Events"
 
-    # def clean(self):
-    #     # Check if the poster (user) is a society
-    #     if not self.poster.is_society:
-    #         raise ValidationError("Events can only be posted by societies.")
+    def delete(self, *args, **kwargs):
+        # Delete associated comments
+        Comment.objects.filter(object_type="event", object_id=self.pk).delete()
+
+        # Delete the associated image file
+        if self.banner:
+            self.banner.delete()
+
+        # Now let the super delete handle from here
+        super().delete(*args, **kwargs)
+
+    @property
+    def like_count(self):
+        return self.likes.count()
+
+    @property
+    def comment_count(self):
+        comment = Comment.objects.filter(object_type="event", object_id=self.pk)
+        return comment.count()
 
 
 class Question(models.Model):
