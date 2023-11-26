@@ -145,7 +145,7 @@
                 <div class="post-comment-d p-2 border rounded">
                   <div class="d-flex justify-content-between">
                     <div>
-                      <div class="fw-semibold text-truncate">{{ comment.user.first_name }}{{ comment.user.last_name }}</div>
+                      <div class="fw-semibold text-truncate text-break">{{ comment.user.first_name }} {{ comment.user.last_name }}</div>
                       <div class="fw-normal mb-2" style="font-size: 0.7rem;">{{ comment.timestamp }}</div>
                     </div>
                     {% if comment.user == request.user %}
@@ -163,7 +163,7 @@
                       </div>
                     {% endif %}
                   </div>
-                  <div>{{ comment.content|linebreaks }}</div>
+                  <div class="text-break">{{ comment.content|linebreaks }}</div>
                 </div>
               </div>
             {% endfor %}

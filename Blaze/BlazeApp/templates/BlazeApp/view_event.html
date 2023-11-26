@@ -6,11 +6,102 @@
 {% endblock %}
 
 {% block ExtraHeaders %}
+  <link href="{% static 'BlazeApp/base2.css' %}" rel="stylesheet" />
+  <link href="{% static 'BlazeApp/post.css' %}" rel="stylesheet" />
   {% comment %} <link href="{% static 'BlazeApp/login.css' %}" rel="stylesheet" /> {% endcomment %}
 {% endblock %}
 
 {% block content %}
   <div class="content-d border border-top-0 border-bottom-0 border-end-0 col">
-    <div class="lead d-flex justify-content-center align-items-center" style="height: 60%;">You are viewing event page (●'◡'●).</div>
+    <div class="d-flex flex-wrap" style="height: max-content;">
+      <div class="d-flex justify-content-center align-items-center col-12 col-lg-7 p-3">
+        <img src="{{ event_instance.banner.url }}" class="rounded img-fluid" alt="event banner" />
+      </div>
+      <div class="col m-1 p-4">
+        <div class="display-5 text-break mt-4 mb-5">{{ event_instance.title }}</div>
+        <div class="d-flex align-items-center fs-5 mx-1 my-2 py-2 col">
+          <div class="fw-semibold me-3">Start Date:</div>
+          <div class="fw-normal">{{ event_instance.start_date|date:'m/d/Y' }}</div>
+        </div>
+        <div class="d-flex align-items-center fs-5 mx-1 my-2 py-2 col">
+          <div class="fw-semibold me-3">End Date:</div>
+          <div class="fw-normal">{{ event_instance.end_date|date:'m/d/Y' }}</div>
+        </div>
+        <div class="d-flex align-items-center fs-5 mx-1 my-2 py-2 col">
+          <div class="fw-semibold me-3">Time:</div>
+          <div class="fw-normal">{{ event_instance.time }}</div>
+        </div>
+        <div class="d-flex align-items-center fs-5 mx-1 my-2 py-2 col">
+          <div class="fw-semibold me-3">Venue:</div>
+          <div class="fw-normal text-truncate text-break">{{ event_instance.venue }}</div>
+        </div>
+        <div class="d-flex align-items-center fs-5 mx-1 my-2 py-2 col">
+          <div class="fw-semibold me-3">Organized By:</div>
+          <div class="fw-normal text-truncate text-break">{{ event_instance.poster.first_name }} {{ event_instance.poster.last_name }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 mb-3">
+      <div class="m-2">
+        <div class="fs-5 fw-semibold border-bottom border-2 mb-3 pb-2">Description</div>
+        <div class="fs-6 text-break">{{ event_instance.description|linebreaks }}</div>
+      </div>
+    </div>
+    <div class="col-12 m-1 p-4">
+      <div class="fs-5 fw-normal">Write Comment</div>
+      <div class="post-view-user-section col-12 p-1">
+        <form action="{% url 'BlazeApp:view_event' event_instance.pk %}" method="post" class="d-flex flex-column align-items-start justify-content-center">
+          {% csrf_token %}
+          <input type="hidden" name="event_id" value="{{ event_instance.pk }}" />
+          {{ comment_form.content }}
+          <button type="submit" class="btn btn-dark my-2">Comment 💬</button>
+          {% if comment_form.errors %}
+            <div class="alert alert-warning col-12" role="alert">{{ comment_form.errors }}</div>
+          {% endif %}
+        </form>
+      </div>
+      <div class="fs-5 fw-normal mt-3">Other Comment(s)</div>
+      <div class="post-all-comments">
+        {% if comments %}
+          {% for comment in comments %}
+            <div class="post-all-comments-item my-3">
+              <div class="post-d-profile-pic col-1 ms-2 me-3 my-1">
+                <img src="{{ comment.user.profile_picture.url }}" class="img-fluid" alt="poster profile picture" />
+              </div>
+              <div class="post-comment-d p-2 border rounded">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <div class="fw-semibold text-truncate text-break">{{ comment.user.first_name }} {{ comment.user.last_name }}</div>
+                    <div class="fw-normal mb-2" style="font-size: 0.7rem;">{{ comment.timestamp }}</div>
+                  </div>
+                  {% if comment.user == request.user %}
+                    <div class="btn-group dropstart post-delete-d">
+                      <button type="button" class="btn text-night dropdown-toggle" style="height: 2rem; width: 2rem; padding: 0rem;" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
+                      <ul class="dropdown-menu">
+                        <li class="fs-6">
+                          <form action="{% url 'BlazeApp:delete_comment' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="comment_id" value="{{ comment.pk }}" />
+                            <button type="submit" class="dropdown-item text-danger">Delete this comment</button>
+                          </form>
+                        </li>
+                      </ul>
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="text-break">{{ comment.content|linebreaks }}</div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="border rounded bg-body-tertiary text-secondary" style="height: max-content;">
+            <div class="text-center my-2 p-3">
+              <i class="fs-3 bi bi-chat-quote"></i>
+              <div>Be the first one to comment 😊</div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
   </div>
 {% endblock %}

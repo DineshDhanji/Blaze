@@ -333,7 +333,33 @@ def view_event(request, event_id):
             exception=404,
             message="May God gift you amazing event soon (●'◡'●)",
         )
-    content = {"event_instance": event_instance}
+
+    comment_form = CommentForm()
+    if request.method == "POST":
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            # Upon valid data, we will save the comment
+            new_comment = comment_form.save(
+                commit=False
+            )  # Create but don't save to the database yet
+            new_comment.object_type = "event"
+            new_comment.object_id = event_id
+            new_comment.user = (
+                request.user
+            )  # Assuming you have a User associated with the post
+            new_comment.save()
+            # Redirect user to redirecting page to clear cache
+            return redirect("BlazeApp:redirecting_page")
+        else:
+            messages.error(request, "Invalid comment submission.")
+
+    content = {
+        "event_instance": event_instance,
+        "comments": Comment.objects.filter(
+            object_id=event_id, object_type="event"
+        ).order_by("-timestamp"),
+        "comment_form": comment_form,
+    }
     return render(request, "BlazeApp/view_event.html", content)
 
 
