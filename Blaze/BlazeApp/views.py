@@ -6,6 +6,7 @@ from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
 from .forms import UserLoginForm, PostForm, CommentForm, ShareForm, EventForm
 from .models import Post, Comment, Share, User, Student, Faculty, Society, Event
+from django.db.models import Q
 
 from BlazeAdministration.views import page_not_found_404
 
@@ -145,6 +146,28 @@ def society(request):
     society_instances = Society.objects.all()
     content = {"society_instances": society_instances}
     return render(request, "BlazeApp/society.html", content)
+
+
+def search(request):
+    query = request.GET.get("user_search")
+
+    if query:
+        # Search across multiple fields using Q objects
+        user_instances = User.objects.filter(
+            Q(username__icontains=query)
+            | Q(email__icontains=query)
+            | Q(first_name__icontains=query)
+            | Q(last_name__icontains=query)
+        ).exclude(is_superuser=True)
+    else:
+        # Return an empty queryset if no search query is provided
+        user_instances = User.objects.none()
+
+    content = {
+        "user_instances": user_instances,
+        "query": query,
+    }
+    return render(request, "BlazeApp/search.html", content)
 
 
 def profile(request, uid):

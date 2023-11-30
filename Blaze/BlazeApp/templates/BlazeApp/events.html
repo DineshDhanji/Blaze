@@ -40,7 +40,7 @@
       <div class="fs-6 px-3 pt-2 pb-3" style="height: max-content;">Dive into ongoing events! From engaging lectures to fun workshops, find your interests below. Discover, learn, and have a great time! 🚀✨</div>
     </div>
 
-    <div class="d-flex flex-wrap border-dark m-2 px-2 pt-1 pb-5" style="height: max-content;">
+    <div class="d-flex flex-wrap border-dark m-2 px-2 pt-1 pb-5" style="min-height: 80vh!important; height: max-content!important;">
       {% if event_instances %}
         {% for event in event_instances %}
           <div class="d-flex flex-wrap bg-body-tertiary text-body-emphasis overflow-hidden border border-dark-subtle col-12 col-lg-11 rounded position-relative mt-1 mb-3" style="height: max-content;">
@@ -79,7 +79,7 @@
         {% endfor %}
       {% else %}
         <div class="border rounded bg-body-tertiary text-body-emphasis col-11 m-4" style="height: max-content;">
-          <div class="d-flex justify-content-center align-items-center flex-column my-2 p-3" style="height: 7rem;">
+          <div class="d-flex justify-content-center align-items-center flex-column my-2 p-3" style="height: max-content;">
             <div class="lead mt-2 mb-3">Oops! No Events Found 😕</div>
             <div class="fs-6 mb-2">Currently, there are no events available. Stay tuned for updates and explore other amazing features on our platform! 🌟</div>
           </div>

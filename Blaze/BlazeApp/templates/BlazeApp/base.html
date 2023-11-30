@@ -189,16 +189,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form class="d-flex" role="search" action="https://www.google.com/search?q=">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" />
-                  <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
+                <form class="d-flex" role="search" method="get" action="{% url 'BlazeApp:search' %}">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="user_search" required/>
+                  <button class="btn border btn-dark" type="submit"><i class="bi bi-search"></i></button>
                 </form>
               </div>
               <div class="modal-footer d-block">
                 <div class="lead">Instructions</div>
                 <div class="">You can search name of students, faculty, and society.</div>
-                {% comment %} <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-dark">Search</button> {% endcomment %}
               </div>
             </div>
           </div>

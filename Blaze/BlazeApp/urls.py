@@ -17,6 +17,7 @@ urlpatterns = [
     path("society/", login_required(views.society), name="society"),
     path("profile/129s36dp#v=k35<int:uid>313d60#c3a9pvmq5c3vjg", login_required(views.profile), name="profile"),
     path("settings/", login_required(views.settings), name="settings"),
+    path("search/", login_required(views.search), name="search"),
     
     path(
         "view_post/xy9i3ao40yr6zp<int:post_id>ssd&2um[a/",
