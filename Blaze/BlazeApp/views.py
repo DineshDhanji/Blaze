@@ -95,12 +95,16 @@ def settings(request):
 
 # Others Views
 def newsfeed(request):
-    follows_users = request.user.follow.all()
     # Fetching posts from both the current user and the users they follow
+    follows_users = request.user.follow.all()
     newsfeed_posts = Post.objects.filter(
         poster__in=follows_users
     ) | Post.objects.filter(poster=request.user)
     newsfeed_posts = newsfeed_posts.order_by("-timestamp").all()
+
+    # Fetching event from followed societies
+    upcoming_events = Event.objects.filter(poster__in=follows_users)
+
     post_form = PostForm()
 
     if request.method == "POST":
@@ -120,7 +124,11 @@ def newsfeed(request):
         else:
             messages.error(request, "Invalid post submission.")
 
-    content = {"post_form": post_form, "newsfeed_posts": newsfeed_posts}
+    content = {
+        "post_form": post_form,
+        "newsfeed_posts": newsfeed_posts,
+        "upcoming_events": upcoming_events,
+    }
     return render(request, "BlazeApp/newsfeed.html", content)
 
 

@@ -219,53 +219,42 @@
       {% endif %}
     </div>
   </div>
-  <div class="minisidebar-d border-start d-none col d-lg-block">
+  <div class="minisidebar-d border-start d-none col d-lg-block text-body-emphasis">
     <div class="minisidebar-event-d m-2 p-1">
-      <div class="lead fw-bold mt-2 mb-3 px-3">Upcoming Events</div>
+      <div class="lead fw-semibold mt-2 mb-3 px-3">Upcoming Events</div>
       <div id="carouselExample" class="carousel slide">
         <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="minisidebar-event-item col-11 mx-auto px-4 pt-1 pb-3 text-light rounded">
-              <div class="mb-5">
-                <div style="font-size: 3rem;">
-                  07<span class="fs-6">Thursday</span>
+          {% if upcoming_events %}
+            {% for upcoming_event in upcoming_events %}
+              <a href="{% url 'BlazeApp:view_event' upcoming_event.pk %}">
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                  <div class="minisidebar-event-item col-11 mx-auto px-4 pt-1 pb-3 text-light rounded">
+                    <div class="mb-5">
+                      <div style="font-size: 3rem;">
+                        {{ upcoming_event.start_date|date:'d' }}<span class="fs-6">{{ upcoming_event.start_date|date:'l' }}</span>
+                      </div>
+                      <div class="fs-5">{{ upcoming_event.start_date|date:'M Y' }}</div>
+                      <div class="fs-6">Timing: {{ upcoming_event.time }}</div>
+                    </div>
+                    <div style="font-size: 0.9rem;">
+                      <span class="fw-semibold">{{ upcoming_event.title }}</span>
+                    </div>
+                  </div>
                 </div>
-                <div class="fs-5">Dec 2024</div>
-                <div class="fs-6">Timing: 12:00</div>
-              </div>
-              <div style="font-size: 0.9rem;">
-                <span class="fw-semibold">Open House</span>
-                by
-                <span>Miss Anam</span>
-              </div>
+              </a>
+            {% endfor %}
+          {% else %}
+            <div class="carousel-item active">
+              <div class="minisidebar-event-item col-11 mx-auto px-4 py-5 text-light rounded">Follow society to keep your eyes on upcoming events</div>
             </div>
-          </div>
-          <div class="carousel-item">
-            <div class="minisidebar-event-item col-11 mx-auto px-4 pt-1 pb-3 text-light rounded">
-              <div class="mb-5">
-                <div style="font-size: 3rem;">
-                  25<span class="fs-6">Monday</span>
-                </div>
-                <div class="fs-5">Dec 2024</div>
-                <div class="fs-6">Timing: 21:00</div>
-              </div>
-              <div style="font-size: 0.9rem;">
-                <span class="fw-semibold">Christmas Party</span>
-                by
-                <span>Blaze Developers</span>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="minisidebar-event-item col-11 mx-auto px-4 py-5 text-light rounded">Follow society to keep your eyes on upcoming events</div>
-          </div>
+          {% endif %}
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="carousel-control-prev-icon text-body-emphasis" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="carousel-control-next-icon text-body-emphasis" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
       </div>

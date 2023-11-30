@@ -156,7 +156,6 @@ function update_like_count(element, like_status) {
 
 function update_likes() {
     document.querySelectorAll(".post-like-btn").forEach((element) => {
-        console.log(element.parentNode.parentNode.parentNode)
         let pid = element.parentNode.parentNode.parentNode.dataset.pid;
         if (pid !== undefined) {
             fetch(`/check_like_or_unlike/${pid}/`, {
