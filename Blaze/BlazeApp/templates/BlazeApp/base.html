@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
-  {% comment %} <html lang="en"> {% endcomment %}
+{% comment %} <html lang="en">
+  {% endcomment %}
   <html lang="en" data-bs-theme="dark">
     <head>
       <meta charset="UTF-8" />
@@ -32,7 +33,10 @@
       {% block navbar %}
         <nav class="navbar bg-body-tertiary border-bottom position-sticky">
           <div class="container-xxl">
-            <a class="navbar-brand" href="{% url 'BlazeApp:newsfeed' %}"><img src="{% static 'BlazeApp/logo.png' %}" alt="Logo" width="110px" height="auto" class="d-inline-block align-text-top" /></a>
+            <a class="navbar-brand d-flex align-items-center justify-content-center" href="{% url 'BlazeApp:newsfeed' %}">
+              <img src="{% static 'BlazeApp/Blaze Logo.png' %}" alt="Logo" width="50px" height="auto" class="d-inline-block align-text-top" />
+              <div class="ms-1 fs-4 fw-semibold text-body-emphasis">Blaze</div>
+            </a>
             <!-- Navbar Profile Dropdown & Notification -->
             <div class="d-flex align-items-center">
               <!-- Notification Offcanvas -->
@@ -59,7 +63,7 @@
               </div>
 
               <!-- Profile Dropdown for lg -->
-              <div class="dropdown-center bg-body-secondary border rounded nav-profile-d col-md-2 d-lg-block d-none">
+              <div class="dropdown-center bg-body-secondary border rounded nav-profile-d col-md-2 d-lg-block d-none user-select-none">
                 <button class="nav-profile bg-body-secondary d-flex align-items-center justify-content-around" data-bs-toggle="dropdown" aria-expanded="false">
                   <div class="nav-profile-pic-cover d-flex justify-content-center align-items-center mx-2" style="width: 2.4rem; height: 2.4rem;">
                     <div class="nav-profile-pic">
