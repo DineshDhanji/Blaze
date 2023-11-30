@@ -32,20 +32,17 @@
 #ps-pb,
 #ps-sb,
 #ps-ib {
-    color: #393939;
-    cursor: pointer;
     border-top: 2px solid transparent;
 }
 
 #ps-pb:hover,
 #ps-ib:hover,
 #ps-sb:hover {
-    background-color: #F8F9FA;
     border-top: 0.18rem solid transparent;
 }
 
 .show_status {
-    border-top: 0.18rem solid #393939 !important;
+    border-top: 0.18rem solid var(--bs-emphasis-color) !important;
 }
 
 @media (min-width: 950px) {

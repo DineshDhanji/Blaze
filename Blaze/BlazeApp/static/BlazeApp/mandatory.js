@@ -177,7 +177,7 @@ function update_likes() {
                         } else {
                             // user has unliked the post
                             element.innerHTML = `<i class="fs-5 m-1 bi bi-heart"></i>
-                                            <div class="d-none d-md-block ms-3 fs-6">Likes</div>`
+                                            <div class="d-none  d-md-block ms-3 fs-6">Likes</div>`
                         }
                     }
                 })

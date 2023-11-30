@@ -21,29 +21,22 @@ a {
     color: #393939;
 }
 
-.text-night
-{
-    color: #4f4f4f!important;
-}
-.navbar{
+.navbar {
     top: 0;
     z-index: 100;
 }
+
 .nav-profile-d {
     height: 3.2rem;
     width: max-content;
 }
 
-.nav-profile-d .dropdown-item:active {
-    background-color: #393939;
-}
-
 .nav-profile {
     width: max-content;
     height: 3rem;
-    border: 1px solid #E5E4E2;
+    border: none;
     border-radius: 5px;
-    background-color: white;
+    /* background-color: white; */
     outline: none;
     transition: 0.25s ease-in-out;
 }
@@ -54,7 +47,7 @@ a {
 }
 
 .nav-profile-pic-cover {
-    border: 1px solid black;
+    border: 1px solid var(--bs-emphasis-color);
     border-radius: 50%;
     width: 3rem;
     height: 3rem;
@@ -72,6 +65,27 @@ a {
     font-size: 0.9rem;
 }
 
+.bg-scheme {
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.bg-scheme:hover {
+    --bs-bg: rgba(206, 212, 218, 0.1) !important;
+    --bs-bg-hover: rgba(206, 212, 218, 0.3) !important;
+
+    /* Apply default background color */
+    background-color: var(--bs-bg);
+    /* Add transition for a smooth hover effect */
+    background-color: var(--bs-bg-hover);
+}
+
+
+.noti-btn {
+    --bs-btn-hover-color: var(--bs-emphasis-color);
+    --bs-btn-active-color: var(--bs-emphasis-color);
+}
+
 #noti-indicator {
     background: linear-gradient(to left bottom, #8100E6, #D175E0);
     width: 0.7rem;
@@ -81,11 +95,8 @@ a {
     right: 8px;
     top: 7px;
     border: 2px solid white;
+    border-color: var(--bs-secondary-bg) !important;
     transition: 0.1s ease-in-out;
-}
-
-.noti-btn:hover #noti-indicator {
-    border-color: #D3D4D5;
 }
 
 .side-panel-d {
@@ -121,17 +132,16 @@ a {
 }
 
 .side-panel-item {
-    color: #393939;
     height: 3rem;
-    cursor: pointer;
     font-size: 1rem;
-    border: 1px solid transparent;
     transition: 0.15s ease-in-out;
+    border: 1px solid transparent;
 }
 
 .side-panel-item:hover {
-    background-color: #F8F9FA;
-    border: 1px solid lightgray;
+    --bs-border-width: 1px;
+    --bs-border-style: solid;
+    --bs-border-color: red !important;
 }
 
 .side-panel-item i {
@@ -141,16 +151,17 @@ a {
 .content-d {
     height: max-content;
 }
-.notification-item{
+
+.notification-item {
     cursor: pointer;
     margin: 5px 0px;
 }
-.noti-read
-{
+
+.noti-read {
     background-color: #E9ECEF;
 }
-.noti-not-read
-{
+
+.noti-not-read {
     /* background-color: #F8F9FA; */
 }
 

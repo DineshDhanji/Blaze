@@ -16,7 +16,7 @@
 
 {% block content %}
   <div class="content-d border border-top-0 border-bottom-0 border-end-0 col">
-    <div class="profile-header-d px-3 pt-4 pb-1">
+    <div class="profile-header-d text-body-emphasis px-3 pt-4 pb-1">
       <div class="d-flex justify-content-center col-4 col-12 col-lg-4">
         <div class="profile-picture-ring" style="border-color: {{ instance.user.ring_color }};">
           <div class="profile-picture border">
@@ -25,12 +25,12 @@
         </div>
       </div>
 
-      <div class="col-12 col-lg-8 px-3 py-2" style="min-height: 11rem;">
+      <div class="col-12 col-lg-8 px-3 py-2 text-body-emphasis" style="min-height: 11rem;">
         <div class="d-flex justify-content-between my-1">
           <div id="user-name-d" class="fs-4 fw-normal col-6 col-md-10 py-1 text-truncate" data-uid="{{ instance.user.pk }}">{{ instance.user.first_name }} {{ instance.user.last_name }}</div>
           {% if request.user == instance.user %}
             <div class="d-flex justify-content-center align-items-center" style="height: 2.5rem; width: 2.5rem;">
-              <a href="{% url 'BlazeApp:settings' %}"><button class="btn fs-3 py-1 px-2"><i class="bi bi-gear-wide"></i></button></a>
+              <a href="{% url 'BlazeApp:settings' %}"><button class="btn fs-3 py-1 px-2" style="--bs-btn-hover-color: var(--bs-emphasis-color); --bs-btn-active-color: var(--bs-emphasis-color);"><i class="bi bi-gear-wide"></i></button></a>
             </div>
           {% else %}
             <div id="fuf-d">
@@ -39,7 +39,7 @@
           {% endif %}
         </div>
 
-        <table class="table table-sm table-borderless text-center mt-3 mb-0 fs-6">
+        <table class="table table-sm table-borderless text-center mt-3 mb-0 fs-6 text-body-emphasis">
           <thead>
             <tr>
               <th scope="col">Posts</th>
@@ -58,15 +58,15 @@
       </div>
 
       <div class="post-switch-d d-flex justify-content-center col-12 mt-4 border border-top" style="height: max-content;">
-        <div id="ps-pb" class="d-flex justify-content-center align-items-center mx-2 py-2 text-uppercase" onclick="show_posts()">
+        <div id="ps-pb" class="d-flex justify-content-center align-items-center mx-2 py-2 text-uppercase text-body-emphasis bg-scheme" onclick="show_posts()">
           <i class="fs-5 bi bi-file-richtext mx-2"></i><span class="mx-2" style="font-size: 0.9rem">Posts</span>
         </div>
         {% if instance.user == request.user %}
-          <div id="ps-sb" class="d-flex justify-content-center align-items-center mx-2 py-2 text-uppercase" onclick="show_saved_posts()">
+          <div id="ps-sb" class="d-flex justify-content-center align-items-center mx-2 py-2 text-uppercase text-body-emphasis bg-scheme" onclick="show_saved_posts()">
             <i class="fs-5 bi bi-bookmark mx-2"></i><span class="mx-2" style="font-size: 0.9rem">Saved</span>
           </div>
         {% endif %}
-        <div id="ps-ib" class="d-flex justify-content-center align-items-center mx-2 py-2 text-uppercase" onclick="show_info()">
+        <div id="ps-ib" class="d-flex justify-content-center align-items-center mx-2 px-2 py-2 text-uppercase text-body-emphasis bg-scheme" onclick="show_info()">
           <i class="fs-5 bi bi-info-square"></i><span class="mx-2" style="font-size: 0.9rem">Info</span>
         </div>
       </div>
@@ -86,11 +86,11 @@
                   </div>
                 </a>
                 <div class="d-flex flex-column justify-content-center text-truncate">
-                  <a href="{% url 'BlazeApp:profile' post.poster.pk %}"><div class="text-secondary-emphasis">{{ post.poster.first_name }} {{ post.poster.last_name }}</div></a>
-                  <div class="post-d-timestamp text-body-tertiary">{{ post.timestamp }}</div>
+                  <a href="{% url 'BlazeApp:profile' post.poster.pk %}"><div class="text-body-emphasis">{{ post.poster.first_name }} {{ post.poster.last_name }}</div></a>
+                  <div class="post-d-timestamp text-secondary">{{ post.timestamp }}</div>
                 </div>
               </div>
-              <div class="btn-group dropstart post-delete-d">
+              <div class="btn-group dropstart post-delete-d text-body-emphasis">
                 <button type="button" class="btn text-night dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
                 <ul class="dropdown-menu">
                   <li>
@@ -108,7 +108,7 @@
                 </ul>
               </div>
             </div>
-            <div class="post-material p-3">
+            <div class="post-material p-3 text-body-emphasis">
               {{ post.content|linebreaks }}
               {% if post.picture %}
                 <div class="post-d-pic mt-3 rounded">
@@ -127,8 +127,8 @@
                         </div>
                       </a>
                       <div class="d-flex flex-column justify-content-center text-truncate">
-                        <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}"><div class="text-secondary-emphasis">{{ post.original_post.poster.first_name }} {{ post.original_post.poster.last_name }}</div></a>
-                        <div class="post-d-timestamp text-body-tertiary">{{ post.original_post.timestamp }}</div>
+                        <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}"><div class="text-body-emphasis">{{ post.original_post.poster.first_name }} {{ post.original_post.poster.last_name }}</div></a>
+                        <div class="post-d-timestamp text-secondary">{{ post.original_post.timestamp }}</div>
                       </div>
                     </div>
                   </div>
@@ -155,7 +155,7 @@
                     <span id="postCommentsNum">{{ post.comment_count }}</span>
                   </div>
                   <div class="ms-1 me-2">
-                    <i class="bi bi-share-fill"></i>
+                    <i class="bi bi-upload"></i>
                     <span id="postSharedNum">{{ post.share_count }}</span>
                   </div>
                 </div>
@@ -170,7 +170,7 @@
           </div>
         {% endfor %}
       {% else %}
-        <div class="border rounded bg-body-tertiary text-secondary col-10 m-4" style="height: max-content;">
+        <div class="border rounded bg-body-tertiary text-body-emphasis col-10 m-4" style="height: max-content;">
           <div class="d-flex justify-content-center align-items-center flex-column my-2 p-3" style="height: 7rem;">
             <i class="fs-3 bi bi-file-richtext"></i>
             <div>No post found 🤨🫡</div>
@@ -200,8 +200,8 @@
                   </div>
                 </a>
                 <div class="d-flex flex-column justify-content-center text-truncate">
-                  <a href="{% url 'BlazeApp:profile' post.poster.pk %}"><div class="text-secondary-emphasis">{{ post.poster.first_name }} {{ post.poster.last_name }}</div></a>
-                  <div class="post-d-timestamp text-body-tertiary">{{ post.timestamp }}</div>
+                  <a href="{% url 'BlazeApp:profile' post.poster.pk %}"><div class="text-body-emphasis">{{ post.poster.first_name }} {{ post.poster.last_name }}</div></a>
+                  <div class="post-d-timestamp text-secondary">{{ post.timestamp }}</div>
                 </div>
               </div>
               <div class="btn-group dropstart post-delete-d">
@@ -222,7 +222,7 @@
                 </ul>
               </div>
             </div>
-            <div class="post-material p-3">
+            <div class="post-material p-3 text-body-emphasis">
               {{ post.content|linebreaks }}
               {% if post.picture %}
                 <div class="post-d-pic mt-3 rounded">
@@ -241,12 +241,12 @@
                         </div>
                       </a>
                       <div class="d-flex flex-column justify-content-center text-truncate">
-                        <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}"><div class="text-secondary-emphasis">{{ post.original_post.poster.first_name }} {{ post.original_post.poster.last_name }}</div></a>
-                        <div class="post-d-timestamp text-body-tertiary">{{ post.original_post.timestamp }}</div>
+                        <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}"><div class="text-body-emphasis">{{ post.original_post.poster.first_name }} {{ post.original_post.poster.last_name }}</div></a>
+                        <div class="post-d-timestamp text-secondary">{{ post.original_post.timestamp }}</div>
                       </div>
                     </div>
                   </div>
-                  <div class="post-material p-3">
+                  <div class="post-material p-3 text-body-emphasis">
                     {{ post.original_post.content|linebreaks }}
                     {% if post.original_post.picture %}
                       <div class="post-d-pic mt-3 rounded">
@@ -300,7 +300,7 @@
       })
     </script>
 
-    <div id="profile-info-d" class="px-3 pt-3 pb-5 flex-column flex-wrap">
+    <div id="profile-info-d" class="text-body-emphasis px-3 pt-3 pb-5 flex-column flex-wrap">
       <div class="fs-3 mb-3 px-2 py-1">Info</div>
       <div class="row">
         <div class="col-12 col-sm-5 mx-1 my-2">

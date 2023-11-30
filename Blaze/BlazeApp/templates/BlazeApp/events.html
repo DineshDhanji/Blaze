@@ -35,7 +35,7 @@
 
 {% block content %}
   <div class="content-d border border-top-0 border-bottom-0 border-end-0 col">
-    <div class="border rounded m-3" style="height: max-content;">
+    <div class="bg-body-tertiary text-body-emphasis border rounded m-3" style="height: max-content;">
       <div class="fs-3 p-3" style="height: max-content;">Experience the Thrill of Ongoing Events 🌟</div>
       <div class="fs-6 px-3 pt-2 pb-3" style="height: max-content;">Dive into ongoing events! From engaging lectures to fun workshops, find your interests below. Discover, learn, and have a great time! 🚀✨</div>
     </div>
@@ -43,7 +43,7 @@
     <div class="d-flex flex-wrap border-dark m-2 px-2 pt-1 pb-5" style="height: max-content;">
       {% if event_instances %}
         {% for event in event_instances %}
-          <div class="d-flex flex-wrap overflow-hidden border border-dark-subtle col-12 col-lg-11 rounded position-relative mt-1 mb-3" style="height: max-content;">
+          <div class="d-flex flex-wrap bg-body-tertiary text-body-emphasis overflow-hidden border border-dark-subtle col-12 col-lg-11 rounded position-relative mt-1 mb-3" style="height: max-content;">
             <div class="btn-group dropstart event-view-d">
               <button type="button" class="btn text-night dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
               <ul class="dropdown-menu">
@@ -56,20 +56,21 @@
             <div class="d-flex flex-wrap justify-content-center align-items-center bg-body-secondary col-12 col-sm-4 fw-light p-3">
               <div style="font-size: 6rem; line-height: 1.2;">{{ event.start_date|date:'d' }}</div>
               <div>{{ event.start_date|date:'M' }}</div>
-              {% comment %} <div class="col-12 text-center">To 23 Jan</div> {% endcomment %}
             </div>
             <div class="d-flex flex-column justify-content-center col-12 col-sm-8 py-3 ps-4 pe-3">
-              <div id="en" class="fs-2"><a href="{% url 'BlazeApp:view_event' event.pk %}">{{ event.title }}</a></div>
+              <div id="en" class="fs-2">
+                <a href="{% url 'BlazeApp:view_event' event.pk %}" class="text-body-emphasis ">{{ event.title }}</a>
+              </div>
               <div class="fs-6 mt-3">
-                <a href="{% url 'BlazeApp:profile' event.poster.pk %}">{{ event.poster.first_name }} {{ event.poster.last_name }}</a>
+                <a href="{% url 'BlazeApp:profile' event.poster.pk %}" class="text-secondary">{{ event.poster.first_name }} {{ event.poster.last_name }}</a>
               </div>
               <div class="d-flex">
-                <div class="text-secondary mt-1 me-3">
-                  <i class="bi bi-heart-fill"></i>
+                <div class="text-body-emphasis mt-1 me-3">
+                  <i class="text-danger bi bi-heart-fill"></i>
                   <span>{{ event.like_count }}</span>
                 </div>
-                <div class="text-secondary mt-1 me-3">
-                  <i class="bi bi-chat-square-text-fill"></i>
+                <div class="text-body-emphasis mt-1 me-3">
+                  <i class="text-primary bi bi-chat-square-text-fill"></i>
                   <span>{{ event.comment_count }}</span>
                 </div>
               </div>
@@ -77,7 +78,7 @@
           </div>
         {% endfor %}
       {% else %}
-        <div class="border rounded bg-body-tertiary text-secondary col-11 m-4" style="height: max-content;">
+        <div class="border rounded bg-body-tertiary text-body-emphasis col-11 m-4" style="height: max-content;">
           <div class="d-flex justify-content-center align-items-center flex-column my-2 p-3" style="height: 7rem;">
             <div class="lead mt-2 mb-3">Oops! No Events Found 😕</div>
             <div class="fs-6 mb-2">Currently, there are no events available. Stay tuned for updates and explore other amazing features on our platform! 🌟</div>

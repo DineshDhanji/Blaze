@@ -13,7 +13,7 @@
 
 {% block content %}
   <div class="content-d border border-top-0 border-bottom-0 border-end-0 col">
-    <div class="create-post mt-3 mb-4 mx-5 border rounded user-select-none overflow-hidden">
+    <div class="create-post bg-light-subtle text-body-emphasis mt-3 mb-4 mx-5 border rounded user-select-none overflow-hidden">
       <div class="h5 p-3 mb-0 border-bottom">Share this post</div>
       <div class="col col-md-11 col-lg-9 p-3 mx-auto">
         <form enctype="multipart/form-data" action="{% url 'BlazeApp:share_post' post.pk %}" method="post">
@@ -35,8 +35,8 @@
 
           <div class="post-image-input col-12 bg-body-tertiary border rounded">
             {{ share_post_form.picture }}
-            <div class="d-flex flex-column align-items-center text-secondary m-3 p-1">
-              <div class="fs-4 d-flex align-items-center justify-content-center" style="width: 2.7rem; height: 2.7rem; border: 1px solid black; border-radius: 50%;">
+            <div class="d-flex flex-column align-items-center text-body-emphasis m-3 p-1">
+              <div class="fs-4 d-flex align-items-center justify-content-center border" style="width: 2.7rem; height: 2.7rem; border-radius: 50%; border-color: var(--bs-emphasis-color)!important;">
                 <i class="bi bi-file-plus"></i>
               </div>
               <div class="fs-6 mt-1">Add Photos</div>
@@ -46,21 +46,21 @@
 
           <button type="submit" class="btn btn-dark mt-3">Share <i class="bi bi-send ms-3 me-1"></i></button>
         </form>
-        <div class="col border-top mt-3 px-1" style="height: max-content;">
+        <div class="text-body-emphasis col border-top mt-3 px-1" style="height: max-content;">
           <div class="my-3 fs-5">You are sharing</div>
-          <div class="post-d mb-4 pt-1 border border-dark-subtle rounded">
+          <div class="post-d mb-4 pt-1 border rounded">
             <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
               <div class="d-flex">
                 <div class="post-d-profile-pic ms-2 me-3 my-1">
                   <img src="{{ post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
                 </div>
                 <div class="d-flex flex-column justify-content-center text-truncate">
-                  <div class="text-secondary-emphasis">{{ post.poster.first_name }} {{ post.poster.last_name }}</div>
-                  <div class="post-d-timestamp text-body-tertiary">{{ post.timestamp }}</div>
+                  <div class="text-body-emphasis">{{ post.poster.first_name }} {{ post.poster.last_name }}</div>
+                  <div class="post-d-timestamp text-secondary">{{ post.timestamp }}</div>
                 </div>
               </div>
             </div>
-            <div class="post-material p-3">
+            <div class="post-material p-3 text-body-emphasis">
               {{ post.content|linebreaks }}
               {% if post.picture %}
                 <div class="post-d-pic mt-3 rounded">

@@ -69,7 +69,10 @@ class User(AbstractUser):
     def ring_color(self):
         if self.get_user_type == "student":
             current_year = timezone.now().year
-            difference = current_year - int(self.student.batch)
+            difference = int(current_year - int(self.student.batch)) % 10
+            print(current_year)
+            print(int(self.student.batch))
+            print(difference)
 
             # Define the color ranges based on the difference
             if difference == 0:
@@ -77,11 +80,11 @@ class User(AbstractUser):
             elif difference == 1:
                 return "#E32636"  # Super Saiyan God
             elif difference == 2:
-                return "#23B5D3"  # Super Saiyan Blue
-            elif difference >= 3:
-                return "#279AF1"  # Super Saiyan God Blue
+                return "#23B5D3"  # Super Saiyan God Blue
+            elif difference == 3:
+                return "#279AF1"  # Super Saiyan God Dark Blue
             else:
-                return "#FFFFFF"
+                return "#F33A6A"  # Super Saiyan Rosé 
         elif self.get_user_type == "faculty":
             # You can choose a default color or handle other cases as needed
             return "#8A2BE2"
