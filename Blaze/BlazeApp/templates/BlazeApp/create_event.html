@@ -21,7 +21,7 @@
 
 {% block content %}
   <div class="content-d border border-top-0 border-bottom-0 border-end-0 col">
-    <div class="create-post mt-3 mb-4 mx-5 border rounded user-select-none overflow-hidden">
+    <div class="create-post bg-light-subtle text-body-emphasis mt-3 mb-4 mx-5 border rounded user-select-none overflow-hidden">
       <div class="h5 p-3 mb-0 border-bottom">Create Event</div>
       <div class="col col-md-11 col-lg-9 p-3 mx-auto">
         <form enctype="multipart/form-data" action="{% url 'BlazeApp:create_event' %}" method="post">
@@ -33,11 +33,11 @@
 
             <div class="post-image-input col-12 bg-body-tertiary border rounded">
               {{ event_form.banner }}
-              <div class="d-flex flex-column align-items-center text-secondary m-3 p-1">
-                <div class="fs-4 d-flex align-items-center justify-content-center" style="width: 2.7rem; height: 2.7rem; border: 1px solid black; border-radius: 50%;">
+              <div class="d-flex flex-column align-items-center text-body-emphasis m-3 p-1">
+                <div class="fs-4 d-flex align-items-center justify-content-center border" style="width: 2.7rem; height: 2.7rem; border-radius: 50%; border-color: var(--bs-emphasis-color)!important;">
                   <i class="bi bi-file-plus"></i>
                 </div>
-                <div class="fs-6 mt-1">Add Banner Cover</div>
+                <div class="fs-6 mt-1">Add Banner/Cover</div>
                 <div style="font-size: 0.8rem;">or drag and drop</div>
               </div>
             </div>

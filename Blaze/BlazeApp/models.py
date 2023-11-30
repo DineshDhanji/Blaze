@@ -70,9 +70,6 @@ class User(AbstractUser):
         if self.get_user_type == "student":
             current_year = timezone.now().year
             difference = int(current_year - int(self.student.batch)) % 10
-            print(current_year)
-            print(int(self.student.batch))
-            print(difference)
 
             # Define the color ranges based on the difference
             if difference == 0:

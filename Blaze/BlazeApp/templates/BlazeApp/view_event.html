@@ -18,7 +18,7 @@
         <div class="d-flex justify-content-center align-items-center col-12 col-lg-7 p-3 user-select-none">
           <img src="{{ event_instance.banner.url }}" class="rounded img-fluid" alt="event banner" />
         </div>
-        <div class="col m-1 p-4">
+        <div class="col m-1 p-4 text-body-emphasis">
           <div class="display-5 text-break mt-4 mb-5">{{ event_instance.title }}</div>
           <div class="d-flex align-items-center fs-5 mx-1 my-2 py-2 col">
             <div class="fw-semibold me-3">Start Date:</div>
@@ -42,7 +42,7 @@
           </div>
         </div>
       </div>
-      <div class="p-4 mb-3">
+      <div class="p-4 mb-3 text-body-emphasis">
         <div class="m-2">
           <div class="fs-5 fw-semibold border-bottom border-2 mb-3 pb-2">Description</div>
           <div class="fs-6 text-break">{{ event_instance.description|linebreaks }}</div>
@@ -50,38 +50,38 @@
       </div>
       <div class="post-footer col-12">
         <div class="d-flex justify-content-between text-secondary px-4 py-1 user-select-none">
-          <div class="d-flex">
+          <div class="d-flex text-body-emphasis">
             <div class="ms-1 me-2">
-              <i class="bi bi-heart-fill"></i>
+              <i class="text-danger bi bi-heart-fill"></i>
               <span id="postLikedNum">{{ event_instance.like_count }}</span>
             </div>
             <div class="ms-1 me-2">
-              <i class="bi bi-chat-square-text-fill"></i>
+              <i class="text-primary bi bi-chat-square-text-fill"></i>
               <span id="postCommentsNum">{{ event_instance.comment_count }}</span>
             </div>
           </div>
         </div>
-        <div class="post-interactions text-secondary border-top border-bottom">
-          <div class="post-interaction-item event-like-btn col p-1 user-select-none">
+        <div class="post-interactions border-top border-bottom">
+          <div class="post-interaction-item text-body-emphasis bg-scheme event-like-btn col p-1 user-select-none">
             <i class="fs-5 m-1 bi bi-heart"></i>
             <div class="d-none d-md-block ms-3 fs-6">Likes</div>
           </div>
           <a href="#comment" class="col">
-            <div class="post-interaction-item col p-1 user-select-none">
+            <div class="post-interaction-item text-body-emphasis bg-scheme col p-1 user-select-none">
               <i class="fs-5 m-1 bi bi-chat-square-text"></i>
               <div class="d-none d-md-block ms-3 fs-6">Comments</div>
             </div>
           </a>
         </div>
       </div>
-      <div class="col-12 m-1 p-4">
+      <div class="col-12 m-1 p-4 text-body-emphasis">
         <div class="fs-5 fw-normal">Write Comment</div>
         <div class="post-view-user-section col-12 p-1">
           <form action="{% url 'BlazeApp:view_event' event_instance.pk %}" method="post" class="d-flex flex-column align-items-start justify-content-center">
             {% csrf_token %}
             <input type="hidden" name="event_id" value="{{ event_instance.pk }}" />
             {{ comment_form.content }}
-            <button type="submit" class="btn btn-dark my-2">Comment 💬</button>
+            <button type="submit" class="btn btn-dark border my-2">Comment 💬</button>
             {% if comment_form.errors %}
               <div class="alert alert-warning col-12" role="alert">{{ comment_form.errors }}</div>
             {% endif %}
@@ -99,7 +99,7 @@
                   <div class="d-flex justify-content-between">
                     <div>
                       <div class="fw-semibold text-truncate text-break">{{ comment.user.first_name }} {{ comment.user.last_name }}</div>
-                      <div class="fw-normal mb-2" style="font-size: 0.7rem;">{{ comment.timestamp }}</div>
+                      <div class="fw-normal mb-2 text-secondary" style="font-size: 0.7rem;">{{ comment.timestamp }}</div>
                     </div>
                     {% if comment.user == request.user %}
                       <div class="btn-group dropstart post-delete-d">
@@ -116,12 +116,12 @@
                       </div>
                     {% endif %}
                   </div>
-                  <div class="text-break">{{ comment.content|linebreaks }}</div>
+                  <div class="text-break text-body-emphasis">{{ comment.content|linebreaks }}</div>
                 </div>
               </div>
             {% endfor %}
           {% else %}
-            <div class="border rounded bg-body-tertiary text-secondary" style="height: max-content;">
+            <div class="border rounded bg-body-tertiary text-body-emphasis" style="height: max-content;">
               <div class="text-center my-2 p-3">
                 <i class="fs-3 bi bi-chat-quote"></i>
                 <div>Be the first one to comment 😊</div>
