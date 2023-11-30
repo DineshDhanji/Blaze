@@ -26,7 +26,7 @@
             <img src="{{ user.profile_picture.url }}" alt="profile picture" />
           </div>
           <div class="fs-6 col text-body-emphasis mx-3" style="opacity: 0.7;">What's on your mind?</div>
-          <div class="text-body-emphasis fs-3 col-1"  style="opacity: 0.7;">
+          <div class="text-body-emphasis fs-3 col-1" style="opacity: 0.7;">
             <i class="bi bi-images"></i>
           </div>
         </div>
@@ -80,131 +80,143 @@
       </div>
 
       <!-- Rendering post on the newsfeed -->
-      {% for post in newsfeed_posts %}
-        <div class="post-d bg-light-subtle mb-4 pt-1 border border-dark-subtle rounded text-body-emphasis" data-pid="{{ post.pk }}">
-          <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
-            <div class="d-flex">
-              <a href="{% url 'BlazeApp:profile' post.poster.pk %}">
-                <div class="ms-2 me-3 my-1" style="border: 2px solid black; border-radius: 50%; padding: 2px; border-color: {{ post.poster.ring_color }}!important;">
-                  <div class="post-d-profile-pic">
-                    <img src="{{ post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+      {% if newsfeed_posts %}
+        {% for post in newsfeed_posts %}
+          <div class="post-d bg-light-subtle mb-4 pt-1 border border-dark-subtle rounded text-body-emphasis" data-pid="{{ post.pk }}">
+            <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
+              <div class="d-flex">
+                <a href="{% url 'BlazeApp:profile' post.poster.pk %}">
+                  <div class="ms-2 me-3 my-1" style="border: 2px solid black; border-radius: 50%; padding: 2px; border-color: {{ post.poster.ring_color }}!important;">
+                    <div class="post-d-profile-pic">
+                      <img src="{{ post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                    </div>
                   </div>
+                </a>
+                <div class="d-flex flex-column justify-content-center text-truncate">
+                  <a href="{% url 'BlazeApp:profile' post.poster.pk %}"><div class="text-body-emphasis">{{ post.poster.first_name }} {{ post.poster.last_name }}</div></a>
+                  <div class="post-d-timestamp text-secondary">{{ post.timestamp }}</div>
                 </div>
-              </a>
-              <div class="d-flex flex-column justify-content-center text-truncate">
-                <a href="{% url 'BlazeApp:profile' post.poster.pk %}"><div class="text-body-emphasis">{{ post.poster.first_name }} {{ post.poster.last_name }}</div></a>
-                <div class="post-d-timestamp text-secondary">{{ post.timestamp }}</div>
               </div>
-            </div>
-            <div class="btn-group dropstart post-delete-d">
-              <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="{% url 'BlazeApp:view_post' post.pk %}" class="dropdown-item">View this post</a>
-                </li>
-                {% if post.poster == request.user %}
+              <div class="btn-group dropstart post-delete-d">
+                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
+                <ul class="dropdown-menu">
                   <li>
-                    <form action="{% url 'BlazeApp:delete_post' %}" method="post">
-                      {% csrf_token %}
-                      <input type="hidden" name="post_id" value="{{ post.pk }}" />
-                      <button type="submit" class="dropdown-item text-danger">Delete this post</button>
-                    </form>
+                    <a href="{% url 'BlazeApp:view_post' post.pk %}" class="dropdown-item">View this post</a>
                   </li>
-                {% endif %}
-              </ul>
-            </div>
-          </div>
-          <div class="post-material p-3">
-            {{ post.content|linebreaks }}
-            {% if post.picture %}
-              <div class="post-d-pic mt-3 rounded">
-                <img src="{{ post.picture.url }}" alt="post-image" />
-              </div>
-            {% endif %}
-            {% if post.original_post %}
-              <div class="post-d mb-2 pt-1 border rounded">
-                <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
-                  <div class="d-flex">
-                    <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}">
-                      <div class="ms-2 me-3 my-1" style="border: 2px solid black; border-radius: 50%; padding: 2px; border-color: {{ post.original_post.poster.ring_color }}!important;">
-                        <div class="post-d-profile-pic">
-                          <img src="{{ post.original_post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
-                        </div>
-                      </div>
-                    </a>
-                    <div class="d-flex flex-column justify-content-center text-truncate">
-                      <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}"><div class="text-body-emphasis">{{ post.original_post.poster.first_name }} {{ post.original_post.poster.last_name }}</div></a>
-                      <div class="post-d-timestamp text-secondary">{{ post.original_post.timestamp }}</div>
-                    </div>
-                  </div>
-                  <div class="btn-group dropstart post-delete-d">
-                    <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a href="{% url 'BlazeApp:view_post' post.original_post.pk %}" class="dropdown-item">View this post</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="post-material p-3">
-                  {{ post.original_post.content|linebreaks }}
-                  {% if post.original_post.picture %}
-                    <div class="post-d-pic mt-3 rounded">
-                      <img src="{{ post.original_post.picture.url }}" alt="post-image" />
-                    </div>
+                  {% if post.poster == request.user %}
+                    <li>
+                      <form action="{% url 'BlazeApp:delete_post' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="post_id" value="{{ post.pk }}" />
+                        <button type="submit" class="dropdown-item text-danger">Delete this post</button>
+                      </form>
+                    </li>
                   {% endif %}
+                </ul>
+              </div>
+            </div>
+            <div class="post-material p-3">
+              {{ post.content|linebreaks }}
+              {% if post.picture %}
+                <div class="post-d-pic mt-3 rounded">
+                  <img src="{{ post.picture.url }}" alt="post-image" />
+                </div>
+              {% endif %}
+              {% if post.original_post %}
+                <div class="post-d mb-2 pt-1 border rounded">
+                  <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
+                    <div class="d-flex">
+                      <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}">
+                        <div class="ms-2 me-3 my-1" style="border: 2px solid black; border-radius: 50%; padding: 2px; border-color: {{ post.original_post.poster.ring_color }}!important;">
+                          <div class="post-d-profile-pic">
+                            <img src="{{ post.original_post.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                          </div>
+                        </div>
+                      </a>
+                      <div class="d-flex flex-column justify-content-center text-truncate">
+                        <a href="{% url 'BlazeApp:profile' post.original_post.poster.pk %}"><div class="text-body-emphasis">{{ post.original_post.poster.first_name }} {{ post.original_post.poster.last_name }}</div></a>
+                        <div class="post-d-timestamp text-secondary">{{ post.original_post.timestamp }}</div>
+                      </div>
+                    </div>
+                    <div class="btn-group dropstart post-delete-d">
+                      <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <a href="{% url 'BlazeApp:view_post' post.original_post.pk %}" class="dropdown-item">View this post</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="post-material p-3">
+                    {{ post.original_post.content|linebreaks }}
+                    {% if post.original_post.picture %}
+                      <div class="post-d-pic mt-3 rounded">
+                        <img src="{{ post.original_post.picture.url }}" alt="post-image" />
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+            <div class="post-footer col-12">
+              <div class="d-flex justify-content-between border-bottom text-secondary px-3 py-1 user-select-none">
+                <div class="d-flex">
+                  <div class="ms-1 me-2">
+                    <i class="text-danger bi bi-heart-fill"></i>
+                    <span id="postLikedNum" class="text-body-emphasis">{{ post.like_count }}</span>
+                  </div>
+                  <div class="ms-1 me-2">
+                    <i class="text-primary bi bi-chat-square-text-fill"></i>
+                    <span id="postCommentsNum" class="text-body-emphasis">{{ post.comment_count }}</span>
+                  </div>
+                  <div class="ms-1 me-2">
+                    <i class="text-warning bi bi-upload"></i>
+                    <span id="postSharedNum" class="text-body-emphasis">{{ post.share_count }}</span>
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <div class="ms-1 me-2">
+                    <i class="text-dark-emphasis bi bi-bookmark-fill"></i>
+                    <span id="postSavedNum" class="text-body-emphasis">{{ post.saved_count }}</span>
+                  </div>
                 </div>
               </div>
-            {% endif %}
-          </div>
-          <div class="post-footer col-12">
-            <div class="d-flex justify-content-between border-bottom text-secondary px-3 py-1 user-select-none">
-              <div class="d-flex">
-                <div class="ms-1 me-2">
-                  <i class="text-danger bi bi-heart-fill"></i>
-                  <span id="postLikedNum" class="text-body-emphasis">{{ post.like_count }}</span>
+              <div class="post-interactions">
+                <div class="post-interaction-item bg-scheme text-body-emphasis post-like-btn col p-1 user-select-none">
+                  <i class="fs-5 m-1 bi bi-heart"></i>
+                  <div class="d-none d-md-block ms-3 fs-6">Likes</div>
                 </div>
-                <div class="ms-1 me-2">
-                  <i class="text-primary bi bi-chat-square-text-fill"></i>
-                  <span id="postCommentsNum" class="text-body-emphasis">{{ post.comment_count }}</span>
-                </div>
-                <div class="ms-1 me-2">
-                  <i class="text-warning bi bi-upload"></i>
-                  <span id="postSharedNum" class="text-body-emphasis">{{ post.share_count }}</span>
-                </div>
-              </div>
-              <div class="d-flex">
-                <div class="ms-1 me-2">
-                  <i class="text-dark-emphasis bi bi-bookmark-fill"></i>
-                  <span id="postSavedNum" class="text-body-emphasis">{{ post.saved_count }}</span>
+                <a href="{% url 'BlazeApp:view_post' post.pk %}" class="col user-select-none">
+                  <div class="post-interaction-item bg-scheme text-body-emphasis col p-1 user-select-none">
+                    <i class="fs-5 m-1 bi bi-chat-square-text"></i>
+                    <div class="d-none d-md-block ms-3 fs-6">Comments</div>
+                  </div>
+                </a>
+                <a href="{% url 'BlazeApp:share_post' post.pk %}" class="col user-select-none">
+                  <div class="post-interaction-item bg-scheme text-body-emphasis col p-1 user-select-none">
+                    <i class="fs-5 m-1 bi bi-upload"></i>
+                    <div class="d-none d-md-block ms-3 fs-6">Share</div>
+                  </div>
+                </a>
+                <div class="post-interaction-item bg-scheme text-body-emphasis post-save-btn col p-1 user-select-none">
+                  <i class="fs-5 m-1 bi bi-bookmark"></i>
+                  <div class="d-none d-md-block ms-3 fs-6">Saved</div>
                 </div>
               </div>
             </div>
-            <div class="post-interactions">
-              <div class="post-interaction-item bg-scheme text-body-emphasis post-like-btn col p-1 user-select-none">
-                <i class="fs-5 m-1 bi bi-heart"></i>
-                <div class="d-none d-md-block ms-3 fs-6">Likes</div>
-              </div>
-              <a href="{% url 'BlazeApp:view_post' post.pk %}" class="col user-select-none">
-                <div class="post-interaction-item bg-scheme text-body-emphasis col p-1 user-select-none">
-                  <i class="fs-5 m-1 bi bi-chat-square-text"></i>
-                  <div class="d-none d-md-block ms-3 fs-6">Comments</div>
-                </div>
-              </a>
-              <a href="{% url 'BlazeApp:share_post' post.pk %}" class="col user-select-none">
-                <div class="post-interaction-item bg-scheme text-body-emphasis col p-1 user-select-none">
-                  <i class="fs-5 m-1 bi bi-upload"></i>
-                  <div class="d-none d-md-block ms-3 fs-6">Share</div>
-                </div>
-              </a>
-              <div class="post-interaction-item bg-scheme text-body-emphasis post-save-btn col p-1 user-select-none">
-                <i class="fs-5 m-1 bi bi-bookmark"></i>
-                <div class="d-none d-md-block ms-3 fs-6">Saved</div>
-              </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="border-top mt-5" style="height: 50vh;">
+          <div class="border rounded bg-body-tertiary text-body-emphasis col-12 my-5" style="height: max-content;">
+            <div class="d-flex justify-content-center align-items-center flex-column my-2 p-3" style="height: max-content;">
+              <div class="lead mt-2 mb-3">Oh no! The post-o-meter is on a coffee break! ☕️</div>
+              <div class="fs-6 mb-2">Looks like the posts are playing hide and seek. Ready or not, here you don't see them! 😅</div>
+              <div class="fs-6 mb-2">Why not give the search bar a spin? Maybe the posts are having a secret party there! 🎉</div>
             </div>
           </div>
         </div>
-      {% endfor %}
+      {% endif %}
     </div>
   </div>
   <div class="minisidebar-d border-start d-none col d-lg-block">

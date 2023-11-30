@@ -95,7 +95,12 @@ def settings(request):
 
 # Others Views
 def newsfeed(request):
-    newsfeed_posts = Post.objects.order_by("-timestamp").all()
+    follows_users = request.user.follow.all()
+    # Fetching posts from both the current user and the users they follow
+    newsfeed_posts = Post.objects.filter(
+        poster__in=follows_users
+    ) | Post.objects.filter(poster=request.user)
+    newsfeed_posts = newsfeed_posts.order_by("-timestamp").all()
     post_form = PostForm()
 
     if request.method == "POST":
