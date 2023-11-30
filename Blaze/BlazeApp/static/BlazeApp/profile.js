@@ -23,10 +23,10 @@ function check_follow_or_unfollow() {
 
                 if (data.follow_status) {
                     // user has followed the this user
-                    fufd.innerHTML = `<button class="btn btn-outline-dark">Unfollow</button>`
+                    fufd.innerHTML = `<button class="btn border btn-dark">Unfollow</button>`
                 } else {
                     // user has not followed the this user
-                    fufd.innerHTML = `<button class="btn btn-dark">Follow</button>`
+                    fufd.innerHTML = `<button class="btn border btn-dark">Follow</button>`
                 }
                 const followButton = fufd.querySelector('button');
                 followButton.addEventListener("click", () => { follow_or_unfollow() });
@@ -54,10 +54,10 @@ function follow_or_unfollow() {
 
                 if (data.follow_status) {
                     // user has followed the this user
-                    fufd.innerHTML = `<button class="btn btn-outline-dark">Unfollow</button>`
+                    fufd.innerHTML = `<button class="btn border btn-dark">Unfollow</button>`
                 } else {
                     // user has not followed the this user
-                    fufd.innerHTML = `<button class="btn btn-dark">Follow</button>`
+                    fufd.innerHTML = `<button class="btn border btn-dark">Follow</button>`
                 }
                 const followButton = fufd.querySelector('button');
                 followButton.addEventListener("click", () => { follow_or_unfollow() });
