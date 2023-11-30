@@ -103,7 +103,8 @@ def newsfeed(request):
     newsfeed_posts = newsfeed_posts.order_by("-timestamp").all()
 
     # Fetching event from followed societies
-    upcoming_events = Event.objects.filter(poster__in=follows_users)
+    all_upcoming_events = Event.objects.filter(poster__in=follows_users)
+    upcoming_events = [event for event in all_upcoming_events if not event.expired]
 
     post_form = PostForm()
 
@@ -133,7 +134,9 @@ def newsfeed(request):
 
 
 def events(request):
-    event_instances = Event.objects.all()
+    # Fetching event from followed societies
+    all_event_instances = Event.objects.order_by("start_date").all()
+    event_instances = [event for event in all_event_instances if not event.expired]
     content = {"event_instances": event_instances}
     return render(request, "BlazeApp/events.html", content)
 

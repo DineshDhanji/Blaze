@@ -81,7 +81,7 @@ class User(AbstractUser):
             elif difference == 3:
                 return "#279AF1"  # Super Saiyan God Dark Blue
             else:
-                return "#F33A6A"  # Super Saiyan Rosé 
+                return "#F33A6A"  # Super Saiyan Rosé
         elif self.get_user_type == "faculty":
             # You can choose a default color or handle other cases as needed
             return "#8A2BE2"
@@ -339,6 +339,12 @@ class Event(models.Model):
     def comment_count(self):
         comment = Comment.objects.filter(object_type="event", object_id=self.pk)
         return comment.count()
+
+    @property
+    def expired(self):
+        # Truncate timezone.now() to a datetime.date object
+        current_date = timezone.now().date()
+        return current_date > self.end_date
 
 
 class Question(models.Model):

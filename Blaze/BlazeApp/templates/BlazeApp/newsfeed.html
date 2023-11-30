@@ -219,10 +219,10 @@
       {% endif %}
     </div>
   </div>
-  <div class="minisidebar-d border-start d-none col d-lg-block text-body-emphasis">
+  <div class="minisidebar-d border-start d-none d-lg-block text-body-emphasis">
     <div class="minisidebar-event-d m-2 p-1">
-      <div class="lead fw-semibold mt-2 mb-3 px-3">Upcoming Events</div>
-      <div id="carouselExample" class="carousel slide">
+      <div class="lead fw-semibold mt-2 mb-3">Upcoming Events</div>
+      <div id="carouselExample" class="carousel slide col-12">
         <div class="carousel-inner">
           {% if upcoming_events %}
             {% for upcoming_event in upcoming_events %}
@@ -236,7 +236,7 @@
                       <div class="fs-5">{{ upcoming_event.start_date|date:'M Y' }}</div>
                       <div class="fs-6">Timing: {{ upcoming_event.time }}</div>
                     </div>
-                    <div style="font-size: 0.9rem;">
+                    <div class="text-truncate" style="font-size: 0.9rem;">
                       <span class="fw-semibold">{{ upcoming_event.title }}</span>
                     </div>
                   </div>
