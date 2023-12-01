@@ -143,3 +143,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Things Added While Development
 AUTH_USER_MODEL = "BlazeApp.User"  # Telling Django, who is the user in our system
 LOGIN_URL = "BlazeApp:user_login"
+
+
+
+# Increase the maximum size of request data that Django will process
+# DATA_UPLOAD_MAX_MEMORY_SIZE = 7242880

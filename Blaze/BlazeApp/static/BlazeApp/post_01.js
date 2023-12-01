@@ -41,34 +41,3 @@ function autoResize(textarea) {
     textarea.style.height = 'auto'; // Reset the height to auto to calculate the new height
     textarea.style.height = textarea.scrollHeight + 'px'; // Set the height to the calculated scroll height
 }
-
-// function addNewComment(commentForm) {
-//     // Get the comment text and post ID from the form
-//     var commentText = commentForm.querySelector('#post-comment').value;
-//     var commentContainer = commentForm.parentNode.nextElementSibling;
-    
-
-//     // Check if the comment is not empty
-//     if (commentText.trim() !== '') {
-//         // Fetch the user's profile picture URL here using AJAX or a static URL
-//         var userProfilePictureSrc = commentForm.previousElementSibling.querySelector('img').src;
-
-//         // Create a new comment div
-//         var newCommentDiv = document.createElement('div');
-//         newCommentDiv.classList.add("posted-comments-item", "my-2", "ps-1", "pe-3");
-//         newCommentDiv.innerHTML = `
-//              <div class="post-d-profile-pic ms-2 me-3 my-1">
-//                  <img src="${userProfilePictureSrc}" alt="user profile picture" style="width: inherit;" />
-//              </div>
-//              <div class="posted-comment col py-1 px-2 bg-light border">${commentText}</div>`;
-
-
-//         // Append the new comment div to the corresponding post's comments
-//         commentContainer.appendChild(newCommentDiv);
-//         // Clear the input field
-//         commentForm.querySelector('#post-comment').value = '';
-//     }
-
-//     return false; // Prevent form submission
-// }
-

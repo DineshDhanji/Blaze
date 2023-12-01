@@ -4,14 +4,20 @@ from django.urls import reverse
 from django.contrib import messages
 from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
-from .forms import UserLoginForm, PostForm, CommentForm, ShareForm, EventForm
+from .forms import (
+    UserLoginForm,
+    PostForm,
+    CommentForm,
+    ShareForm,
+    EventForm,
+    ProfilePictureForm,
+)
 from .models import Post, Comment, Share, User, Student, Faculty, Society, Event
 from django.db.models import Q
 
-from django.core.files import File
-from django.core.files.storage import default_storage
-from django.conf import settings
-
+from PIL import Image
+from io import BytesIO
+from django.core.files import File, base
 from BlazeAdministration.views import page_not_found_404
 
 
@@ -95,7 +101,44 @@ def user_logout(request):
 
 # Settings
 def settings(request):
-    return render(request, "BlazeApp/account/settings.html")
+    new_pfp_form = ProfilePictureForm()
+
+    if request.method == "POST":
+        # Update the form instance with the POST data
+        new_pfp_form = ProfilePictureForm(request.POST, request.FILES)
+        if new_pfp_form.is_valid():
+            # Get the cropped image data
+            x = new_pfp_form.cleaned_data["x"]
+            y = new_pfp_form.cleaned_data["y"]
+            width = new_pfp_form.cleaned_data["width"]
+            height = new_pfp_form.cleaned_data["height"]
+
+            image_name = new_pfp_form.cleaned_data["new_profile_picture"].name
+            image = Image.open(new_pfp_form.cleaned_data["new_profile_picture"])
+            cropped_image = image.crop((x, y, width + x, height + y))
+            resized_image = cropped_image.resize((400, 400), Image.LANCZOS)
+            
+            # Delet the old one only when it's not the default picture
+            temp = request.user.profile_picture.name
+            if (temp != "profile_pics/Default_Profile_Picture.png"):
+                request.user.profile_picture.delete()
+            # Convert the Image object to bytes and create a ContentFile
+            image_bytes = BytesIO()
+            resized_image.save(
+                image_bytes, format="PNG"
+            )  # Adjust the format as needed
+            image_file = base.ContentFile(image_bytes.getvalue(), name=image_name)
+
+            # Save the new profile picture to the user's profile
+            request.user.profile_picture.save(image_name, image_file, save=True)
+            messages.success(request, "Profile picture updated successfully.")
+            return redirect("BlazeApp:redirecting_page")
+        else:
+            # print(new_pfp_form.errors)
+            messages.warning(request, "No profile picture changes detected.")
+
+    content = {"new_pfp_form": new_pfp_form}
+    return render(request, "BlazeApp/account/settings.html", content)
 
 
 def remove_pp(request):

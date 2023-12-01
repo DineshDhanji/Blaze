@@ -184,3 +184,36 @@ class EventForm(forms.ModelForm):
             "venue",
             "time",
         ]
+
+
+class ProfilePictureForm(forms.Form):
+    x = forms.FloatField(
+        required=True, widget=forms.HiddenInput(attrs={"id": "pfp_x"})
+    )
+    y = forms.FloatField(
+        required=True, widget=forms.HiddenInput(attrs={"id": "pfp_y"})
+    )
+    width = forms.FloatField(
+        required=True, widget=forms.HiddenInput(attrs={"id": "pfp_width"})
+    )
+    height = forms.FloatField(
+        required=True, widget=forms.HiddenInput(attrs={"id": "pfp_height"})
+    )
+
+    new_profile_picture = forms.ImageField(
+        required=True,
+        validators=[
+            FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png"]
+            ),  # Restrict allowed file extensions
+            validate_profilePicture_size,  # Set a maximum file size limit (7 MB in this example)
+        ],
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["new_profile_picture"].widget.attrs.update(
+            {
+                "id": "new_pfp",
+            }
+        )

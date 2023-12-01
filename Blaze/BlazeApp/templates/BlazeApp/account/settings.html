@@ -6,7 +6,12 @@
 {% endblock %}
 
 {% block ExtraHeaders %}
-  {% comment %} <link href="{% static 'BlazeApp/login.css' %}" rel="stylesheet" /> {% endcomment %}
+  <!-- Cropper.js -->
+  <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css" />
+  <script src="https://unpkg.com/cropperjs/dist/cropper.min.js"></script>
+
+  <link href="{% static 'BlazeApp/base2.css' %}" rel="stylesheet" />
+  <script src="{% static 'BlazeApp/settings.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -18,7 +23,47 @@
 
     <div class="d-flex align-items-center justify-content-between col m-3 p-3 border text-body-emphasis" style="height: max-content;">
       <div>Upload new profile picture</div>
-      <button class="btn btn-primary">Upload</button>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new_pfp">Upload</button>
+      <!-- New profile picture -->
+      <div class="modal fade" id="new_pfp" tabindex="-1" aria-labelledby="newProfilePictureForm" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Upload New Profile Picture</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form enctype="multipart/form-data" action="{% url 'BlazeApp:settings' %}" method="post" id="profile-picture-form">
+                {% csrf_token %}
+                <!-- Cropper container (hidden by default) -->
+                <div id="cropper-container" class="hidden my-2">
+                  <img id="cropper-image" class="img-fluid" alt="Cropped Image" />
+                </div>
+
+                <!-- Hidden field for storing the cropped image data -->
+                {{ new_pfp_form.x }}
+                {{ new_pfp_form.y }}
+                {{ new_pfp_form.width }}
+                {{ new_pfp_form.height }}
+
+                <div class="post-image-input col-12 bg-body-tertiary border rounded">
+                  {{ new_pfp_form.new_profile_picture }}
+
+                  <div class="d-flex flex-column align-items-center text-body-emphasis m-3 p-1">
+                    <div class="fs-4 d-flex align-items-center justify-content-center border" style="width: 2.7rem; height: 2.7rem; border-radius: 50%; border-color: var(--bs-emphasis-color)!important;">
+                      <i class="bi bi-file-plus"></i>
+                    </div>
+                    <div class="fs-6 mt-1">Add Photos</div>
+                    <div style="font-size: 0.8rem;">or drag and drop</div>
+                  </div>
+                </div>
+                <div></div>
+                <button type="submit" class="btn btn-primary border col-12 mt-3">Upload</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="d-flex align-items-center justify-content-between col m-3 p-3 border text-body-emphasis" style="height: max-content;">
       <div>Remove profile picture</div>
@@ -36,6 +81,9 @@
       {% for message in messages %}
         <div class="alert alert-{{ message.tags }} mx-3" role="alert">{{ message }}</div>
       {% endfor %}
+    {% endif %}
+    {% if new_pfp_form.errors %}
+      <div class="alert alert-danger mx-3" role="alert">{{ new_pfp_form.errors }}</div>
     {% endif %}
   </div>
 {% endblock %}
