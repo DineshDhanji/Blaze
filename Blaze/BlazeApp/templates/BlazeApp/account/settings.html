@@ -36,7 +36,7 @@
               <form enctype="multipart/form-data" action="{% url 'BlazeApp:settings' %}" method="post" id="profile-picture-form">
                 {% csrf_token %}
                 <!-- Cropper container (hidden by default) -->
-                <div id="cropper-container" class="hidden my-2">
+                <div id="cropper-container" class="d-none my-2">
                   <img id="cropper-image" class="img-fluid" alt="Cropped Image" />
                 </div>
 

@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             reader.onload = (event) => {
                 cropper.replace(event.target.result);
-                document.getElementById('cropper-container').classList.remove('hidden');
+                document.getElementById('cropper-container').classList.remove('d-none');
             };
 
             reader.readAsDataURL(file);
