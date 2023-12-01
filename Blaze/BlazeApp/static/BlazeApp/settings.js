@@ -1,5 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Working for dark mode
+    let dark_mode_switch = document.getElementById("SwitchDarkMode");
+    if (dark_mode_switch !== undefined) {
+        dark_mode_switch.addEventListener("click", () => { toogleDarkMode() })
+        setDarkModeToggle();
+    }
 
+    // Working for Profile picture cropper
     // Initialize Cropper.js
     const image = document.getElementById('cropper-image');
     const cropper = new Cropper(image, {
@@ -39,3 +46,31 @@ document.addEventListener("DOMContentLoaded", () => {
         form.submit();
     });
 })
+
+
+function toogleDarkMode() {
+    const current_theme = localStorage.getItem('theme')
+    if (current_theme == 'dark') {
+        document.documentElement.setAttribute('data-bs-theme', 'light')
+        localStorage.setItem('theme', "light")
+    } else {
+        document.documentElement.setAttribute('data-bs-theme', 'dark')
+        localStorage.setItem('theme', "dark")
+    }
+}
+
+function setDarkModeToggle() {
+    let dark_mode_switch = document.getElementById("SwitchDarkMode");
+    if (dark_mode_switch !== undefined) {
+        if (localStorage.getItem("theme") === "light" || localStorage.getItem("theme") === null) {
+            dark_mode_switch.checked = false
+        }
+        else {
+            dark_mode_switch.checked = true
+        }
+    }
+    else
+    {
+        console.error("No switch found at the moment.")
+    }
+}

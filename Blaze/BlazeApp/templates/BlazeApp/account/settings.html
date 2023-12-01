@@ -21,60 +21,78 @@
       <div class="fs-6 px-3 pt-2 pb-3" style="height: max-content;">Fine-tune your experience! Customize your preferences, manage security settings, and stay in control. Explore the settings below and make Blaze App truly yours! 🔧✨</div>
     </div>
 
-    <div class="d-flex align-items-center justify-content-between col m-3 p-3 border text-body-emphasis" style="height: max-content;">
-      <div>Upload new profile picture</div>
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new_pfp">Upload</button>
-      <!-- New profile picture -->
-      <div class="modal fade" id="new_pfp" tabindex="-1" aria-labelledby="newProfilePictureForm" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Upload New Profile Picture</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form enctype="multipart/form-data" action="{% url 'BlazeApp:settings' %}" method="post" id="profile-picture-form">
-                {% csrf_token %}
-                <!-- Cropper container (hidden by default) -->
-                <div id="cropper-container" class="d-none my-2">
-                  <img id="cropper-image" class="img-fluid" alt="Cropped Image" />
-                </div>
+    <div class="m-3 px-3 py-1">
+      <div class="lead text-body-emphasis col px-2 pb-2 fw-semibold border-bottom border-3">Appearance</div>
+      <div class="d-flex align-items-center justify-content-between col m-2 p-2 text-body-emphasis" style="height: max-content;">
+        <div>Select theme thats suits you well</div>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="SwitchDarkMode" />
+          <label class="form-check-label" for="SwitchDarkMode">Dark Mode</label>
+        </div>
+      </div>
+    </div>
 
-                <!-- Hidden field for storing the cropped image data -->
-                {{ new_pfp_form.x }}
-                {{ new_pfp_form.y }}
-                {{ new_pfp_form.width }}
-                {{ new_pfp_form.height }}
-
-                <div class="post-image-input col-12 bg-body-tertiary border rounded">
-                  {{ new_pfp_form.new_profile_picture }}
-
-                  <div class="d-flex flex-column align-items-center text-body-emphasis m-3 p-1">
-                    <div class="fs-4 d-flex align-items-center justify-content-center border" style="width: 2.7rem; height: 2.7rem; border-radius: 50%; border-color: var(--bs-emphasis-color)!important;">
-                      <i class="bi bi-file-plus"></i>
-                    </div>
-                    <div class="fs-6 mt-1">Add Photos</div>
-                    <div style="font-size: 0.8rem;">or drag and drop</div>
+    <div class="m-3 px-3 py-1">
+      <div class="lead text-body-emphasis col px-2 pb-2 fw-semibold border-bottom border-3">Profile Picture</div>
+      <div class="d-flex align-items-center justify-content-between col m-2 p-2 text-body-emphasis" style="height: max-content;">
+        <div>Upload new profile picture</div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new_pfp">Upload</button>
+        <!-- New profile picture -->
+        <div class="modal fade" id="new_pfp" tabindex="-1" aria-labelledby="newProfilePictureForm" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Upload New Profile Picture</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form enctype="multipart/form-data" action="{% url 'BlazeApp:settings' %}" method="post" id="profile-picture-form">
+                  {% csrf_token %}
+                  <!-- Cropper container (hidden by default) -->
+                  <div id="cropper-container" class="d-none my-2">
+                    <img id="cropper-image" class="img-fluid" alt="Cropped Image" />
                   </div>
-                </div>
-                <div></div>
-                <button type="submit" class="btn btn-primary border col-12 mt-3">Upload</button>
-              </form>
+
+                  <!-- Hidden field for storing the cropped image data -->
+                  {{ new_pfp_form.x }}
+                  {{ new_pfp_form.y }}
+                  {{ new_pfp_form.width }}
+                  {{ new_pfp_form.height }}
+
+                  <div class="post-image-input col-12 bg-body-tertiary border rounded">
+                    {{ new_pfp_form.new_profile_picture }}
+
+                    <div class="d-flex flex-column align-items-center text-body-emphasis m-3 p-1">
+                      <div class="fs-4 d-flex align-items-center justify-content-center border" style="width: 2.7rem; height: 2.7rem; border-radius: 50%; border-color: var(--bs-emphasis-color)!important;">
+                        <i class="bi bi-file-plus"></i>
+                      </div>
+                      <div class="fs-6 mt-1">Add Photos</div>
+                      <div style="font-size: 0.8rem;">or drag and drop</div>
+                    </div>
+                  </div>
+                  <div></div>
+                  <button type="submit" class="btn btn-primary border col-12 mt-3">Upload</button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="d-flex align-items-center justify-content-between col m-2 p-2 text-body-emphasis" style="height: max-content;">
+        <div>Remove profile picture</div>
+        <form method="post" action="{% url 'BlazeApp:remove_pp' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">Remove</button>
+        </form>
+      </div>
     </div>
-    <div class="d-flex align-items-center justify-content-between col m-3 p-3 border text-body-emphasis" style="height: max-content;">
-      <div>Remove profile picture</div>
-      <form method="post" action="{% url 'BlazeApp:remove_pp' %}">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-primary">Remove</button>
-      </form>
-    </div>
-    <div class="d-flex align-items-center justify-content-between col m-3 p-3 border text-body-emphasis" style="height: max-content;">
-      <div>Change your password</div>
-      <button class="btn btn-danger">Change Password</button>
+
+    <div class="m-3 px-3 py-1">
+      <div class="lead text-body-emphasis col px-2 pb-2 fw-semibold border-bottom border-3">Account Security</div>
+      <div class="d-flex align-items-center justify-content-between col m-2 p-2 text-body-emphasis" style="height: max-content;">
+        <div>Change your password</div>
+        <button class="btn btn-danger">Change Password</button>
+      </div>
     </div>
 
     {% if messages %}
