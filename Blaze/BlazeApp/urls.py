@@ -1,25 +1,38 @@
-from django.urls import path
+from django.urls import path, reverse_lazy
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from . import views
 from . import api_views
 from .customDecorator import normal_user_required
-from django.conf import settings
-from django.conf.urls.static import static
 
 app_name = "BlazeApp"
 urlpatterns = [
     # Login & Logout
     path("login/", views.user_login, name="user_login"),
     path("logout/", login_required(views.user_logout), name="user_logout"),
+    # Settings
+    path("account/settings/", login_required(views.settings), name="settings"),
+    path("account/remove_pp/", login_required(views.remove_pp), name="remove_pp"),
+    path(
+        "accounts/change_password",
+        login_required(
+            auth_views.PasswordChangeView.as_view(
+                template_name="BlazeApp/account/password_change_form.html",
+                success_url=reverse_lazy("BlazeApp:settings"),
+            )
+        ),
+        name="password_change",
+    ),
     # Social Pages
     path("", login_required(views.newsfeed), name="newsfeed"),
     path("events/", login_required(views.events), name="events"),
     path("society/", login_required(views.society), name="society"),
-    path("profile/129s36dp#v=k35<int:uid>313d60#c3a9pvmq5c3vjg", login_required(views.profile), name="profile"),
-    path("settings/", login_required(views.settings), name="settings"),
-    path("remove_pp/", login_required(views.remove_pp), name="remove_pp"),
+    path(
+        "profile/129s36dp#v=k35<int:uid>313d60#c3a9pvmq5c3vjg",
+        login_required(views.profile),
+        name="profile",
+    ),
     path("search/", login_required(views.search), name="search"),
-    
     path(
         "view_post/xy9i3ao40yr6zp<int:post_id>ssd&2um[a/",
         login_required(views.view_post),
@@ -51,7 +64,6 @@ urlpatterns = [
         name="view_event",
     ),
     # API Routes
-    
     # API related to like
     path(
         "like_or_unlike/<int:post_id>/",
@@ -95,15 +107,12 @@ urlpatterns = [
         login_required(api_views.check_follow_or_unfollow),
         name="check_follow_or_unfollow",
     ),
-    
-    
     # Redirecting page
     path(
         "redirecting_page/",
         login_required(views.redirecting_page),
         name="redirecting_page",
     ),
-    
 ]
 
 handler404 = "BlazeAdministration.views.page_not_found_404"

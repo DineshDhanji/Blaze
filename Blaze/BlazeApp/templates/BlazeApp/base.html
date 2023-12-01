@@ -27,8 +27,19 @@
         {% endblock %}
       </title>
     </head>
-
+    <script>
+      const current_theme = localStorage.getItem('theme')
+      if (current_theme !== 'dark' && current_theme !== 'light') {
+        localStorage.setItem('theme', 'light')
+      }
+      if (current_theme == 'dark') {
+        document.documentElement.setAttribute('data-bs-theme', 'dark')
+      } else {
+        document.documentElement.setAttribute('data-bs-theme', 'light')
+      }
+    </script>
     <body>
+      
       {% block navbar %}
         <nav class="navbar bg-body-tertiary border-bottom position-sticky">
           <div class="container-xxl">
@@ -245,16 +256,5 @@
         {% endblock %}
       </div>
     </body>
-    <script>
-      const current_theme = localStorage.getItem('theme')
-      if (current_theme !== 'dark' && current_theme !== 'light') {
-        localStorage.setItem('theme', 'light')
-      }
-      if (current_theme == 'dark') {
-        document.documentElement.setAttribute('data-bs-theme', 'dark')
-      } else {
-        document.documentElement.setAttribute('data-bs-theme', 'light')
-      }
-    </script>
   </html>
 </html>
