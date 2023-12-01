@@ -8,6 +8,10 @@ from .forms import UserLoginForm, PostForm, CommentForm, ShareForm, EventForm
 from .models import Post, Comment, Share, User, Student, Faculty, Society, Event
 from django.db.models import Q
 
+from django.core.files import File
+from django.core.files.storage import default_storage
+from django.conf import settings
+
 from BlazeAdministration.views import page_not_found_404
 
 
@@ -92,6 +96,32 @@ def user_logout(request):
 # Settings
 def settings(request):
     return render(request, "BlazeApp/account/settings.html")
+
+
+def remove_pp(request):
+    user = request.user
+
+    # Check if the profile picture is set to the default picture
+    if (
+        user.profile_picture
+        and user.profile_picture.name == "profile_pics/Default_Profile_Picture.png"
+    ):
+        messages.warning(
+            request, "You have the default profile picture set and cannot remove it."
+        )
+    else:
+        # If it's not the default picture, remove it
+        if user.profile_picture:
+            # Set the profile picture to the default path
+            user.profile_picture.delete()
+            user.profile_picture = "profile_pics/Default_Profile_Picture.png"
+            user.save()
+
+            messages.success(request, "Profile picture removed successfully.")
+        else:
+            messages.warning(request, "You have not set your profile picture.")
+
+    return redirect("BlazeApp:settings")
 
 
 # Others Views

@@ -17,6 +17,7 @@ urlpatterns = [
     path("society/", login_required(views.society), name="society"),
     path("profile/129s36dp#v=k35<int:uid>313d60#c3a9pvmq5c3vjg", login_required(views.profile), name="profile"),
     path("settings/", login_required(views.settings), name="settings"),
+    path("remove_pp/", login_required(views.remove_pp), name="remove_pp"),
     path("search/", login_required(views.search), name="search"),
     
     path(
