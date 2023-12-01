@@ -247,7 +247,7 @@
     </body>
     <script>
       const current_theme = localStorage.getItem('theme')
-      if (current_theme !== 'dark' || current_theme !== 'light') {
+      if (current_theme !== 'dark' && current_theme !== 'light') {
         localStorage.setItem('theme', 'light')
       }
       if (current_theme == 'dark') {
