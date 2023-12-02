@@ -11,8 +11,21 @@ from .forms import (
     ShareForm,
     EventForm,
     ProfilePictureForm,
+    QuestionForm,
+    AnswerForm,
 )
-from .models import Post, Comment, Share, User, Student, Faculty, Society, Event
+from .models import (
+    Post,
+    Comment,
+    Share,
+    User,
+    Student,
+    Faculty,
+    Society,
+    Event,
+    Question,
+    Answer,
+)
 from django.db.models import Q
 
 from PIL import Image
@@ -513,10 +526,134 @@ def redirecting_page(request):
 
 
 def forum(request):
-    content = {}
+    questions = Question.objects.all()
+    content = {"questions": questions}
     return render(request, "BlazeApp/forum.html", content)
 
 
 def create_thread(request):
-    content = {}
+    question_form = QuestionForm()
+
+    if request.method == "POST":
+        # Retrieving data from question form
+        question_form = QuestionForm(request.POST)
+        if question_form.is_valid():
+            # Upon valid data, we will save the event
+            new_question = question_form.save(
+                commit=False
+            )  # Create but don't save it to the database yet
+            new_question.poster = (
+                # Associating user with the event
+                request.user
+            )
+            new_question.save()
+            return redirect(
+                reverse("BlazeApp:view_thread", kwargs={"question_id": new_question.pk})
+            )
+        else:
+            messages.error(request, "Invalid thread submission.")
+
+    content = {"question_form": question_form}
     return render(request, "BlazeApp/create_thread.html", content)
+
+
+def view_thread(request, question_id):
+    try:
+        # Try to get the question object, return 404 if not found
+        question_instance = get_object_or_404(Question, pk=question_id)
+    except Http404:
+        # Question does not exist, return JsonResponse with appropriate message
+        return page_not_found_404(
+            request,
+            exception=404,
+            message="We don't entertain such queries",
+        )
+
+    answer_form = AnswerForm()
+    if request.method == "POST":
+        answer_form = AnswerForm(data=request.POST)
+        if answer_form.is_valid():
+            # Upon valid data, we will save the comment
+            new_answer = answer_form.save(
+                commit=False
+            )  # Create but don't save to the database yet
+            new_answer.poster = request.user
+            try:
+                # Try to get the question object, return 404 if not found
+                qid_instance = get_object_or_404(
+                    Question, pk=answer_form.cleaned_data["qid"]
+                )
+            except Http404:
+                # Question does not exist, return JsonResponse with appropriate message
+                return page_not_found_404(
+                    request, exception=404, message="You are luck I don't curse"
+                )
+            new_answer.question = qid_instance
+            new_answer.save()
+            # Redirect user to redirecting page to clear cache
+            return redirect("BlazeApp:redirecting_page")
+        else:
+            messages.error(request, "Invalid answer submission.")
+
+    content = {
+        "question_instance": question_instance,
+        "answers": question_instance.answers.all(),
+        "answer_form": answer_form,
+    }
+    return render(request, "BlazeApp/view_thread.html", content)
+
+
+def delete_thread(request):
+    if request.method == "POST":
+        question_id = request.POST["question_id"]
+        try:
+            # Try to get the question object, return 404 if not found
+            question = get_object_or_404(Question, pk=question_id)
+            if question.poster == request.user:
+                question.delete()
+            else:
+                return page_not_found_404(
+                    request,
+                    exception=404,
+                    message="Just how low you will go? Now you are after thread?? Like WTF",
+                )
+
+        except Http404:
+            # Question does not exist, return JsonResponse with appropriate message
+            return page_not_found_404(
+                request, exception=404, message="You just lost my trust. (Again)(Again)"
+            )
+        return redirect("BlazeApp:forum")
+    return page_not_found_404(
+        request,
+        exception=404,
+        message="Mama not gonna be proud of you. Really ? Like wait for a minute and look back bro",
+    )
+def delete_answer(request):
+    if request.method == "POST":
+        answer_id = request.POST["answer_id"]
+        try:
+            # Try to get the answer object, return 404 if not found
+            answer = get_object_or_404(Answer, pk=answer_id)
+            if answer.poster == request.user:
+                answer.delete()
+                # Redirect the user to the previous view
+                previous_view = request.META.get("HTTP_REFERER")
+                return redirect(previous_view)
+            else:
+                return page_not_found_404(
+                    request,
+                    exception=404,
+                    message="Just how low you will go? Now you are after thread?? Like WTF. Me tired",
+                )
+
+        except Http404:
+            # Answer does not exist, return JsonResponse with appropriate message
+            return page_not_found_404(
+                request, exception=404, message="You just lost my trust. (Again)(Again), Me tired"
+            )
+        return redirect("BlazeApp:forum")
+    return page_not_found_404(
+        request,
+        exception=404,
+    )

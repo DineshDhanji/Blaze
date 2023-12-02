@@ -123,6 +123,21 @@ urlpatterns = [
         login_required(views.create_thread),
         name="create_thread",
     ),
+    path(
+        "view_thread/cs2vmfps0sfd5ad<int:question_id>sdhfd[mlca73vps[a/",
+        login_required(views.view_thread),
+        name="view_thread",
+    ),
+    path(
+        "delete_thread/",
+        login_required(views.delete_thread),
+        name="delete_thread",
+    ),
+    path(
+        "delete_answer/",
+        login_required(views.delete_answer),
+        name="delete_answer",
+    ),
     # Redirecting page
     path(
         "redirecting_page/",

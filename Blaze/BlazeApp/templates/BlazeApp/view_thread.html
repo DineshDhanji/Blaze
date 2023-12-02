@@ -1,0 +1,127 @@
+{% extends 'BlazeApp/base.html' %}
+{% load static %}
+
+{% block title %}
+  Blaze Thread
+{% endblock %}
+
+{% block ExtraHeaders %}
+  <link href="{% static 'BlazeApp/base2.css' %}" rel="stylesheet" />
+  <link href="{% static 'BlazeApp/post.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+  <div class="content-d border border-top-0 border-bottom-0 border-end-0 col">
+    <div class="post-view-d bg-light-subtle text-body-emphasis border rounded my-3 col-11 col-md-10 col-lg-8 mx-auto">
+      <div class="col-12" style="height: max-content;">
+        <div class="post-header d-flex align-items-center justify-content-between pt-2 pb-1 px-2">
+          <div class="d-flex">
+            <a href="{% url 'BlazeApp:profile' question_instance.poster.pk %}">
+              <div class="ms-2 me-3 my-1" style="border: 2px solid black; border-radius: 50%; padding: 2px; border-color: {{ question_instance.poster.ring_color }}!important;">
+                <div class="post-d-profile-pic">
+                  <img src="{{ question_instance.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                </div>
+              </div>
+            </a>
+            <div class="d-flex flex-column justify-content-center text-truncate">
+              <a href="{% url 'BlazeApp:profile' question_instance.poster.pk %}"><div class="text-body-emphasis">{{ question_instance.poster.first_name }} {{ question_instance.poster.last_name }}</div></a>
+              <div class="post-d-timestamp text-secondary">{{ question_instance.timestamp }}</div>
+            </div>
+          </div>
+          {% if question_instance.poster == request.user %}
+            <div class="btn-group dropstart post-delete-d">
+              <button type="button" class="btn text-night dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
+              <ul class="dropdown-menu">
+                <li>
+                  <form action="{% url 'BlazeApp:delete_thread' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="question_id" value="{{ question_instance.pk }}" />
+                    <button type="submit" class="dropdown-item text-danger">Delete this thread</button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+          {% endif %}
+        </div>
+        <div class="post-material p-3 text-body-emphasis">
+          <div class="d-flex align-items-center flex-wrap mb-3">
+            <div class="col-12 col-md-6 lead my-1 fw-semibold text-truncate">{{ question_instance.title }}</div>
+            <div class="col-12 col-md-6 d-flex justify-content-md-end justify-content-start align-items-center user-select-none my-1">
+              {% comment %} {% with color_scheme=question_instance.get_category_color_scheme %}
+                <div class="border border-{{ color_scheme }} bg-{{ color_scheme }}-subtle text-{{ color_scheme }} px-2 py-1 rounded-2" style="width: max-content;">{{ question_instance.category }}</div>
+              {% endwith %} {% endcomment %}
+            </div>
+          </div>
+          <div>{{ question_instance.description|linebreaks }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-light-subtle text-body-emphasis border rounded my-3 col-11 col-md-10 col-lg-8 mx-auto">
+      <div class="col-12 p-3 border-start">
+        <div class="lead fw-normal mb-2">Write your Answer</div>
+        <div class="post-view-user-section col-12 p-1">
+          <form action="{% url 'BlazeApp:view_thread' question_instance.pk %}" method="post" class="d-flex flex-column align-items-start justify-content-center">
+            {% csrf_token %}
+            <input type="hidden" name="qid" id="id_qid" value="{{ question_instance.pk }}" />
+            {{ answer_form.content }}
+            <button type="submit" class="btn btn-dark my-2">Post Answer 🌟</button>
+            {% if answer_form.errors %}
+              <div class="alert alert-warning col-12" role="alert">{{ answer_form.errors }}</div>
+            {% endif %}
+          </form>
+        </div>
+        <div class="h4 fw-normal mt-3">Other Answer(s)</div>
+        <div class="post-all-comments">
+          {% if answers %}
+            {% for answer in answers %}
+              <div class="post-all-comments-item my-3">
+                <div class="ms-2 me-3 my-1" style="width: max-content; height: max-content;border: 2px solid black; border-radius: 50%; padding: 2px; border-color: {{ answers.poster.ring_color }}!important;">
+                  <div class="post-d-profile-pic">
+                    <img src="{{ answer.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                  </div>
+                </div>
+                <div class="post-comment-d p-2 border rounded bg-body-tertiary">
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <div class="fw-semibold text-truncate text-break text-body-emphasis">{{ answer.poster.first_name }} {{ answer.poster.last_name }}</div>
+                      <div class="fw-normal mb-2 text-secondary" style="font-size: 0.7rem;">{{ answer.timestamp }}</div>
+                    </div>
+                    {% if answer.poster == request.user %}
+                      <div class="btn-group dropstart post-delete-d">
+                        <button type="button" class="btn text-night dropdown-toggle" style="height: 2rem; width: 2rem; padding: 0rem;" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
+                        <ul class="dropdown-menu">
+                          <li class="fs-6">
+                            <form action="{% url 'BlazeApp:delete_answer' %}" method="post">
+                              {% csrf_token %}
+                              <input type="hidden" name="answer_id" value="{{ answer.pk }}" />
+                              <button type="submit" class="dropdown-item text-danger">Delete your answer</button>
+                            </form>
+                          </li>
+                        </ul>
+                      </div>
+                    {% endif %}
+                  </div>
+                  <div class="text-break text-body-emphasis">{{ answer.content|linebreaks }}</div>
+                  <div>Replies</div>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="border rounded bg-body-tertiary text-body-emphasis" style="height: max-content;">
+              <div class="text-center my-2 p-3">
+                <i class="fs-3 bi bi-chat-quote"></i>
+                <div>Be the first one to answer 😊</div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function autoResize(textarea) {
+      textarea.style.height = 'auto' // Reset the height to auto to calculate the new height
+      textarea.style.height = textarea.scrollHeight + 'px' // Set the height to the calculated scroll height
+    }
+  </script>
+{% endblock %}

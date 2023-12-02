@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from BlazeApp.models import Post, Comment, Share, Event
+from BlazeApp.models import Post, Comment, Share, Event, Question, Answer
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.validators import FileExtensionValidator
 from BlazeAdministration.customValidator import (
@@ -187,12 +187,8 @@ class EventForm(forms.ModelForm):
 
 
 class ProfilePictureForm(forms.Form):
-    x = forms.FloatField(
-        required=True, widget=forms.HiddenInput(attrs={"id": "pfp_x"})
-    )
-    y = forms.FloatField(
-        required=True, widget=forms.HiddenInput(attrs={"id": "pfp_y"})
-    )
+    x = forms.FloatField(required=True, widget=forms.HiddenInput(attrs={"id": "pfp_x"}))
+    y = forms.FloatField(required=True, widget=forms.HiddenInput(attrs={"id": "pfp_y"}))
     width = forms.FloatField(
         required=True, widget=forms.HiddenInput(attrs={"id": "pfp_width"})
     )
@@ -217,3 +213,65 @@ class ProfilePictureForm(forms.Form):
                 "id": "new_pfp",
             }
         )
+
+
+class QuestionForm(forms.ModelForm):
+    title = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "class": "col-12 col-lg-8 efi border rounded px-2",
+                "placeholder": "Enter your event title",
+                "style": "height: 2.3rem;",
+            }
+        )
+    )
+    description = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "class": "col-12 efi border rounded p-2",
+                "placeholder": "Enter your event description",
+                "cols": "30",
+                "rows": "10",
+            }
+        )
+    )
+    category = forms.ChoiceField(
+        choices=Question.Category_Choices,
+        widget=forms.Select(
+            attrs={
+                "class": "col-12 col-lg-8 efi border rounded p-2",
+            }
+        ),
+    )
+
+    class Meta:
+        model = Question
+        fields = [
+            "title",
+            "description",
+            "category",
+        ]
+
+
+class AnswerForm(forms.ModelForm):
+    content = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "class": "col-12 rounded border px-2 py-2",
+                "name": "answer",
+                "placeholder": "Enter the content of your answer/reply (up to 500 characters)",
+                "max_length": 500,
+                "rows": 4,
+                "oninput": "autoResize(this)",
+            }
+        ),
+        required=True,
+    )
+    qid = forms.IntegerField(widget=forms.HiddenInput())
+
+    class Meta:
+        model = Answer
+        fields = [
+            "content",
+            "qid",
+        ]

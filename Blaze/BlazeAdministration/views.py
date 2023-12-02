@@ -118,7 +118,7 @@ def list_instance(request, instanceModel):
     elif instanceModel == entitiesList[1]:
         dataset = Faculty.objects.all()
     else:
-        dataset = SocietyPage.objects.all()
+        dataset = Society.objects.all()
 
     return render(
         request,

@@ -367,11 +367,34 @@ class Question(models.Model):
     category = models.CharField(
         max_length=50, choices=Category_Choices, null=False, default="Miscellaneous"
     )
+    timestamp = models.DateTimeField(auto_now=True, null=False)
 
     class Meta:
         verbose_name = "Question"
         verbose_name_plural = "Questions"
 
+    @property
+    def get_category_color_scheme(self):
+        if self.category == "Programming":
+            return "primary"
+        elif self.category == "Academics":
+            return "secondary"
+        elif self.category == "Thoughts":
+            return "success"
+        elif self.category == "Social Issues":
+            return "danger"
+        elif self.category == "Events and Meetups":
+            return "warning"
+        elif self.category == "Personal Development":
+            return "info"
+        elif self.category == "Miscellaneous":
+            return "danger"
+        else:
+            return "secondary"
+
+    @property
+    def answers_count(self):
+        return self.answers.count
 
 class Answer(models.Model):
     poster = models.ForeignKey(
@@ -393,7 +416,10 @@ class Answer(models.Model):
     class Meta:
         verbose_name = "Answer"
         verbose_name_plural = "Answers"
-
+        
+    @property
+    def replies_count(self):
+        return self.replies.count
 
 class Notification(models.Model):
     Object_Choices = [
