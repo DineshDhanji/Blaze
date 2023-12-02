@@ -112,6 +112,17 @@ urlpatterns = [
         login_required(api_views.check_follow_or_unfollow),
         name="check_follow_or_unfollow",
     ),
+    # Forum
+    path(
+        "forum/",
+        login_required(views.forum),
+        name="forum",
+    ),
+    path(
+        "create_thread/",
+        login_required(views.create_thread),
+        name="create_thread",
+    ),
     # Redirecting page
     path(
         "redirecting_page/",

@@ -37,6 +37,22 @@
       } else {
         document.documentElement.setAttribute('data-bs-theme', 'light')
       }
+
+      document.addEventListener("DOMContentLoaded", ()=>{
+        const current_theme = localStorage.getItem('theme');
+        const html_element = document.querySelector("html");
+        const content_div = document.querySelector("#material")
+        if(content_div !== null)
+        { if (current_theme == 'dark'){
+          document.documentElement.classList.remove("bg-body-tertiary")
+          content_div.classList.remove("bg-body-tertiary");
+        }
+        else{
+          content_div.classList.add("bg-body-tertiary");
+          document.documentElement.classList.add("bg-body-tertiary")
+          }
+        }
+      })
     </script>
     <body>
       
@@ -149,7 +165,7 @@
                     </a>
                   </li>
                   <li class="d-block d-md-none nav-item offcanvas-li">
-                    <a class="nav-link d-flex align-items-center" aria-current="page" href="{% url 'BlazeApp:newsfeed' %}">
+                    <a class="nav-link d-flex align-items-center" aria-current="page" href="{% url 'BlazeApp:forum' %}">
                       <div class="me-3 fs-5">
                         <i class="bi bi-newspaper"></i>
                       </div>Forum
@@ -213,7 +229,7 @@
         </div>
       {% endblock %}
 
-      <div class="container-xxl d-flex" style="padding: 0px;">
+      <div id="material" class="container-xxl d-flex" style="padding: 0px;">
         {% block body %}
           <div class="side-panel-d d-none d-md-block">
             <a href="{% url 'BlazeApp:newsfeed' %}">
@@ -231,7 +247,7 @@
                 <i class="ms-3 me-3 bi bi-people"></i>Society
               </div>
             </a>
-            <a href="{% url 'BlazeApp:newsfeed' %}">
+            <a href="{% url 'BlazeApp:forum' %}">
               <div class="side-panel-item text-body-emphasis bg-scheme d-flex align-items-center fw-normal rounded mx-1 mt-2">
                 <i class="ms-3 me-3 bi bi-newspaper"></i>Forum
               </div>

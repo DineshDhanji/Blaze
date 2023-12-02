@@ -263,7 +263,9 @@ def profile(request, uid):
         "instance_posts": Post.objects.filter(poster=user_instance.user).order_by(
             "-timestamp"
         ),
-        "instance_events": Event.objects.filter(poster=user_instance.user).order_by("-start_date").all(),
+        "instance_events": Event.objects.filter(poster=user_instance.user)
+        .order_by("-start_date")
+        .all(),
         "instance_saved_posts": user_instance.user.saved_post.all().order_by(
             "-timestamp"
         )
@@ -443,7 +445,9 @@ def delete_event(request):
                 event.delete()
             else:
                 return page_not_found_404(
-                    request, exception=404, message="Just how low you will go? Now you are after events?"
+                    request,
+                    exception=404,
+                    message="Just how low you will go? Now you are after events?",
                 )
 
         except Http404:
@@ -506,3 +510,13 @@ def redirecting_page(request):
         return redirect(previous_view)
     else:
         return redirect("BlazeApp:newsfeed")
+
+
+def forum(request):
+    content = {}
+    return render(request, "BlazeApp/forum.html", content)
+
+
+def create_thread(request):
+    content = {}
+    return render(request, "BlazeApp/create_thread.html", content)
