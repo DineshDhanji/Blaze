@@ -9,4 +9,4 @@ FORUM
 Question, Answer, Reply 
 
 Fixs/Bugs/Updates
-Society should be able to delete an event 
+/ done / Society should be able to delete an event 
