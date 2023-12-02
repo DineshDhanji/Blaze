@@ -9,9 +9,34 @@
   <link href="{% static 'BlazeApp/base2.css' %}" rel="stylesheet" />
   <link href="{% static 'BlazeApp/profile.css' %}" rel="stylesheet" />
   <script src="{% static 'BlazeApp/profile.js' %}"></script>
+
   <!-- Masonry -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
   <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+  <style>
+    .event-view-d {
+      position: absolute;
+      right: 3px;
+      top: 3px;
+    }
+    .event-view-d button::before {
+      content: none !important;
+    }
+    
+    .event-view-d .dropdown-item:active {
+      background-color: #393939;
+      color: white !important;
+    }
+    #en {
+      -webkit-line-clamp: 2;
+      /* autoprefixer: off */
+      -webkit-box-orient: vertical;
+      /* autoprefixer: on */
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+    }
+  </style>
 {% endblock %}
 
 {% block content %}
@@ -59,15 +84,20 @@
 
       <div class="post-switch-d d-flex justify-content-center col-12 mt-4 border border-top" style="height: max-content;">
         <div id="ps-pb" class="d-flex justify-content-center align-items-center mx-2 py-2 text-uppercase text-body-emphasis bg-scheme" onclick="show_posts()">
-          <i class="fs-5 bi bi-file-richtext mx-2"></i><span class="mx-2" style="font-size: 0.9rem">Posts</span>
+          <i class="fs-5 bi bi-file-richtext mx-2"></i><span class="d-none d-sm-block mx-2" style="font-size: 0.9rem">Posts</span>
         </div>
+        {% if instance.user.is_society %}
+          <div id="ps-eb" class="d-flex justify-content-center align-items-center mx-2 py-2 text-uppercase text-body-emphasis bg-scheme" onclick="show_events()">
+            <i class="fs-5 bi bi-calendar4-event mx-2"></i><span class="d-none d-sm-block mx-2" style="font-size: 0.9rem">Events</span>
+          </div>
+        {% endif %}
         {% if instance.user == request.user %}
           <div id="ps-sb" class="d-flex justify-content-center align-items-center mx-2 py-2 text-uppercase text-body-emphasis bg-scheme" onclick="show_saved_posts()">
-            <i class="fs-5 bi bi-bookmark mx-2"></i><span class="mx-2" style="font-size: 0.9rem">Saved</span>
+            <i class="fs-5 bi bi-bookmark mx-2"></i><span class="d-none d-sm-block mx-2" style="font-size: 0.9rem">Saved</span>
           </div>
         {% endif %}
         <div id="ps-ib" class="d-flex justify-content-center align-items-center mx-2 px-2 py-2 text-uppercase text-body-emphasis bg-scheme" onclick="show_info()">
-          <i class="fs-5 bi bi-info-square"></i><span class="mx-2" style="font-size: 0.9rem">Info</span>
+          <i class="fs-5 bi bi-info-square"></i><span class="d-none d-sm-block mx-2" style="font-size: 0.9rem">Info</span>
         </div>
       </div>
     </div>
@@ -170,7 +200,7 @@
           </div>
         {% endfor %}
       {% else %}
-        <div class="border rounded bg-body-tertiary text-body-emphasis col-10 m-4" style="height: max-content;">
+        <div class="border rounded bg-body-tertiary text-body-emphasis col-10 mx-auto my-4" style="height: max-content;">
           <div class="d-flex justify-content-center align-items-center flex-column my-2 p-3" style="height: 7rem;">
             <i class="fs-3 bi bi-file-richtext"></i>
             <div>No post found 🤨🫡</div>
@@ -185,6 +215,67 @@
         itemSelector: '.post-d'
       })
     </script>
+
+    <div id="profile-events-d" class="p-3">
+      {% if instance_events %}
+        <div class="d-flex flex-column col-12">
+          {% for event in instance_events %}
+            <div class="d-flex flex-wrap bg-body-tertiary text-body-emphasis overflow-hidden border border-dark-subtle col-12 rounded position-relative mt-1 mb-3" style="height: max-content;">
+              <div class="btn-group dropstart event-view-d">
+                <button type="button" class="btn text-night dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="{% url 'BlazeApp:view_event' event.pk %}" class="dropdown-item">View event details</a>
+                  </li>
+                  {% if event.poster == request.user %}
+                    <li>
+                      <form action="{% url 'BlazeApp:delete_event' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="event_id" value="{{ event.pk }}" />
+                        <button type="submit" class="dropdown-item text-danger">Delete this event</button>
+                      </form>
+                    </li>
+                  {% endif %}
+                </ul>
+              </div>
+
+              <div class="d-flex flex-wrap justify-content-center align-items-center bg-body-secondary col-12 col-sm-4 fw-light p-3">
+                {% if event.expired %}
+                  <div class="text-danger position-absolute top-0 mt-1">EXPIRED</div>
+                {% endif %}
+                <div style="font-size: 6rem; line-height: 1.2;">{{ event.start_date|date:'d' }}</div>
+                <div>{{ event.start_date|date:'M' }}</div>
+              </div>
+              <div class="d-flex flex-column justify-content-center col-12 col-sm-8 py-3 ps-4 pe-3">
+                <div id="en" class="fs-2">
+                  <a href="{% url 'BlazeApp:view_event' event.pk %}" class="text-body-emphasis">{{ event.title }}</a>
+                </div>
+                <div class="fs-6 mt-3">
+                  <a href="{% url 'BlazeApp:profile' event.poster.pk %}" class="text-secondary">{{ event.poster.first_name }} {{ event.poster.last_name }}</a>
+                </div>
+                <div class="d-flex">
+                  <div class="text-body-emphasis mt-1 me-3">
+                    <i class="text-danger bi bi-heart-fill"></i>
+                    <span>{{ event.like_count }}</span>
+                  </div>
+                  <div class="text-body-emphasis mt-1 me-3">
+                    <i class="text-primary bi bi-chat-square-text-fill"></i>
+                    <span>{{ event.comment_count }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="border rounded bg-body-tertiary text-body-emphasis col-10 mx-auto my-4" style="height: max-content;">
+          <div class="d-flex justify-content-center align-items-center flex-column my-2 p-3" style="height: 7rem;">
+            <i class="fs-3 bi bi-file-richtext"></i>
+            <div>No events found 🤨🫡</div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
 
     <div id="profile-saved-posts-d" class="p-3">
       {% if instance_saved_posts %}
@@ -284,7 +375,7 @@
           </div>
         {% endfor %}
       {% else %}
-        <div class="border rounded bg-body-tertiary text-body-emphasis col-10 m-4" style="height: max-content;">
+        <div class="border rounded bg-body-tertiary text-body-emphasis col-10 mx-auto my-4" style="height: max-content;">
           <div class="d-flex justify-content-center align-items-center flex-column my-2 p-3" style="height: 7rem;">
             <i class="fs-3 bi bi-bookmark"></i>
             <div>No saved post found 🤨🫡</div>

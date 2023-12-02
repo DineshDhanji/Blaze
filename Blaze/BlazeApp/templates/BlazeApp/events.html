@@ -40,7 +40,7 @@
       <div class="fs-6 px-3 pt-2 pb-3" style="height: max-content;">Dive into ongoing events! From engaging lectures to fun workshops, find your interests below. Discover, learn, and have a great time! 🚀✨</div>
     </div>
 
-    <div class="d-flex flex-wrap border-dark m-2 px-2 pt-1 pb-5" style="min-height: 80vh!important; height: max-content!important;">
+    <div class="d-flex flex-column flex-wrap border-dark m-2 px-2 pt-1 pb-5" style="min-height: 80vh!important; height: max-content!important;">
       {% if event_instances %}
         {% for event in event_instances %}
           <div class="d-flex flex-wrap bg-body-tertiary text-body-emphasis overflow-hidden border border-dark-subtle col-12 col-lg-11 rounded position-relative mt-1 mb-3" style="height: max-content;">
@@ -50,6 +50,15 @@
                 <li>
                   <a href="{% url 'BlazeApp:view_event' event.pk %}" class="dropdown-item">View event details</a>
                 </li>
+                {% if event.poster == request.user %}
+                  <li>
+                    <form action="{% url 'BlazeApp:delete_event' %}" method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="event_id" value="{{ event.pk }}" />
+                      <button type="submit" class="dropdown-item text-danger">Delete this event</button>
+                    </form>
+                  </li>
+                {% endif %}
               </ul>
             </div>
 
@@ -59,7 +68,7 @@
             </div>
             <div class="d-flex flex-column justify-content-center col-12 col-sm-8 py-3 ps-4 pe-3">
               <div id="en" class="fs-2">
-                <a href="{% url 'BlazeApp:view_event' event.pk %}" class="text-body-emphasis ">{{ event.title }}</a>
+                <a href="{% url 'BlazeApp:view_event' event.pk %}" class="text-body-emphasis">{{ event.title }}</a>
               </div>
               <div class="fs-6 mt-3">
                 <a href="{% url 'BlazeApp:profile' event.poster.pk %}" class="text-secondary">{{ event.poster.first_name }} {{ event.poster.last_name }}</a>

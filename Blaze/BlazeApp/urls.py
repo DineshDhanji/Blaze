@@ -59,6 +59,11 @@ urlpatterns = [
         name="create_event",
     ),
     path(
+        "delete_event/",
+        login_required(views.delete_event),
+        name="delete_event",
+    ),
+    path(
         "view_event/pqmpevna5fjc0yr6zp<int:event_id>sdhfd[m[a/",
         login_required(views.view_event),
         name="view_event",

@@ -1,21 +1,12 @@
-Newsfeed
-Events
-Societies
-Forum
-Search
-Notifications
-Profile
-Logout
+Notification working
+POST
+Like, Comment, Share, Saved
 
+EVENT
+Like, Comment, Upcoming Event
 
-USERS
+FORUM
+Question, Answer, Reply 
 
-admin
-admin123
-
-
-k213463
-a
-
-k214582
-a
+Fixs/Bugs/Updates
+Society should be able to delete an event 

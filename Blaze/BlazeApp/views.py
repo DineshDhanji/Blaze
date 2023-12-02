@@ -117,16 +117,14 @@ def settings(request):
             image = Image.open(new_pfp_form.cleaned_data["new_profile_picture"])
             cropped_image = image.crop((x, y, width + x, height + y))
             resized_image = cropped_image.resize((400, 400), Image.LANCZOS)
-            
+
             # Delet the old one only when it's not the default picture
             temp = request.user.profile_picture.name
-            if (temp != "profile_pics/Default_Profile_Picture.png"):
+            if temp != "profile_pics/Default_Profile_Picture.png":
                 request.user.profile_picture.delete()
             # Convert the Image object to bytes and create a ContentFile
             image_bytes = BytesIO()
-            resized_image.save(
-                image_bytes, format="PNG"
-            )  # Adjust the format as needed
+            resized_image.save(image_bytes, format="PNG")  # Adjust the format as needed
             image_file = base.ContentFile(image_bytes.getvalue(), name=image_name)
 
             # Save the new profile picture to the user's profile
@@ -265,6 +263,7 @@ def profile(request, uid):
         "instance_posts": Post.objects.filter(poster=user_instance.user).order_by(
             "-timestamp"
         ),
+        "instance_events": Event.objects.filter(poster=user_instance.user).order_by("-start_date").all(),
         "instance_saved_posts": user_instance.user.saved_post.all().order_by(
             "-timestamp"
         )
@@ -432,6 +431,30 @@ def create_event(request):
 
     content = {"event_form": event_form}
     return render(request, "BlazeApp/create_event.html", content)
+
+
+def delete_event(request):
+    if request.method == "POST":
+        event_id = request.POST["event_id"]
+        try:
+            # Try to get the event object, return 404 if not found
+            event = get_object_or_404(Event, pk=event_id)
+            if event.poster == request.user:
+                event.delete()
+            else:
+                return page_not_found_404(
+                    request, exception=404, message="Just how low you will go? Now you are after events?"
+                )
+
+        except Http404:
+            # Event does not exist, return JsonResponse with appropriate message
+            return page_not_found_404(
+                request, exception=404, message="You just lost my trust. (Again)"
+            )
+        return redirect("BlazeApp:newsfeed")
+    return page_not_found_404(
+        request, exception=404, message="Mama not gonna be proud of you. Really ?"
+    )
 
 
 def view_event(request, event_id):

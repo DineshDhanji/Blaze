@@ -24,12 +24,13 @@
 }
 
 #profile-posts-d,
-#profile-saved-posts-d,
+#profile-events-d #profile-saved-posts-d,
 #profile-info-d {
     height: max-content;
 }
 
 #ps-pb,
+#ps-eb,
 #ps-sb,
 #ps-ib {
     border-top: 2px solid transparent;
@@ -37,6 +38,7 @@
 
 #ps-pb:hover,
 #ps-ib:hover,
+#ps-eb:hover,
 #ps-sb:hover {
     border-top: 0.18rem solid transparent;
 }
