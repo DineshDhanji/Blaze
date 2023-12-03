@@ -48,9 +48,9 @@
           <div class="d-flex align-items-center flex-wrap mb-3">
             <div class="col-12 col-md-6 lead my-1 fw-semibold text-truncate">{{ question_instance.title }}</div>
             <div class="col-12 col-md-6 d-flex justify-content-md-end justify-content-start align-items-center user-select-none my-1">
-              {% comment %} {% with color_scheme = question_instance.get_category_color_scheme %}
+              {% with color_scheme=question_instance.get_category_color_scheme %}
                 <div class="border border-{{ color_scheme }} bg-{{ color_scheme }}-subtle text-{{ color_scheme }} px-2 py-1 rounded-2" style="width: max-content;">{{ question_instance.category }}</div>
-              {% endwith %} {% endcomment %}
+              {% endwith %}
             </div>
           </div>
           <div>{{ question_instance.description|linebreaks }}</div>
@@ -124,36 +124,7 @@
                         </div>
                         <!-- Answer Footer -->
                         <div id="reply-footer" class="modal-footer justify-content-start">
-                          {% comment %} <div class="post-all-comments-item my-3" data-aid="{{ answer.pk }}">
-                            <div class="ms-2 me-3 my-1" style="width: max-content; height: max-content;border: 2px solid black; border-radius: 50%; padding: 2px; border-color: {{ answer.poster.ring_color }}!important;">
-                              <div class="post-d-profile-pic">
-                                <img src="{{ answer.poster.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
-                              </div>
-                            </div>
-                            <div class="post-comment-d p-2 border rounded bg-body-tertiary">
-                              <div class="d-flex justify-content-between">
-                                <div>
-                                  <div class="fw-semibold text-truncate text-break text-body-emphasis">{{ answer.poster.first_name }} {{ answer.poster.last_name }}</div>
-                                  <div class="fw-normal mb-2 text-secondary" style="font-size: 0.7rem;">{{ answer.timestamp }}</div>
-                                </div>
-                                {% if answer.poster == request.user %}
-                                  <div class="btn-group dropstart post-delete-d">
-                                    <button type="button" class="btn text-night dropdown-toggle" style="height: 2rem; width: 2rem; padding: 0rem;" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
-                                    <ul class="dropdown-menu">
-                                      <li class="fs-6">
-                                        <form action="{% url 'BlazeApp:delete_answer' %}" method="post">
-                                          {% csrf_token %}
-                                          <input type="hidden" name="answer_id" value="{{ answer.pk }}" />
-                                          <button type="submit" class="dropdown-item text-danger">Delete your answer</button>
-                                        </form>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                {% endif %}
-                              </div>
-                              <div class="text-break text-body-emphasis">{{ answer.content|linebreaks }}</div>
-                            </div>
-                          </div> {% endcomment %}
+                          <!-- Dynamic fill -->
                         </div>
                       </div>
                     </div>

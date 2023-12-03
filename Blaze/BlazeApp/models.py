@@ -396,6 +396,14 @@ class Question(models.Model):
     def answers_count(self):
         return self.answers.count
 
+    @property
+    def replies_count(self):
+        count = 0
+        for a in self.answers.all():
+            count += a.replies.count()
+        return count
+
+
 class Answer(models.Model):
     poster = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="answers", null=False, default=0
@@ -416,10 +424,11 @@ class Answer(models.Model):
     class Meta:
         verbose_name = "Answer"
         verbose_name_plural = "Answers"
-        
+
     @property
     def replies_count(self):
         return self.replies.count
+
 
 class Notification(models.Model):
     Object_Choices = [
@@ -475,4 +484,4 @@ class Reply(models.Model):
     class Meta:
         verbose_name = "Reply"
         verbose_name_plural = "Replies"
-        ordering = ['timestamp']
+        ordering = ["timestamp"]

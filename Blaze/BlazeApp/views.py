@@ -26,7 +26,7 @@ from .models import (
     Question,
     Answer,
 )
-from django.db.models import Q
+from django.db.models import Q, Count
 
 from PIL import Image
 from io import BytesIO
@@ -526,7 +526,8 @@ def redirecting_page(request):
 
 
 def forum(request):
-    questions = Question.objects.all()
+    # questions = Question.objects.all()
+    questions = Question.objects.annotate(total_answers=Count('answers'), total_replies=Count('answers__replies')).order_by('-total_answers', '-total_replies')
     content = {"questions": questions}
     return render(request, "BlazeApp/forum.html", content)
 
