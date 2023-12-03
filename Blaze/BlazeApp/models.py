@@ -430,11 +430,26 @@ class Answer(models.Model):
         return self.replies.count
 
 
+class Reply(models.Model):
+    aid = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name="replies")
+    uid = models.ForeignKey(User, on_delete=models.CASCADE, related_name="replies")
+    content = models.CharField(
+        max_length=500,
+        help_text="Enter the content of your answer/reply (up to 500 characters).",
+    )
+    timestamp = models.DateTimeField(auto_now=True, null=False)
+
+    class Meta:
+        verbose_name = "Reply"
+        verbose_name_plural = "Replies"
+        ordering = ["timestamp"]
+
+
 class Notification(models.Model):
     Object_Choices = [
-        ("Post", "Post"),
-        ("Event", "Event"),
-        ("Forum", "Forum"),
+        ("post", "Post"),
+        ("event", "Event"),
+        ("forum", "Forum"),
     ]
     content = models.TextField(max_length=500, null=False, default="No Content")
     timestamp = models.DateTimeField(auto_now=True, null=False)
@@ -470,18 +485,3 @@ class Notification(models.Model):
                 f"Object with ID {self.object_id} does not exist in the {self.object_type} object type."
             )
         super().save(*args, **kwargs)
-
-
-class Reply(models.Model):
-    aid = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name="replies")
-    uid = models.ForeignKey(User, on_delete=models.CASCADE, related_name="replies")
-    content = models.CharField(
-        max_length=500,
-        help_text="Enter the content of your answer/reply (up to 500 characters).",
-    )
-    timestamp = models.DateTimeField(auto_now=True, null=False)
-
-    class Meta:
-        verbose_name = "Reply"
-        verbose_name_plural = "Replies"
-        ordering = ["timestamp"]

@@ -5,7 +5,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404, redirect
 from django.http import Http404
 
-from .models import Post, User, Event, Answer, User, Reply
+from .models import Post, User, Event, Answer, User, Reply, Notification
 from .serializers import (
     LikeStatusSerializer,
     SavedStatusSerializer,
@@ -14,7 +14,6 @@ from .serializers import (
     UserSerializer,
     ReplySerializer,
 )
-from .views import redirecting_page
 
 
 # LIKE FOR EVENT
@@ -68,7 +67,7 @@ def event_check_like_or_unlike(request, event_id):
     return Response(serializer.data)
 
 
-# LIKE
+# LIKE FOR POST
 @api_view(["GET"])
 def like_or_unlike(request, post_id):
     try:
@@ -356,3 +355,38 @@ def delete_reply(request, rid):
             },
             status=status.HTTP_404_NOT_FOUND,
         )
+
+
+# NOTIFICATION
+@api_view(["GET"])
+def noti_read(request, nid):
+    try:
+        # Try to get the notification object, return 404 if not found
+        noti = get_object_or_404(Notification, pk=nid)
+    except Http404:
+        # Notification does not exist, return JsonResponse with appropriate message
+        return Response(
+            {
+                "error": "No such notification exists in the database.",
+                "status": status.HTTP_404_NOT_FOUND,
+            },
+            status=status.HTTP_404_NOT_FOUND,
+        )
+    if noti.user == request.user:
+        noti.is_read = True
+        noti.save()
+    else:
+        return Response(
+            {
+                "error": "No such notification exists in the database.",
+                "status": status.HTTP_404_NOT_FOUND,
+            },
+            status=status.HTTP_404_NOT_FOUND,
+        )
+    return Response(
+        {
+            "error": None,
+            "status": status.HTTP_200_OK,
+        },
+        status=status.HTTP_200_OK,
+    )

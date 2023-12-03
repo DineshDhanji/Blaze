@@ -101,7 +101,7 @@ function load_reply_in_container(element) {
                     footer.append(new_reply_item);
                 })
             } else {
-                console.error(data.error);
+                console.error(answer_instance.error);
             }
         })
         .catch(error => {

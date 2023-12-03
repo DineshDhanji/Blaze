@@ -112,7 +112,7 @@ urlpatterns = [
         login_required(api_views.check_follow_or_unfollow),
         name="check_follow_or_unfollow",
     ),
-    # API related to reply
+    # API related to Reply
     path(
         "get_reply/<int:rid>/",
         login_required(api_views.get_reply),
@@ -128,11 +128,17 @@ urlpatterns = [
         login_required(api_views.create_reply),
         name="create_reply",
     ),
-    # API related to answer
+    # API related to Answer
     path(
         "get_answer/<int:aid>/",
         login_required(api_views.get_answer),
         name="get_answer",
+    ),
+    # API related to Notification
+    path(
+        "read/<int:nid>/",
+        login_required(api_views.noti_read),
+        name="noti_read",
     ),
     # Forum
     path(

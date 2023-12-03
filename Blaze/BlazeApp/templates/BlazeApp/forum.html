@@ -46,15 +46,15 @@
             <!-- header -->
             <div class="d-flex mb-3" style="height: 4rem;">
               <div class="d-flex align-items-center col text-body-emphasis user-select-none">
-                <a href="#">
-                  <div class="d-flex justify-content-center align-items-center me-3 my-1" style="border: 2px solid black; border-radius: 50%; padding: 2px; border-color: {{ question.poster.ring_color }}!important; width:3.2rem; height:3.2rem">
+                <a href="{% url 'BlazeApp:profile' question.poster.pk %}" class="me-3 my-1">
+                  <div class="d-flex justify-content-center align-items-center" style="border: 2px solid black; border-radius: 50%; padding: 2px; border-color: {{ question.poster.ring_color }}!important; width:3.2rem; height:3.2rem">
                     <div class="post-d-profile-pic">
                       <img src="{{ question.poster.profile_picture.url }}" class="img-fluid" alt="poster profile picture" />
                     </div>
                   </div>
                 </a>
                 <div>
-                  <div class="text-truncate">{{ question.poster.first_name }} {{ question.poster.last_name }}</div>
+                  <a href="{% url 'BlazeApp:profile' question.poster.pk %}"><div class="text-body-emphasis text-truncate">{{ question.poster.first_name }} {{ question.poster.last_name }}</div></a>
                   <div class="post-d-timestamp text-secondary">{{ question.timestamp }}</div>
                 </div>
               </div>
@@ -108,5 +108,18 @@
       {% endif %}
     </div>
   </div>
-  <div class="minisidebar-d border border-dark col-3 d-none d-lg-block text-body-emphasis" style="height: 10rem;">HHKH</div>
+  <div class="minisidebar-d d-none d-lg-block text-body-emphasis" style="height: max-content;min-width: 10rem;">
+    <div class="mt-4 border bg-body-tertiary rounded p-3">
+      <div class="lead mx-2 mb-3">Filter by Topics</div>
+      <div class="d-flex flex-wrap">
+        <a href="#" class="m-2"><div class="border border-primary bg-primary-subtle text-primary px-2 py-1 rounded-2" style="width: max-content;">Programming</div></a>
+        <div class="border border-secondary bg-secondary-subtle text-secondary m-2 px-2 py-1 rounded-2" style="width: max-content;">Academics</div>
+        <div class="border border-success bg-success-subtle text-success m-2 px-2 py-1 rounded-2" style="width: max-content;">Thoughts</div>
+        <div class="border border-danger bg-danger-subtle text-danger m-2 px-2 py-1 rounded-2" style="width: max-content;">Social Issues</div>
+        <div class="border border-warning bg-warning-subtle text-warning m-2 px-2 py-1 rounded-2" style="width: max-content;">Events and Meetups</div>
+        <div class="border border-info bg-info-subtle text-info m-2 px-2 py-1 rounded-2" style="width: max-content;">Personal Development</div>
+        <div class="border border-danger bg-danger-subtle text-danger m-2 px-2 py-1 rounded-2" style="width: max-content;">Miscellaneous</div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

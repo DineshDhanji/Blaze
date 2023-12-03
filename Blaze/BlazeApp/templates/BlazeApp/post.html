@@ -143,16 +143,17 @@
           {% if comments %}
             {% for comment in comments %}
               <div class="post-all-comments-item my-3">
-                <div class="ms-2 me-3 my-1" style="width: max-content; height: max-content;border: 2px solid black; border-radius: 50%; padding: 2px; border-color: {{ comment.user.ring_color }}!important;">
-                  <div class="post-d-profile-pic">
-                    <img src="{{ comment.user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                <a href="{% url 'BlazeApp:profile' comment.user.pk %}" class="ms-2 me-3 my-1">
+                  <div style="width: max-content; height: max-content;border: 2px solid black; border-radius: 50%; padding: 2px; border-color: {{ comment.user.ring_color }}!important;">
+                    <div class="post-d-profile-pic">
+                      <img src="{{ comment.user.profile_picture.url }}" alt="poster profile picture" style="width: inherit;" />
+                    </div>
                   </div>
-                </div>
+                </a>
                 <div class="post-comment-d p-2 border rounded bg-body-tertiary">
                   <div class="d-flex justify-content-between">
                     <div>
-                      <div class="fw-semibold text-truncate text-break text-body-emphasis">{{ comment.user.first_name }} {{ comment.user.last_name }}</div>
-                      <div class="fw-normal mb-2 text-secondary" style="font-size: 0.7rem;">{{ comment.timestamp }}</div>
+                      <a href="{% url 'BlazeApp:profile' comment.user.pk %}"><div class="fw-semibold text-truncate text-break text-body-emphasis">{{ comment.user.first_name }} {{ comment.user.last_name }}</div></a> <div class="fw-normal mb-2 text-secondary" style="font-size: 0.7rem;">{{ comment.timestamp }}</div>
                     </div>
                     {% if comment.user == request.user %}
                       <div class="btn-group dropstart post-delete-d">

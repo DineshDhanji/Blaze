@@ -158,16 +158,6 @@ a {
     margin: 5px 0px;
 }
 
-.noti-read {
-    background-color: #E9ECEF;
-}
-
-.noti-not-read {
-    /* background-color: #F8F9FA; */
-}
-
-
-
 /* width */
 ::-webkit-scrollbar {
     width: 5px;
