@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Answer, Reply
+from .models import User, Answer, Reply, Notification
 
 
 class LikeStatusSerializer(serializers.Serializer):
@@ -30,7 +30,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ReplySerializer(serializers.ModelSerializer):
-    # aid = AnswerSerializer()
     uid = UserSerializer()
 
     class Meta:
@@ -53,8 +52,20 @@ class AnswerSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "poster",
-            # 'question',
             "content",
             "timestamp",
             "replies",
+        ]
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = [
+            "id",
+            "content",
+            "timestamp",
+            "object_type",
+            "object_id",
+            "is_read",
         ]

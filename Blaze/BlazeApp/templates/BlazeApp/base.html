@@ -65,38 +65,17 @@
           <!-- Navbar Profile Dropdown & Notification -->
           <div class="d-flex align-items-center">
             <!-- Notification Offcanvas -->
-            <button class="btn border bg-scheme mx-2 fs-5 position-relative noti-btn text-body-emphasis" type="button" data-bs-toggle="offcanvas" data-bs-target="#NotificationOffcanvas" aria-controls="offcanvasNotification"><div id="noti-indicator"></div><i class="bi bi-bell"></i></button>
+            <button id="nbtn" class="btn border bg-scheme mx-2 fs-5 position-relative noti-btn text-body-emphasis" type="button" data-bs-toggle="offcanvas" data-bs-target="#NotificationOffcanvas" aria-controls="offcanvasNotification"><i class="bi bi-bell"></i></button>
             <div class="offcanvas offcanvas-end" tabindex="-1" id="NotificationOffcanvas" aria-labelledby="NotificationOffcanvasLabel">
               <div class="offcanvas-header">
                 <div class="offcanvas-title h4 mt-2 ms-2" id="offcanvasRightLabel">Notifications 🔔</div>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
               </div>
               <div class="offcanvas-body">
-                <ul class="list-group list-group-flush text-body-emphasis">
-                  {% if request.user.notifications %}
-                    {% for notification in request.user.notifications.all %}
-                      {% if notification.is_read %}
-                        <li class="list-group-item bg-body-tertiary notification-item rounded border noti-read" data-nid="{{notification.pk}}">
-                      {% else %}
-                        <li class="list-group-item bg-body-secondary notification-item rounded border noti-read" data-nid="{{notification.pk}}">
-                      {% endif %}
-                      {% comment %} <a href="{% url 'BlazeApp:view_post' notification.object_id %}"> {% endcomment %}
-                        <div class="mt-1 text-body-emphasis">
-                          {{notification.content}}
-                        </div>
-                        <div class="mt-2 text-secondary"style="font-size: 0.7rem;">
-                          {{notification.timestamp}}
-                        </div>
-                      {% comment %} </a> {% endcomment %}
-                    </li>
-                    {% endfor %}
-                  {% else %}
+                <ul id="nul" class="list-group list-group-flush text-body-emphasis">
                   <li class="list-group-item bg-light-subtle notification-item rounded border noti-not-read">
-                    <div>
-                      No Notification yet (。_。)
-                    </div>
+                    <div>No Notification yet (。_。)</div>
                   </li>
-                  {% endif %}
                 </ul>
               </div>
             </div>

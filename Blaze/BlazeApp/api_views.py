@@ -13,6 +13,7 @@ from .serializers import (
     AnswerSerializer,
     UserSerializer,
     ReplySerializer,
+    NotificationSerializer
 )
 
 
@@ -387,6 +388,25 @@ def noti_read(request, nid):
         {
             "error": None,
             "status": status.HTTP_200_OK,
+        },
+        status=status.HTTP_200_OK,
+    )
+
+
+@api_view(["GET"])
+def notification_heart_beat(request):
+    # Assuming you have a Notification model and want to get notifications for the current user
+    notifications = request.user.notifications.all()
+
+    # Serialize the response data using NotificationSerializer
+    serializer = NotificationSerializer(notifications, many=True)
+
+    # Return the serialized data as JSON response with success status
+    return Response(
+        {
+            "data": serializer.data,
+            "error": None,
+            "status": "success",
         },
         status=status.HTTP_200_OK,
     )

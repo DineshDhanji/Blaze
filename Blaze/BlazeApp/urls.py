@@ -140,6 +140,11 @@ urlpatterns = [
         login_required(api_views.noti_read),
         name="noti_read",
     ),
+    path(
+        "notification_heart_beat/",
+        login_required(api_views.notification_heart_beat),
+        name="notification_heart_beat",
+    ),
     # Forum
     path(
         "forum/",

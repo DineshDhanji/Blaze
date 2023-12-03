@@ -31,6 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
     update_event_likes();
 })
 
+function playLikeSound() {
+    const LikeSound = new Audio('/static/BlazeApp/sounds/like_sound.mp3'); // Adjust the path to your notification sound file
+    LikeSound.play();
+}
 
 // Event Functionalities
 function event_like_or_unlike(element) {
@@ -49,6 +53,7 @@ function event_like_or_unlike(element) {
             })
             .then(data => {
                 if (data.error === null) {
+                    playLikeSound()
                     if (data.like_status) {
                         // user has liked the event
                         element.innerHTML = `<i class="text-danger fs-5 m-1 bi bi-heart-fill"></i>
@@ -120,6 +125,7 @@ function like_or_unlike(element) {
         })
         .then(data => {
             if (data.error === null) {
+                playLikeSound()
                 if (data.like_status) {
                     // user has liked the post
                     element.innerHTML = `<i class="text-danger fs-5 m-1 bi bi-heart-fill"></i>
@@ -205,6 +211,7 @@ function save_or_unsave(element) {
         })
         .then(data => {
             if (data.error === null) {
+                playLikeSound()
                 if (data.saved_status) {
                     // user has saved the post
                     element.innerHTML = `<i class="text-night fs-5 m-1 bi bi-bookmark-fill"></i>
