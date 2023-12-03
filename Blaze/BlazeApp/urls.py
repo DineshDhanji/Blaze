@@ -28,7 +28,7 @@ urlpatterns = [
     path("events/", login_required(views.events), name="events"),
     path("society/", login_required(views.society), name="society"),
     path(
-        "profile/129s36dp#v=k35<int:uid>313d60#c3a9pvmq5c3vjg",
+        "profile/129s36dpv=k35<int:uid>313d60c3a9pvmq5c3vjg",
         login_required(views.profile),
         name="profile",
     ),
@@ -111,6 +111,28 @@ urlpatterns = [
         "check_follow_or_unfollow/<int:user_id>/",
         login_required(api_views.check_follow_or_unfollow),
         name="check_follow_or_unfollow",
+    ),
+    # API related to reply
+    path(
+        "get_reply/<int:rid>/",
+        login_required(api_views.get_reply),
+        name="get_reply",
+    ),
+    path(
+        "delete_reply/<int:rid>/",
+        login_required(api_views.delete_reply),
+        name="delete_reply",
+    ),
+    path(
+        "create_reply/<int:aid>/<str:new_reply>/",
+        login_required(api_views.create_reply),
+        name="create_reply",
+    ),
+    # API related to answer
+    path(
+        "get_answer/<int:aid>/",
+        login_required(api_views.get_answer),
+        name="get_answer",
     ),
     # Forum
     path(

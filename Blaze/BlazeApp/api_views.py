@@ -2,15 +2,19 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.http import Http404
 
-from .models import Post, User, Event
+from .models import Post, User, Event, Answer, User, Reply
 from .serializers import (
     LikeStatusSerializer,
     SavedStatusSerializer,
     FollowStatusSerializer,
+    AnswerSerializer,
+    UserSerializer,
+    ReplySerializer,
 )
+from .views import redirecting_page
 
 
 # LIKE FOR EVENT
@@ -226,3 +230,129 @@ def follow_or_unfollow(request, user_id):
 
     # Return the serialized data as JSON response
     return Response(serializer.data)
+
+
+# ANSWER
+@api_view(["GET"])
+def get_answer(request, aid):
+    try:
+        # Try to get the answer object, return 404 if not found
+        answer = get_object_or_404(Answer, pk=aid)
+    except Http404:
+        # Answer does not exist, return JsonResponse with appropriate message
+        return Response(
+            {
+                "data": None,
+                "error": "No such answer exists in the database.",
+                "status": status.HTTP_404_NOT_FOUND,
+            },
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    # Serialize the response data
+    serializer = AnswerSerializer(answer)
+    # Return the serialized data as JSON response with success status
+    return Response(
+        {
+            "data": serializer.data,
+            "error": None,
+            "status": "success",
+        },
+        status=status.HTTP_200_OK,
+    )
+
+
+# REPLY
+@api_view(["GET"])
+def create_reply(request, aid, new_reply):
+    try:
+        # Try to get the answer object, return 404 if not found
+        answer = get_object_or_404(Answer, pk=aid)
+    except Http404:
+        # Answer does not exist, return JsonResponse with appropriate message
+        return Response(
+            {
+                "data": None,
+                "error": "No such answer exists in the database.",
+                "status": status.HTTP_404_NOT_FOUND,
+            },
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    reply = Reply.objects.create(aid=answer, uid=request.user, content=new_reply)
+    reply.save()
+
+    # Serialize the response data
+    serializer = ReplySerializer(reply)
+
+    # Return the serialized data as JSON response with success status
+    return Response(
+        {
+            "data": serializer.data,
+            "error": None,
+            "status": "success",
+        },
+        status=status.HTTP_200_OK,
+    )
+
+
+@api_view(["GET"])
+def get_reply(request, rid):
+    try:
+        # Try to get the reply object, return 404 if not found
+        reply = get_object_or_404(Reply, pk=rid)
+    except Http404:
+        # Reply does not exist, return JsonResponse with appropriate message
+        return Response(
+            {
+                "data": None,
+                "error": "No such answer exists in the database.",
+                "status": status.HTTP_404_NOT_FOUND,
+            },
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    # Serialize the response data
+    serializer = ReplySerializer(reply)
+
+    # Return the serialized data as JSON response with success status
+    return Response(
+        {
+            "data": serializer.data,
+            "error": None,
+            "status": "success",
+        },
+        status=status.HTTP_200_OK,
+    )
+
+
+@api_view(["GET"])
+def delete_reply(request, rid):
+    try:
+        # Try to get the reply object, return 404 if not found
+        reply = get_object_or_404(Reply, pk=rid)
+    except Http404:
+        # Reply does not exist, return JsonResponse with appropriate message
+        return Response(
+            {
+                "data": None,
+                "error": "No such answer exists in the database.",
+                "status": status.HTTP_404_NOT_FOUND,
+            },
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    # Serialize the response data
+    if request.user.pk == reply.uid.pk:
+        reply.delete()
+        return redirect("BlazeApp:redirecting_page")
+    else:
+        # Reply does not exist, return JsonResponse with appropriate message
+        return Response(
+            {
+                "data": None,
+                "error": "No such answer exists in the database.",
+                "status": status.HTTP_404_NOT_FOUND,
+            },
+            status=status.HTTP_404_NOT_FOUND,
+        )

@@ -411,7 +411,7 @@ class Answer(models.Model):
         max_length=500,
         help_text="Enter the content of your answer/reply (up to 500 characters).",
     )
-    timestamp = models.DateField(auto_now=True)
+    timestamp = models.DateTimeField(auto_now=True, null=False)
 
     class Meta:
         verbose_name = "Answer"
@@ -470,8 +470,9 @@ class Reply(models.Model):
         max_length=500,
         help_text="Enter the content of your answer/reply (up to 500 characters).",
     )
-    timestamp = models.DateField(auto_now=True)
+    timestamp = models.DateTimeField(auto_now=True, null=False)
 
     class Meta:
         verbose_name = "Reply"
         verbose_name_plural = "Replies"
+        ordering = ['timestamp']
