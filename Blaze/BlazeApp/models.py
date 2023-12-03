@@ -2,12 +2,11 @@ from django.contrib.auth.models import AbstractUser, Permission, Group
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.core.validators import FileExtensionValidator
-from django.db import models
+from django.db import models, transaction
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
-
 from BlazeAdministration.customValidator import (
     validate_studentBatch,
     validate_studentNUID,
@@ -206,6 +205,26 @@ class Post(models.Model):
         verbose_name = "Post"
         verbose_name_plural = "Posts"
 
+    def save(self, *args, **kwargs):
+        # Call super() at the beginning of the save method
+        super().save(*args, **kwargs)
+
+        # Now, create notifications for followers
+        all_followers = self.poster.followers.all()
+        for follower in all_followers:
+            try:
+                # Generate Notification
+                Notification.objects.create(
+                    content=f"{(self.poster.first_name).capitalize()} {(self.poster.last_name).capitalize()} has posted a new post. Wanna see it?",
+                    object_type="post",
+                    object_id=self.pk,
+                    user=follower,
+                )
+            except ObjectDoesNotExist:
+                print(
+                    f"Object with ID {self.pk} does not exist in the event object type."
+                )
+
     def delete(self, *args, **kwargs):
         # Delete associated comments
         Comment.objects.filter(object_type="post", object_id=self.pk).delete()
@@ -271,6 +290,13 @@ class Comment(models.Model):
             # Get the associated object using content_type and object_id
             associated_object = content_type.get_object_for_this_type(pk=self.object_id)
 
+            # Generate Notification
+            Notification.objects.create(
+                content=f"{(self.user.first_name).capitalize()} {(self.user.last_name).capitalize()} commented on your {self.object_type}",
+                object_type=self.object_type,
+                object_id=self.object_id,
+                user=associated_object.poster,  # Assuming associated_object has a 'user' field
+            )
         except ContentType.DoesNotExist:
             raise ValidationError(f"Invalid content type {self.object_type}.")
         except ObjectDoesNotExist:
@@ -288,6 +314,16 @@ class Share(models.Model):
     class Meta:
         verbose_name = "Share"
         verbose_name_plural = "Shares"
+
+    def save(self, *args, **kwargs):
+        # Generate Notification
+        Notification.objects.create(
+            content=f"{(self.uid.first_name).capitalize()} {(self.uid.last_name).capitalize()} shared your post.",
+            object_type="post",
+            object_id=self.pid.pk,
+            user=self.pid.poster,  # Assuming associated_object has a 'user' field
+        )
+        super().save(*args, **kwargs)
 
 
 class Event(models.Model):
@@ -319,6 +355,27 @@ class Event(models.Model):
     class Meta:
         verbose_name = "Event"
         verbose_name_plural = "Events"
+
+    def save(self, *args, **kwargs):
+        # Call super() at the beginning of the save method
+        super().save(*args, **kwargs)
+
+        # Now, create notifications for followers
+        all_followers = self.poster.followers.all()
+        for follower in all_followers:
+            try:
+                # Generate Notification
+                Notification.objects.create(
+                    content=f"{(self.poster.first_name).capitalize()} {(self.poster.last_name).capitalize()} has posted a new event. Let's check it out now!",
+                    object_type="event",
+                    object_id=self.pk,
+                    user=follower,
+                )
+            except ObjectDoesNotExist:
+                print(
+                    f"Object with ID {self.pk} does not exist in the event object type."
+                )
+            # Handle the exception as needed
 
     def delete(self, *args, **kwargs):
         # Delete associated comments
@@ -373,6 +430,26 @@ class Question(models.Model):
         verbose_name = "Question"
         verbose_name_plural = "Questions"
 
+    def save(self, *args, **kwargs):
+        # Call super() at the beginning of the save method
+        super().save(*args, **kwargs)
+
+        # Now, create notifications for followers
+        all_followers = self.poster.followers.all()
+        for follower in all_followers:
+            try:
+                # Generate Notification
+                Notification.objects.create(
+                    content=f"{(self.poster.first_name).capitalize()} {(self.poster.last_name).capitalize()} has posted a new thread on forum. Seems kinda interesting!",
+                    object_type="question",
+                    object_id=self.pk,
+                    user=follower,
+                )
+            except ObjectDoesNotExist:
+                print(
+                    f"Object with ID {self.pk} does not exist in the event object type."
+                )
+
     @property
     def get_category_color_scheme(self):
         if self.category == "Programming":
@@ -425,6 +502,16 @@ class Answer(models.Model):
         verbose_name = "Answer"
         verbose_name_plural = "Answers"
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Generate notification
+        Notification.objects.create(
+            content=f"{(self.poster.first_name).capitalize()} {(self.poster.last_name).capitalize()} has answer your thread. LET'S GOOOO!",
+            object_type="question",
+            object_id=self.question.pk,
+            user=self.question.poster,
+        )
+
     @property
     def replies_count(self):
         return self.replies.count
@@ -444,17 +531,27 @@ class Reply(models.Model):
         verbose_name_plural = "Replies"
         ordering = ["timestamp"]
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Generate notification
+        Notification.objects.create(
+            content=f"{(self.uid.first_name).capitalize()} {(self.uid.last_name).capitalize()} has replied to your answer!",
+            object_type="question",
+            object_id=self.aid.question.pk,
+            user=self.aid.poster,
+        )
+
 
 class Notification(models.Model):
     Object_Choices = [
         ("post", "Post"),
         ("event", "Event"),
-        ("forum", "Forum"),
+        ("question", "Question"),
     ]
     content = models.TextField(max_length=500, null=False, default="No Content")
     timestamp = models.DateTimeField(auto_now=True, null=False)
     object_type = models.CharField(
-        max_length=10, choices=Object_Choices, null=False, default="Post"
+        max_length=10, choices=Object_Choices, null=False, default="post"
     )
     object_id = models.PositiveIntegerField(null=False, default=0)
     user = models.ForeignKey(
@@ -473,8 +570,8 @@ class Notification(models.Model):
     def save(self, *args, **kwargs):
         # Check if the associated object exists
         try:
-            # Get the ContentType for the specified category
-            content_type = ContentType.objects.get(model=self.object_type)
+            # Ensure object_type is lowercase for consistency
+            content_type = ContentType.objects.get(model=self.object_type.lower())
             # Get the associated object using content_type and object_id
             associated_object = content_type.get_object_for_this_type(pk=self.object_id)
 
@@ -484,4 +581,5 @@ class Notification(models.Model):
             raise ValidationError(
                 f"Object with ID {self.object_id} does not exist in the {self.object_type} object type."
             )
+
         super().save(*args, **kwargs)
