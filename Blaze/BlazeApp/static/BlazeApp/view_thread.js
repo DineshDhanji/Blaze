@@ -172,7 +172,7 @@ function do_reply(e, answer_id, element) {
                     <button type="button" class="btn text-night dropdown-toggle" style="height: 2rem; width: 2rem; padding: 0rem;" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></button>
                           <ul class="dropdown-menu">
                             <li class="fs-6">
-                            <form action="delete_answer/${reply_instance.data.id}/" method="post">
+                            <form action="/delete_answer/${reply_instance.data.id}/" method="post">
                                 <input type="hidden" name="reply_id" value="${reply_instance.data.id}" />
                                 <button type="submit" class="dropdown-item text-danger">Delete your reply</button>
                                 </form>
