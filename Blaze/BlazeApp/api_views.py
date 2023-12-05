@@ -396,7 +396,7 @@ def noti_read(request, nid):
 @api_view(["GET"])
 def notification_heart_beat(request):
     # Assuming you have a Notification model and want to get notifications for the current user
-    notifications = request.user.notifications.all()
+    notifications = request.user.notifications.all().order_by('-timestamp')
 
     # Serialize the response data using NotificationSerializer
     serializer = NotificationSerializer(notifications, many=True)

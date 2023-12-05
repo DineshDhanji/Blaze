@@ -110,6 +110,8 @@ class Student(models.Model):
         verbose_name = "Student"
         verbose_name_plural = "Students"
 
+    def __str__(self):
+        return f"ID: {self.pk}, Name: {self.user.first_name} {self.user.last_name}"
 
 class Faculty(models.Model):
     Department_Choices = [("CS", "Computer Science"), ("EE", "Electrical Engineering")]
@@ -126,6 +128,8 @@ class Faculty(models.Model):
     class Meta:
         verbose_name = "Faculty"
         verbose_name_plural = "Faculties"
+    def __str__(self):
+        return f"ID: {self.pk}, Name: {self.user.first_name} {self.user.last_name}"
 
 
 class Society(models.Model):
@@ -477,6 +481,8 @@ class Question(models.Model):
             count += a.replies.count()
         return count
 
+    def __str__(self):
+        return f"ID: {self.pk}"
 class Answer(models.Model):
     poster = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="answers", null=False, default=0
@@ -511,6 +517,8 @@ class Answer(models.Model):
     @property
     def replies_count(self):
         return self.replies.count
+    def __str__(self):
+        return f"ID: {self.pk}, Poster: {self.poster.pk}"
 
 
 class Reply(models.Model):
