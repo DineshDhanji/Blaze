@@ -526,8 +526,9 @@ def redirecting_page(request):
 
 
 def forum(request):
-    # questions = Question.objects.all()
-    questions = Question.objects.annotate(total_answers=Count('answers'), total_replies=Count('answers__replies')).order_by('-total_answers', '-total_replies')
+    questions = Question.objects.annotate(
+        total_answers=Count("answers"), total_replies=Count("answers__replies")
+    ).order_by("-total_answers", "-total_replies")
     content = {"questions": questions}
     return render(request, "BlazeApp/forum.html", content)
 
@@ -630,6 +631,8 @@ def delete_thread(request):
         exception=404,
         message="Mama not gonna be proud of you. Really ? Like wait for a minute and look back bro",
     )
+
+
 def delete_answer(request):
     if request.method == "POST":
         answer_id = request.POST["answer_id"]
@@ -651,10 +654,28 @@ def delete_answer(request):
         except Http404:
             # Answer does not exist, return JsonResponse with appropriate message
             return page_not_found_404(
-                request, exception=404, message="You just lost my trust. (Again)(Again), Me tired"
+                request,
+                exception=404,
+                message="You just lost my trust. (Again)(Again), Me tired",
             )
         return redirect("BlazeApp:forum")
     return page_not_found_404(
         request,
         exception=404,
     )
+
+
+def forum_topics(request, topic):
+    valid_topics = [choice[0] for choice in Question.Category_Choices]
+
+    if topic not in valid_topics:
+        return page_not_found_404(
+            request,
+            exception=404,
+            message="No such topic",
+        )
+
+    questions = Question.objects.filter(category=topic)
+
+    content = {"questions": questions, "topic": topic}
+    return render(request, "BlazeApp/forum_topics.html", content)

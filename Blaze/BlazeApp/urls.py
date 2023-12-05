@@ -171,6 +171,11 @@ urlpatterns = [
         login_required(views.delete_answer),
         name="delete_answer",
     ),
+    path(
+        "forum_topics/<str:topic>/",
+        login_required(views.forum_topics),
+        name="forum_topics",
+    ),
     # Redirecting page
     path(
         "redirecting_page/",

@@ -1,8 +1,7 @@
 {% extends 'BlazeApp/base.html' %}
 {% load static %}
-
 {% block title %}
-  Blaze Forum
+  Forum Topics
 {% endblock %}
 
 {% block ExtraHeaders %}
@@ -23,21 +22,9 @@
 {% block content %}
   <div class="content-d border border-top-0 border-bottom-0 border-end-0 col py-4 px-3" style="height: max-content; ">
     <div class="dd1 mx-auto">
-      <div class="create-post bg-light-subtle text-body-emphasis mb-4 border border-dark-subtle rounded user-select-none overflow-hidden">
-        <div class="h5 p-3 mb-0 border-bottom">Add a new Thread</div>
-        <a href="{% url 'BlazeApp:create_thread' %}">
-          <div class="d-flex align-items-center bg-scheme text-secondary p-3">
-            <div class="create-post-pp col-1">
-              <img src="{{ user.profile_picture.url }}" alt="profile picture" />
-            </div>
-            <div class="fs-6 col text-body-emphasis mx-3" style="opacity: 0.7;">Got some questions or problems? Let's community help you</div>
-            <div class="text-body-emphasis fs-3 col-1" style="opacity: 0.7;">
-              <i class="bi bi-patch-plus-fill"></i>
-            </div>
-          </div>
-        </a>
+      <div class="fs-5 p-2 bg-primary-subtle border border-primary rounded mb-3 text-body-emphasis">
+        Searched for topic: <span class="text-primary">{{ topic }}</span>
       </div>
-
       <!-- Rendering threads on the user forum -->
       {% if questions %}
         {% for question in questions %}
