@@ -162,9 +162,6 @@ function check_indicator() {
         }
         document.querySelector("#nbtn").innerHTML = `<i class="bi bi-bell"></i>`;
         return;
-
-
-
     }
     fetchNotifications();
 }
