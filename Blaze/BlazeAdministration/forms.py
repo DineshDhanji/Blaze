@@ -14,10 +14,10 @@ class AdministrationLoginForm(AuthenticationForm):
 
 class StudentForm(forms.ModelForm):
     """
-    All of the required fields are mentioned here.
-    Eventhough, fields such as firstname, last_name, email, username, and password
-    are available in the User's model. We have also included them in this form. These
-    fields will be then use in User model.
+        All of the required fields are mentioned here.
+        Eventhough, fields such as firstname, last_name, email, username, and password
+        are available in the User's model. We have also included them in this form. These
+        fields will be then use in User model.
     """
 
     first_name = forms.CharField(

@@ -31,7 +31,7 @@
       <div class="container-xxl">
         <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
           <div class="container-fluid">
-            <a class="navbar-brand d-flex align-items-center justify-content-center" href="{% url 'BlazeApp:newsfeed' %}">
+            <a class="navbar-brand d-flex align-items-center justify-content-center" href="{% url 'BlazeAdministration:dashboard' %}">
               <img src="{% static 'BlazeApp/Blaze Logo.png' %}" alt="Logo" width="50px" height="auto" class="d-inline-block align-text-top" />
               <div class="ms-1 fs-4 fw-semibold text-body-emphasis">Blaze</div>
             </a>
@@ -56,17 +56,6 @@
 
       {% endblock %}
     </div>
-
-    {% comment %} {% block footer %}
-      <footer class="bd-footer py-4 py-md-5 mt-5 bg-body-tertiary" style=" background-color: #393939!important; color: white!important;">
-        <div class="container py-2 py-md-3 px-4 px-md-3 text-body-secondary">
-          <hr class="border border-light border-1 opacity-50" />
-
-          <div class="row text-center" style="color: white!important; font-size: 0.8em;">
-            <div>BLAZE, A project by team AAD.</div>
-          </div>
-        </div>
-      </footer>
-    {% endblock %} {% endcomment %}
+    
   </body>
 </html>
