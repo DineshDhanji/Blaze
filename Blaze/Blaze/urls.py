@@ -19,9 +19,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path(f"admin/fnlsw5xna3vvjaofd8f[fmas2v/", admin.site.urls),
     path("administration/", include("BlazeAdministration.urls")),
     path("", include("BlazeApp.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

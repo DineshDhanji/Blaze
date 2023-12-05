@@ -73,15 +73,16 @@ body {
     margin: 0px 1px;
     border: none;
     height: 2.5rem;
-    width: 100%!important;
+    width: 100% !important;
 }
 
-.input-div select{
+.input-div select {
     outline: none;
     border: none;
     height: 2.5rem;
     width: 100%;
 }
+
 .input-div {
     border: 1px solid lightgray;
     display: flex;
@@ -139,11 +140,9 @@ body {
 }
 
 .dashboard-box {
-    height: 10rem;
     transition: 0.4s ease-in-out;
     display: flex;
     align-items: center;
-
 }
 
 .dashboard-link {
@@ -220,8 +219,7 @@ body {
     text-decoration: none;
 }
 
-.model_form_container
-{
+.model_form_container {
     /* border: 1px solid black; */
     display: flex;
     /* justify-content: center; */
@@ -230,8 +228,8 @@ body {
     height: max-content;
 
 }
-.model_form
-{
+
+.model_form {
     /* border: 1px solid black; */
     height: max-content;
 }
