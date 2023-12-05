@@ -10,3 +10,7 @@ Question, Answer, Reply
 
 Fixs/Bugs/Updates
 / done / Society should be able to delete an event 
+
+
+admin
+AdminBlaze00005

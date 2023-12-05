@@ -113,6 +113,7 @@ class Student(models.Model):
     def __str__(self):
         return f"ID: {self.pk}, Name: {self.user.first_name} {self.user.last_name}"
 
+
 class Faculty(models.Model):
     Department_Choices = [("CS", "Computer Science"), ("EE", "Electrical Engineering")]
     user = models.OneToOneField(
@@ -128,6 +129,7 @@ class Faculty(models.Model):
     class Meta:
         verbose_name = "Faculty"
         verbose_name_plural = "Faculties"
+
     def __str__(self):
         return f"ID: {self.pk}, Name: {self.user.first_name} {self.user.last_name}"
 
@@ -291,13 +293,14 @@ class Comment(models.Model):
             # Get the associated object using content_type and object_id
             associated_object = content_type.get_object_for_this_type(pk=self.object_id)
 
-            # Generate Notification
-            Notification.objects.create(
-                content=f"{(self.user.first_name).capitalize()} {(self.user.last_name).capitalize()} commented on your {self.object_type}",
-                object_type=self.object_type,
-                object_id=self.object_id,
-                user=associated_object.poster,  # Assuming associated_object has a 'user' field
-            )
+            # Generate Notification only if the commentor was not the owner of the post/event
+            if associated_object.poster != self.user:
+                Notification.objects.create(
+                    content=f"{(self.user.first_name).capitalize()} {(self.user.last_name).capitalize()} commented on your {self.object_type}",
+                    object_type=self.object_type,
+                    object_id=self.object_id,
+                    user=associated_object.poster,  # Assuming associated_object has a 'user' field
+                )
         except ContentType.DoesNotExist:
             raise ValidationError(f"Invalid content type {self.object_type}.")
         except ObjectDoesNotExist:
@@ -318,12 +321,13 @@ class Share(models.Model):
 
     def save(self, *args, **kwargs):
         # Generate Notification
-        Notification.objects.create(
-            content=f"{(self.uid.first_name).capitalize()} {(self.uid.last_name).capitalize()} shared your post.",
-            object_type="post",
-            object_id=self.pid.pk,
-            user=self.pid.poster,  # Assuming associated_object has a 'user' field
-        )
+        if self.uid != self.pid.poster:
+            Notification.objects.create(
+                content=f"{(self.uid.first_name).capitalize()} {(self.uid.last_name).capitalize()} shared your post.",
+                object_type="post",
+                object_id=self.pid.pk,
+                user=self.pid.poster,  # Assuming associated_object has a 'user' field
+            )
         super().save(*args, **kwargs)
 
 
@@ -483,6 +487,8 @@ class Question(models.Model):
 
     def __str__(self):
         return f"ID: {self.pk}"
+
+
 class Answer(models.Model):
     poster = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="answers", null=False, default=0
@@ -507,16 +513,18 @@ class Answer(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         # Generate notification
-        Notification.objects.create(
-            content=f"{(self.poster.first_name).capitalize()} {(self.poster.last_name).capitalize()} has answer your thread. LET'S GOOOO!",
-            object_type="question",
-            object_id=self.question.pk,
-            user=self.question.poster,
-        )
+        if self.question.poster != self.poster:
+            Notification.objects.create(
+                content=f"{(self.poster.first_name).capitalize()} {(self.poster.last_name).capitalize()} has answer your thread. LET'S GOOOO!",
+                object_type="question",
+                object_id=self.question.pk,
+                user=self.question.poster,
+            )
 
     @property
     def replies_count(self):
         return self.replies.count
+
     def __str__(self):
         return f"ID: {self.pk}, Poster: {self.poster.pk}"
 
@@ -538,12 +546,13 @@ class Reply(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         # Generate notification
-        Notification.objects.create(
-            content=f"{(self.uid.first_name).capitalize()} {(self.uid.last_name).capitalize()} has replied to your answer!",
-            object_type="question",
-            object_id=self.aid.question.pk,
-            user=self.aid.poster,
-        )
+        if self.uid != self.aid.poster:
+            Notification.objects.create(
+                content=f"{(self.uid.first_name).capitalize()} {(self.uid.last_name).capitalize()} has replied to your answer!",
+                object_type="question",
+                object_id=self.aid.question.pk,
+                user=self.aid.poster,
+            )
 
 
 class Notification(models.Model):
