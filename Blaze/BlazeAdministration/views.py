@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.urls import reverse
 from django import forms
 from .customDecorator import admin_required
 from django.contrib.auth.views import LoginView
-from .forms import AdministrationLoginForm, StudentForm, FacultyForm
+from .forms import AdministrationLoginForm, StudentForm, FacultyForm, SocietyForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from BlazeApp.models import Student, Faculty, Society
@@ -60,10 +60,10 @@ def administration_logout(request):
 
 
 def add_instance(request, instanceModel):
-    entitiesList = ["student", "faculty", "society_page"]
+    entitiesList = ["student", "faculty", "society"]
 
     if instanceModel not in entitiesList:
-        return redirect("BlazeAdministration:page_not_found_404")
+        return page_not_found_404(request, exception=404, message="Are you lost bro?")
 
     if instanceModel == entitiesList[0]:
         if request.method == "POST":
@@ -98,20 +98,76 @@ def add_instance(request, instanceModel):
                 {"instanceForm": StudentForm(), "model": instanceModel},
             )
     elif instanceModel == entitiesList[1]:
-        return render(
-            request,
-            "BlazeAdministration/add_instance.html",
-            {"instanceForm": FacultyForm(), "model": instanceModel},
-        )
+        if request.method == "POST":
+            instanceForm = FacultyForm(request.POST)
+            if instanceForm.is_valid():
+                try:
+                    instanceForm.save()
+                    messages.success(
+                        request, "Faculty profile successfully created ヾ(≧▽≦*)o"
+                    )
+                except forms.ValidationError as e:
+                    messages.error(request, "Integrity Error " + str(e))
+
+                return render(
+                    request,
+                    "BlazeAdministration/add_instance.html",
+                    {"instanceForm": FacultyForm(), "model": instanceModel},
+                )
+            else:
+                messages.error(request, "Something is not quiite right (。_。)")
+
+                return render(
+                    request,
+                    "BlazeAdministration/add_instance.html",
+                    {"instanceForm": instanceForm, "model": instanceModel},
+                )
+        else:
+            return render(
+                request,
+                "BlazeAdministration/add_instance.html",
+                {"instanceForm": FacultyForm(), "model": instanceModel},
+            )
+    elif instanceModel == entitiesList[2]:
+        if request.method == "POST":
+            instanceForm = SocietyForm(request.POST)
+            if instanceForm.is_valid():
+                try:
+                    instanceForm.save()
+                    messages.success(
+                        request, "Society profile successfully created ヾ(≧▽≦*)o"
+                    )
+                except forms.ValidationError as e:
+                    messages.error(request, "Integrity Error " + str(e))
+
+                return render(
+                    request,
+                    "BlazeAdministration/add_instance.html",
+                    {"instanceForm": SocietyForm(), "model": instanceModel},
+                )
+            else:
+                messages.error(request, "Something is not quiite right (。_。)")
+
+                return render(
+                    request,
+                    "BlazeAdministration/add_instance.html",
+                    {"instanceForm": instanceForm, "model": instanceModel},
+                )
+        else:
+            return render(
+                request,
+                "BlazeAdministration/add_instance.html",
+                {"instanceForm": SocietyForm(), "model": instanceModel},
+            )
     else:
-        pass
+        return page_not_found_404(request, exception=404, message="Are you lost bro?")
 
 
 def list_instance(request, instanceModel):
-    entitiesList = ["student", "faculty", "society_page"]
+    entitiesList = ["student", "faculty", "society"]
 
     if instanceModel not in entitiesList:
-        return redirect("BlazeAdministration:page_not_found_404")
+        return page_not_found_404(request, exception=404, message="Are you lost bro?")
 
     if instanceModel == entitiesList[0]:
         dataset = Student.objects.all()

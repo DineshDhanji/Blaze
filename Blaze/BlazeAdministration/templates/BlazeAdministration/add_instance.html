@@ -90,7 +90,6 @@
           <div class="input-field mb-2 col-lg-2 col-md-3 col-sm-4 col-12">
             <label for="{{ instanceForm.batch.id_for_label }}">{{ instanceForm.batch.label|title }}</label>
             <div class="input-div rounded px-2">
-              {% comment %} {{ instanceForm.batch }} {% endcomment %}
               <input type="text" name="{{ instanceForm.batch.name }}" placeholder="BB" maxlength="{{ instanceForm.batch.field.max_length }}" required="true" id="{{ instanceForm.batch.id_for_label }}" />
             </div>
           </div>
@@ -98,7 +97,6 @@
           <div class="input-field mb-2 col-lg-3 col-md-4 col-sm-6 col-12">
             <label for="{{ instanceForm.nuid.id_for_label }}">{{ instanceForm.nuid.label|upper }}</label>
             <div class="input-div rounded px-2">
-              {% comment %} {{ instanceForm.nuid }} {% endcomment %}
               <input type="text" name="{{ instanceForm.nuid.name }}" placeholder="XXXX" maxlength="{{ instanceForm.nuid.field.max_length }}" required="true" id="{{ instanceForm.nuid.id_for_label }}" />
             </div>
           </div>
@@ -129,7 +127,225 @@
           {% endif %}
         </div>
       {% elif model == 'faculty' %}
-        {{ instanceForm }}
+        <div class="row m-2">
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
+            <label for="{{ instanceForm.first_name.id_for_label }}">{{ instanceForm.first_name.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.first_name }}
+            </div>
+          </div>
+
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
+            <label for="{{ instanceForm.last_name.id_for_label }}">{{ instanceForm.last_name.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.last_name }}
+            </div>
+          </div>
+
+          <div class="input-field mb-2 col-lg-3 col-md-5 col-sm-8 col-12">
+            <label for="{{ instanceForm.username.id_for_label }}">{{ instanceForm.username.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.username }}
+            </div>
+          </div>
+
+          {% if instanceForm.first_name.errors or instanceForm.last_name.errors or instanceForm.username.errors %}
+            <div class="alert alert-warning mx-3" style="font-size: 0.8rem;" role="alert">
+              {% if instanceForm.first_name.errors %}
+                {% for error in instanceForm.first_name.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+              {% if instanceForm.last_name.errors %}
+                {% for error in instanceForm.last_name.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+              {% if instanceForm.username.errors %}
+                {% for error in instanceForm.username.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="row m-2">
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
+            <label for="{{ instanceForm.email.id_for_label }}">{{ instanceForm.email.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.email }}
+            </div>
+          </div>
+
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
+            <label for="{{ instanceForm.password.id_for_label }}">{{ instanceForm.password.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.password }}
+            </div>
+          </div>
+          {% if instanceForm.email.errors or instanceForm.password.errors %}
+            <div class="alert alert-warning mx-3" style="font-size: 0.8rem;" role="alert">
+              {% if instanceForm.email.errors %}
+                {% for error in instanceForm.email.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+              {% if instanceForm.password1.errors %}
+                {% for error in instanceForm.password1.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="row m-2">
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-6 col-12">
+            <label for="{{ instanceForm.department.id_for_label }}">{{ instanceForm.department.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.department }}
+            </div>
+          </div>
+
+          {% if instanceForm.department.errors %}
+            <div class="alert alert-warning mx-3" style="font-size: 0.8rem;" role="alert">
+              {% if instanceForm.department.errors %}
+                {% for error in instanceForm.department.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      {% elif model == 'society' %}
+        <div class="row m-2">
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
+            <label for="{{ instanceForm.first_name.id_for_label }}">{{ instanceForm.first_name.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.first_name }}
+            </div>
+          </div>
+
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
+            <label for="{{ instanceForm.last_name.id_for_label }}">{{ instanceForm.last_name.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.last_name }}
+            </div>
+          </div>
+
+          <div class="input-field mb-2 col-lg-3 col-md-5 col-sm-8 col-12">
+            <label for="{{ instanceForm.username.id_for_label }}">{{ instanceForm.username.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.username }}
+            </div>
+          </div>
+
+          {% if instanceForm.first_name.errors or instanceForm.last_name.errors or instanceForm.username.errors %}
+            <div class="alert alert-warning mx-3" style="font-size: 0.8rem;" role="alert">
+              {% if instanceForm.first_name.errors %}
+                {% for error in instanceForm.first_name.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+              {% if instanceForm.last_name.errors %}
+                {% for error in instanceForm.last_name.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+              {% if instanceForm.username.errors %}
+                {% for error in instanceForm.username.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="row m-2">
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
+            <label for="{{ instanceForm.email.id_for_label }}">{{ instanceForm.email.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.email }}
+            </div>
+          </div>
+
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-8 col-12">
+            <label for="{{ instanceForm.password.id_for_label }}">{{ instanceForm.password.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.password }}
+            </div>
+          </div>
+          {% if instanceForm.email.errors or instanceForm.password.errors %}
+            <div class="alert alert-warning mx-3" style="font-size: 0.8rem;" role="alert">
+              {% if instanceForm.email.errors %}
+                {% for error in instanceForm.email.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+              {% if instanceForm.password1.errors %}
+                {% for error in instanceForm.password1.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="row m-2">
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-6 col-12">
+            <label for="{{ instanceForm.faculty_head.id_for_label }}">{{ instanceForm.faculty_head.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.faculty_head }}
+            </div>
+          </div>
+
+          {% if instanceForm.faculty_head.errors %}
+            <div class="alert alert-warning mx-3" style="font-size: 0.8rem;" role="alert">
+              {% if instanceForm.faculty_head.errors %}
+                {% for error in instanceForm.faculty_head.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="row m-2">
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-6 col-12">
+            <label for="{{ instanceForm.president.id_for_label }}">{{ instanceForm.president.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.president }}
+            </div>
+          </div>
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-6 col-12">
+            <label for="{{ instanceForm.vice_president.id_for_label }}">{{ instanceForm.vice_president.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.vice_president }}
+            </div>
+          </div>
+          <div class="input-field mb-2 col-lg-4 col-md-5 col-sm-6 col-12">
+            <label for="{{ instanceForm.treasurer.id_for_label }}">{{ instanceForm.treasurer.label|title }}</label>
+            <div class="input-div rounded px-2">
+              {{ instanceForm.treasurer }}
+            </div>
+          </div>
+
+          {% if instanceForm.president.errors or instanceForm.vice_president.errors or instanceForm.treasurer.errors %}
+            <div class="alert alert-warning mx-3" style="font-size: 0.8rem;" role="alert">
+              {% if instanceForm.president.errors %}
+                {% for error in instanceForm.president.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+              {% if instanceForm.vice_president.errors %}
+                {% for error in instanceForm.vice_president.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+              {% if instanceForm.treasurer.errors %}
+                {% for error in instanceForm.treasurer.errors %}
+                  {{ error }}
+                {% endfor %}
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
       {% endif %}
 
       <div class="col-12 px-4 mx-auto mt-4">

@@ -31,6 +31,8 @@ urlpatterns = [
         admin_required(views.administration_logout),
         name="administration_logout",
     ),
+    # Page Not Found
+    path("page_not_found_404/", views.page_not_found_404, name="page_not_found_404"),
 ]
 
 handler404 = "BlazeAdministration.views.page_not_found_404"

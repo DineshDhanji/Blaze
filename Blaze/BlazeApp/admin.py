@@ -44,16 +44,95 @@ class ShareAdmin(admin.ModelAdmin):
     list_display = ["pk", "pid", "uid", "timestamp"]
 
 
+class AnswerAdmin(admin.ModelAdmin):
+    list_display = ["pk", "poster", "question", "content"]
+
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ["pk", "user", "object_type", "object_id", "content"]
+
+
+class EventAdmin(admin.ModelAdmin):
+    list_display = [
+        "pk",
+        "poster",
+        "title",
+        "start_date",
+        "end_date",
+        "get_event_status",
+        "venue",
+    ]
+
+    def get_event_status(self, obj):
+        return obj.expired
+
+    get_event_status.short_description = "Expired"
+
+
+class FacultyAdmin(admin.ModelAdmin):
+    list_display = [
+        "pk",
+        "user",
+        "department",
+    ]
+
+
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ["pk", "user", "object_type", "object_id", "is_read"]
+
+
+class PostAdmin(admin.ModelAdmin):
+    list_display = [
+        "pk",
+        "poster",
+        "original_post",
+        "get_likes_count",
+        "get_saves_count",
+    ]
+
+    def get_likes_count(self, obj):
+        return obj.like_count
+
+    def get_saves_count(self, obj):
+        return obj.saved_count
+
+    get_likes_count.short_description = "Likes"
+    get_saves_count.short_description = "Saves"
+
+class QuestionAdmin(admin.ModelAdmin):
+    list_display = [
+        "pk",
+        "poster",
+        "title",
+        "category",
+    ]
+class ReplyAdmin(admin.ModelAdmin):
+    list_display = [
+        "pk",
+        "aid",
+        "uid",
+    ]
+class SocietyAdmin(admin.ModelAdmin):
+    list_display = [
+        "pk",
+        "user",
+        "faculty_head",
+        "president",
+        "vice_president",
+        "treasurer",
+    ]
+
+
 # Register your models here.
-admin.site.register(User, UserAdmin)
-admin.site.register(Student, StudentAdmin)
-admin.site.register(Faculty)
-admin.site.register(Society)
-admin.site.register(Post)
-admin.site.register(Comment)
+admin.site.register(Answer, AnswerAdmin)
+admin.site.register(Comment, CommentAdmin)
+admin.site.register(Event, EventAdmin)
+admin.site.register(Faculty, FacultyAdmin)
+admin.site.register(Notification, NotificationAdmin)
+admin.site.register(Post, PostAdmin)
+admin.site.register(Question, QuestionAdmin)
+admin.site.register(Reply, ReplyAdmin)
 admin.site.register(Share, ShareAdmin)
-admin.site.register(Event)
-admin.site.register(Question)
-admin.site.register(Answer)
-admin.site.register(Reply)
-admin.site.register(Notification)
+admin.site.register(Society, SocietyAdmin)
+admin.site.register(Student, StudentAdmin)
+admin.site.register(User, UserAdmin)

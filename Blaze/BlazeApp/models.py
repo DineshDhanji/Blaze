@@ -99,12 +99,6 @@ class Student(models.Model):
         ("CYS", "Cyber Security"),
         ("EE", "Electrical Engineering"),
     ]
-    # Ring_Choices = [
-    #     ("#FFBF00", "Super Saiyan"),
-    #     ("#E32636", "Super Saiyan God"),
-    #     ("#23B5D3", "Super Saiyan Blue"),
-    #     ("#279AF1", "Super Saiyan God Blue"),
-    # ]
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="student")
     batch = models.CharField(
         max_length=2, null=True, validators=[validate_studentBatch]
@@ -123,7 +117,10 @@ class Faculty(models.Model):
         User, on_delete=models.CASCADE, related_name="faculty", null=False, default=0
     )
     department = models.CharField(
-        max_length=30, choices=Department_Choices, blank=True, null=True
+        max_length=30,
+        choices=Department_Choices,
+        null=False,
+        default="Computer Science",
     )
 
     class Meta:
@@ -479,7 +476,6 @@ class Question(models.Model):
         for a in self.answers.all():
             count += a.replies.count()
         return count
-
 
 class Answer(models.Model):
     poster = models.ForeignKey(
