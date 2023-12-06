@@ -67,16 +67,16 @@
         <table class="table table-sm table-borderless text-center mt-3 mb-0 fs-6 text-body-emphasis">
           <thead>
             <tr>
-              <th scope="col">Posts</th>
-              <th scope="col">Followers</th>
-              <th scope="col">Following</th>
+              <th class="bg-transparent" scope="col">Posts</th>
+              <th class="bg-transparent" scope="col">Followers</th>
+              <th class="bg-transparent" scope="col">Following</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>{{ instance_posts.all.count }}</td>
-              <td id="follow-d">{{ instance.user.get_followers_count }}</td>
-              <td>{{ instance.user.follow.all.count }}</td>
+              <td class="bg-transparent">{{ instance_posts.all.count }}</td>
+              <td id="follow-d" class="bg-transparent">{{ instance.user.get_followers_count }}</td>
+              <td class="bg-transparent">{{ instance.user.follow.all.count }}</td>
             </tr>
           </tbody>
         </table>
