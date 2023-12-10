@@ -35,6 +35,40 @@ This command will go through the requirements.txt file and install each package,
 necessary dependencies. That's it! You've successfully set up a virtual environment for your Blaze project and installed 
 its dependencies. You're now ready to dive into coding and making Blaze the hottest social media platform for your university! 🔥💻🚀 
 
+## Running Blaze Locally 🔥
+
+Now that you've set up the virtual environment and installed the necessary dependencies, let's run Blaze locally on your machine. Follow these steps:
+
+* Make sure your virtual environment is still activated. If it's not activated, activate it using the appropriate command:
+   - On Windows: ```venv\Scripts\activate```
+   - On macOS and Linux: ```source venv/bin/activate```
+
+* Navigate to your Blaze project directory if you're not already there:
+    
+    ```cd /path-to-your/Blaze``` 
+
+* Run the development server: 
+    
+    ```python manage.py runserver```
+  
+This command starts the development server, and you should see output indicating that the server is running.
+
+* Open your web browser and go to [http://localhost:8000/](http://localhost:8000/).
+
+Blaze should now be accessible locally on your machine. Explore the features, create an account, and start sharing your university experiences!
+
+## Additional Notes 🔍
+
+- If you make changes to the code, make sure to restart the development server to apply the changes.
+
+- Access the Django admin panel at [http://localhost:8000/admin/](http://localhost:8000/admin/) to manage Blaze's data.
+
+- Remember to deactivate the virtual environment when you're done:  ```deactivate```
+
+
+
+That's it! You've successfully set up and run Blaze locally. Enjoy the blazing social experience! 🔥💬📸✨
+
 ## Visuals & Screenshots
 ![Screenshot 2023-12-10 154158](https://github.com/DineshDhanji/Blaze/assets/56204876/3816c37f-a9b1-4529-bd12-dbf07b50805c)
 ![Screenshot 2023-12-10 153835](https://github.com/DineshDhanji/Blaze/assets/56204876/3852f0a3-d448-4eee-b8a4-96b5a87b5a69)
