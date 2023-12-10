@@ -61,8 +61,6 @@ Blaze should now be accessible locally on your machine. Explore the features, cr
 
 - If you make changes to the code, make sure to restart the development server to apply the changes.
 
-- Access the Django admin panel at [http://localhost:8000/admin/](http://localhost:8000/admin/) to manage Blaze's data.
-
 - Remember to deactivate the virtual environment when you're done:  ```deactivate```
 
 
