@@ -514,6 +514,20 @@ def view_event(request, event_id):
     }
     return render(request, "BlazeApp/view_event.html", content)
 
+def followers(request):
+
+    follower_instances = request.user.followers.all()
+    content = {
+        "follower_instances": follower_instances,
+    }
+    return render(request, "BlazeApp/followers.html", content)
+def following(request):
+
+    following_instances = request.user.follow.all()
+    content = {
+        "following_instances": following_instances,
+    }
+    return render(request, "BlazeApp/following.html", content)
 
 def redirecting_page(request):
     # Redirect user to redirecting page to clear cache

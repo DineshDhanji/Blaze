@@ -1,0 +1,52 @@
+{% extends 'BlazeApp/base.html' %}
+{% load static %}
+
+{% block title %}
+  {{ request.user.first_name }} {{ request.user.last_name }} - Followers
+{% endblock %}
+
+{% block ExtraHeaders %}
+  <link href="{% static 'BlazeApp/base2.css' %}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+  <div class="content-d border border-top-0 border-bottom-0 border-end-0 col">
+    <div class="bg-body-tertiary text-body-emphasis border rounded m-3" style="height: max-content;">
+      <div class="fs-3 p-3" style="height: max-content;">Your Followers 🌟</div>
+      <div class="fs-6 px-3 pt-2 pb-3" style="height: max-content;">Meet your followers! Explore their profiles, connect, and discover the vibrant individuals supporting you. 🌟✨</div>
+    </div>
+    <div class="d-flex flex-wrap flex-column border-dark m-2 px-2 pt-1 pb-5" style="min-height: 80vh; height: max-content;">
+      {% if follower_instances %}
+        {% for user in follower_instances %}
+          <div class="border col-12 col-md-11 px-3 py-2 my-2" style="height: max-content;">
+            <a href="{% url 'BlazeApp:profile' user.pk %}">
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex">
+                  <div class="d-flex justify-content-center align-items-center" style="width: 4.8rem; height: 4.8rem; border: 2px solid black; border-color: {{ user.ring_color }};border-radius: 50%; overflow: hidden; ">
+                    <div style="width: 4rem; border-radius: 50%; overflow: hidden;">
+                      <img src="{{ user.profile_picture.url }}" class="img-fluid" alt="profile picture" />
+                    </div>
+                  </div>
+                  <div class="d-flex flex-column justify-content-center ms-4 text-body-emphasis">
+                    <div class="fs-6 overflow-hidden">{{ user.first_name }} {{ user.last_name }}</div>
+                    <div class="text-secondary" style="font-size: 0.9rem;">{{ user.get_user_type|title }}</div>
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <a href="{% url 'BlazeApp:profile' user.pk %}"><button class="btn border btn-dark">View</button></a>
+                </div>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="border rounded bg-body-tertiary text-body-emphasis col-11 m-4" style="height: max-content;">
+          <div class="d-flex justify-content-center align-items-center flex-column my-2 p-3" style="height: max-content;">
+            <div class="lead mt-2 mb-3">Ara Ara! No Followers 😕</div>
+            <div class="fs-6 mb-2">Embark on your follower journey! Connect, engage, and be the pioneer in building your community. Your first follower awaits. 🌟✨</div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

@@ -68,15 +68,33 @@
           <thead>
             <tr>
               <th class="bg-transparent" scope="col">Posts</th>
-              <th class="bg-transparent" scope="col">Followers</th>
-              <th class="bg-transparent" scope="col">Following</th>
+              {% if instance.user == request.user %}
+                <th class="bg-transparent" scope="col">
+                  <a href="{% url 'BlazeApp:followers' %}">Followers</a>
+                </th>
+                <th class="bg-transparent" scope="col">
+                  <a href="{% url 'BlazeApp:following' %}">Following</a>
+                </th>
+              {% else %}
+                <th class="bg-transparent" scope="col">Followers</th>
+                <th class="bg-transparent" scope="col">Following</th>
+              {% endif %}
             </tr>
           </thead>
           <tbody>
             <tr>
               <td class="bg-transparent">{{ instance_posts.all.count }}</td>
-              <td id="follow-d" class="bg-transparent">{{ instance.user.get_followers_count }}</td>
-              <td class="bg-transparent">{{ instance.user.follow.all.count }}</td>
+              {% if instance.user == request.user %}
+                <td id="follow-d" class="bg-transparent">
+                  <a href="{% url 'BlazeApp:followers' %}">{{ instance.user.get_followers_count }}</a>
+                </td>
+                <td class="bg-transparent">
+                  <a href="{% url 'BlazeApp:following' %}">{{ instance.user.follow.all.count }}</a>
+                </td>
+              {% else %}
+                <td id="follow-d" class="bg-transparent">{{ instance.user.get_followers_count }}</td>
+                <td class="bg-transparent">{{ instance.user.follow.all.count }}</td>
+              {% endif %}
             </tr>
           </tbody>
         </table>

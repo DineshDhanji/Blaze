@@ -11,6 +11,8 @@ urlpatterns = [
     path("login/", views.user_login, name="user_login"),
     path("logout/", login_required(views.user_logout), name="user_logout"),
     # Settings
+    path("account/followers/", login_required(views.followers), name="followers"),
+    path("account/following/", login_required(views.following), name="following"),
     path("account/settings/", login_required(views.settings), name="settings"),
     path("account/remove_pp/", login_required(views.remove_pp), name="remove_pp"),
     path(
